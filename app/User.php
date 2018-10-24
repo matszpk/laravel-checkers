@@ -27,4 +27,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function gamesAsPlayer1()
+    {
+        return $this->hasMany('App\Game', 'player1_id');
+    }
+
+    public function gamesAsPlayer2()
+    {
+        return $this->hasMany('App\Game', 'player2_id');
+    }
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
 }
