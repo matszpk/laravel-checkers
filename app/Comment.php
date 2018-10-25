@@ -13,4 +13,8 @@ class Comment extends Model
     {
         return $this->morphTo('commentable');
     }
+    public function writtenBy()
+    {
+        return $this->belongsTo('App\User', 'writer_id');
+    }
 }
