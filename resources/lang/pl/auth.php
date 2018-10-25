@@ -15,5 +15,6 @@ return [
 
     'failed' => 'Te dane uwierzytelniające nie pasują do twoich wpisów.',
     'throttle' => 'Za dużo prób logowania. Proszę spróbować za :seconds sekund.',
-
+    'logged' => 'Zalogowany jako :user',
+    'notLogged' => 'Jesteś gościem',
 ];
