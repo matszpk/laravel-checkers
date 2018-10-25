@@ -14,6 +14,6 @@ return [
     */
 
     'failed' => 'Te dane uwierzytelniające nie pasują do twoich wpisów.',
-    'throttle' => 'Za dużo prób logowania. Proszę spróbować za :seconds seconds',
+    'throttle' => 'Za dużo prób logowania. Proszę spróbować za :seconds sekund.',
 
 ];
