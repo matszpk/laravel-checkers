@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>@lang('layout.webTitle')</title>
+        <link rel="stylesheet" type="text/css" ref="css/app.css">
     </head>
     <body>
         @yield('top')
