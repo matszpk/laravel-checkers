@@ -52,3 +52,27 @@
     left: 0px;
     right: 0px;
 };
+
+#checkers_logout {
+    background-color: red;
+    font-weight: bold;
+    font-size: 15px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    a {
+        color: white;
+    };
+    a:active {
+        color: white;
+        text-decoration: none;
+    };
+    a:hover {
+        color: white;
+        text-decoration: none;
+    };
+};
+
+.checkers_mainbutton {
+
+};

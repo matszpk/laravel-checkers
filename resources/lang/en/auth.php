@@ -17,4 +17,7 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'logged' => 'Logged as :user',
     'notLogged' => 'You are guest',
+    'login' => 'Log in',
+    'register' => 'Register',
+    'logout' => 'Log out',
 ];

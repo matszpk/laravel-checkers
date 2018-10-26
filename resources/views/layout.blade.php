@@ -16,6 +16,11 @@
                         @yield('top-pageinfo')
                     </div>
                 </div>
+                @auth
+                    <div id='checkers_logout'>
+                        <a href='logout'>@lang('auth.logout')</a>
+                    </div>
+                @endauth
             @show
             <div id='checkers_content'>
                 @yield('main')
