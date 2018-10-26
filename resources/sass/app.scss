@@ -33,6 +33,16 @@
     text-align: center;
 };
 
+#checkers_content {
+    color: black;
+    background-color: lightgrey;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 160px;
+    bottom: 30px;
+};
+
 #checkers_footer {
     height: 30px;
     background-color: SaddleBrown;

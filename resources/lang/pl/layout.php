@@ -6,5 +6,4 @@ return [
      */
     'topTitle' => 'WARCABY',
     'webTitle' => 'Warcaby',
-    'welcome' => 'Witamy w Warcabach!',
 ];

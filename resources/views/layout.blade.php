@@ -17,15 +17,17 @@
                     </div>
                 </div>
             @show
-            @yield('main')
+            <div id='checkers_content'>
+                @yield('main')
+            </div>
             @section('footer')
                 <div id='checkers_footer'>
                     <span>
-                    @if ($username != NULL)
-                        {{ __('auth.logged', ['user' => $username ]) }}
+                    @auth
+                        @lang('auth.logged', ['user' => $username ])
                     @else
-                        {{ __('auth.notLogged') }}
-                    @endif
+                        @lang('auth.notLogged')
+                    @endauth
                     </span>
                 </div>
             @show

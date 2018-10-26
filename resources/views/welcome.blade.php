@@ -1,11 +1,14 @@
 @extends('layout')
 
 @section('main')
-    <p>
-    Welcome
-    </p>
+    @auth
+        @lang('main.welcomeIfLogged', [ 'user' => $username ])
+    @else
+        @lang('main.welcomeIfNotLogged')<br/>
+        @lang('main.welcomeIfNotRegistered')
+    @endauth
 @endsection
 
 @section('top-pageinfo')
-    @lang('layout.welcome')
+    @lang('main.welcome')
 @endsection
