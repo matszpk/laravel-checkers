@@ -27,4 +27,15 @@ return [
     'youAre' => 'i jesteś',
     'roleADMIN' => 'administratorem',
     'rolePLAYER' => 'graczem',
+
+    'registerTitle' => 'Zarejestruj się teraz',
+    'registerName' => 'Nazwa użytkownika',
+    'registerEmail' => 'Email',
+    'registerPassword' => 'Hasło',
+    'registerPasswordConfirm' => 'Potwierdź hasło',
+    'doRegister' => 'Zarejestruj się',
+
+    'emailNotVerified' => 'Email nie został zweryfikowany.',
+    'emailNoticeContent' => 'Twój email został zweryfikowany.',
+    'emailVerifyTitle' => 'Weryfikacja emaila',
 ];

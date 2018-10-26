@@ -15,9 +15,12 @@ niezakończoną grę. Możesz komentować gry i użytkowników lub dawać lajki
 i użytkownikom.
 EOT
 ,
+    'welcomeIfNotVerified' =>
+        'Twój email nie został zweryfikowany. Powinieneś zweryfikować email.',
     'beginGame' => 'Rozpocznij nową grę',
     'contGame' => 'Kontynuuj grę',
     'yourGames' => 'Twoje gry',
     'yourComments' => 'Twoje komentarze',
     'yourProfile' => 'Twój profil',
+    'verifyEmail' => 'Zweryfikuj email',
 ];

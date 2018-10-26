@@ -1,24 +1,24 @@
 @extends('layout')
 
 @section('main')
-    <form method='POST' id='checkers_loginForm' name='loginForm'>
+    <form method='POST' class='checkers_form' name='loginForm'>
         @csrf
-        <label for='login_name'>@lang('auth.loginName')</label>
-        <input type='text' id='login_name' name='name'></input><br>
-        <label for='login_password'>@lang('auth.loginPassword')</label>
-        <input type='text' id='login_password' name='password'></input><br/>
-        <button>@lang('auth.doLogin')</button>
+        <table>
+            <tr>
+                <td><label for='login_name'>@lang('auth.loginName')</label></td>
+                <td><input type='text' id='login_name' name='name'></input></td>
+            </tr>
+            <tr>
+                <td><label for='login_password'>@lang('auth.loginPassword')</label></td>
+                <td><input type='password' id='login_password' name='password'></input></td>
+            </tr>
+            <tr class="checkers_row_button">
+                <td colspan='2'><button>@lang('auth.doLogin')</button></td>
+            </tr>
+        </table>
     </form>
 
-    @if ($errors->any())
-    <div class="checkers_form_errors">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @include('components.validation-errors')
 @endsection
 
 @section('top-pageinfo')

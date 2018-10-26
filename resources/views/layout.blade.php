@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>@lang('layout.webTitle')</title>
-        <link rel="stylesheet" type="text/css" href="css/app.css"/>
-        <script type="text/javascript" src="js/app.js"></script>
+        <link rel="stylesheet" type="text/css" href="{!! url('/') !!}/css/app.css"/>
+        <script type="text/javascript" src="{!! url('/') !!}/js/app.js"></script>
     </head>
     <body>
         <div id='checkers_main'>
@@ -18,7 +18,7 @@
                 </div>
                 @auth
                     <div id='checkers_logout'>
-                        <a href='logout'>@lang('auth.logout')</a>
+                        <a href='{!! url('/') !!}/logout'>@lang('auth.logout')</a>
                     </div>
                 @endauth
             @show
@@ -31,7 +31,10 @@
                     @auth
                         @lang('auth.logged', ['user' => $username ])
                         @lang('auth.youAre')
-                        @lang('auth.role' . $userrole)
+                        @lang('auth.role' . $userrole).
+                        @if (!$emailVerified)
+                            @lang('auth.emailNotVerified')
+                        @endif
                     @else
                         @lang('auth.notLogged')
                     @endauth

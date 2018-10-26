@@ -16,9 +16,11 @@ You can comment games and users or you can give likes to your favorite games and
 Just do it what you want.
 EOT
 ,
+    'welcomeIfNotVerified' => 'Your email was not verified. You should to verify email.',
     'beginGame' => 'Begin new game',
     'contGame' => 'Continue game',
     'yourGames' => 'Your games',
     'yourComments' => 'Your comments',
     'yourProfile' => 'Your profile',
+    'verifyEmail' => 'Verify email',
 ];

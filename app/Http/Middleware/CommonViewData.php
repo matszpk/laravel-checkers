@@ -14,6 +14,7 @@ class CommonViewData
         $user = Auth::user();
         View::share('username', $user!=NULL ? $user->name : NULL);
         View::share('userrole', $user!=NULL ? $user->role : NULL);
+        View::share('emailVerified', $user!=NULL && $user->hasVerifiedEmail());
         return $next($request);
     }
 }
