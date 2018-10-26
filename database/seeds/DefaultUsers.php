@@ -17,8 +17,8 @@ class DefaultUsers extends Seeder
         User::create([
             'name' => 'admin',
             'email' => env('ADMIN_EMAIL'),
-            'email_verified_at' => new DateTime(),   // now
-            'password' => encrypt('admin'),
+            'email_verified_at' => now(),   // now
+            'password' => bcrypt('admin'),
             'role' => 'ADMIN'
         ]);
     }

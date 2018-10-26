@@ -20,4 +20,11 @@ return [
     'login' => 'Zaloguj się',
     'register' => 'Zarejestruj się',
     'logout' => 'Wyloguj',
+    'loginTitle' => 'Formularz logowania',
+    'loginName' => 'Nazwa użytkownika',
+    'loginPassword' => 'Hasło',
+    'doLogin' => 'Zaloguj się',
+    'youAre' => 'i jesteś',
+    'roleADMIN' => 'administratorem',
+    'rolePLAYER' => 'graczem',
 ];

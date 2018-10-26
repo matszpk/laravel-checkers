@@ -20,4 +20,11 @@ return [
     'login' => 'Log in',
     'register' => 'Register',
     'logout' => 'Log out',
+    'loginTitle' => 'Log in form',
+    'loginName' => 'User name',
+    'loginPassword' => 'Password',
+    'doLogin' => 'Log in',
+    'youAre' => 'and you are',
+    'roleADMIN' => 'the administrator',
+    'rolePLAYER' => 'the player',
 ];

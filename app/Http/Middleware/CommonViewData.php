@@ -11,7 +11,9 @@ class CommonViewData
 {
     public function handle(Request $request, Closure $next)
     {
-        View::share('username', Auth::user());
+        $user = Auth::user();
+        View::share('username', $user!=NULL ? $user->name : NULL);
+        View::share('userrole', $user!=NULL ? $user->role : NULL);
         return $next($request);
     }
 }

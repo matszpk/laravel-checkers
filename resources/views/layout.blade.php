@@ -30,6 +30,8 @@
                     <span>
                     @auth
                         @lang('auth.logged', ['user' => $username ])
+                        @lang('auth.youAre')
+                        @lang('auth.role' . $userrole)
                     @else
                         @lang('auth.notLogged')
                     @endauth
