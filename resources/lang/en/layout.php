@@ -6,4 +6,5 @@ return [
      */
     'topTitle' => 'CHECKERS',
     'webTitle' => 'Checkers',
+    'welcome' => 'Welcome to Checkers!',
 ];

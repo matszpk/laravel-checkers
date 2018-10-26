@@ -4,3 +4,41 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+#checkers_main {
+    margin: 0 auto;
+    width: 1000px;
+    background-color: white;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    position: absolute;
+};
+
+#checkers_top {
+    height: 160px;
+    background-color: SaddleBrown;
+};
+
+#checkers_title {
+    color: yellow;
+    font-size: 70px;
+    text-align: center;
+};
+
+#checkers_toppageinfo {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+};
+
+#checkers_footer {
+    height: 30px;
+    background-color: SaddleBrown;
+    color: yellow;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+};
