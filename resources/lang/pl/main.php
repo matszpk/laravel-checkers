@@ -14,4 +14,10 @@ Jesteś zalogowany :user. Możesz rozpocząć nową grę z wybranym użytkowniki
 niezakończoną grę. Możesz komentować gry i użytkowników lub dawać lajki ulubionym grom
 i użytkownikom.
 EOT
+,
+    'beginGame' => 'Rozpocznij nową grę',
+    'contGame' => 'Kontynuuj grę',
+    'yourGames' => 'Twoje gry',
+    'yourComments' => 'Twoje komentarze',
+    'yourProfile' => 'Twój profil',
 ];

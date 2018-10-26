@@ -41,6 +41,7 @@
     right: 0px;
     top: 160px;
     bottom: 30px;
+    text-align: center;
 };
 
 #checkers_footer {
@@ -73,6 +74,28 @@
     };
 };
 
-.checkers_mainbutton {
+#checkers_welcome {
+    margin: 100px 20px 100px 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+};
 
+.checkers_mainbutton {
+    padding: 5px 5px 5px 5px;
+    background-color: blue;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 15px;
+    a {
+        color: white;
+    };
+    a:active {
+        color: white;
+        text-decoration: none;
+    };
+    a:hover {
+        color: white;
+        text-decoration: none;
+    };
 };

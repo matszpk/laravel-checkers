@@ -15,4 +15,10 @@ not finished game.
 You can comment games and users or you can give likes to your favorite games and users.
 Just do it what you want.
 EOT
+,
+    'beginGame' => 'Begin new game',
+    'contGame' => 'Continue game',
+    'yourGames' => 'Your games',
+    'yourComments' => 'Your comments',
+    'yourProfile' => 'Your profile',
 ];
