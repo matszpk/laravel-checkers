@@ -39,6 +39,7 @@ return [
     'doRegister' => 'Register',
 
     'emailNotVerified' => 'Email was not verified.',
-    'emailNoticeContent' => 'Your email has been verified.',
+    'emailNoticeContent' => 'Just click verify your email clicking button.',
     'emailVerifyTitle' => 'Email verification',
+    'doVerify' => 'Send link to verification.',
 ];
