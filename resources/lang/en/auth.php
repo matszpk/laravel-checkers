@@ -41,5 +41,9 @@ return [
     'emailNotVerified' => 'Email was not verified.',
     'emailNoticeContent' => 'Just click verify your email clicking button.',
     'emailVerifyTitle' => 'Email verification',
-    'doVerify' => 'Send link to verification.',
+    'doVerify' => 'Send link to verification',
+
+    'resetEmail' => 'Email',
+    'resetPassword' => 'Password',
+    'resetPasswordConfirm' => 'Confirm password',
 ];

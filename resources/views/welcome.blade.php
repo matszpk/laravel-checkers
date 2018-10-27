@@ -1,7 +1,11 @@
 @extends('layout')
 
+@section('top-pageinfo')
+    @lang('main.welcome')
+@endsection
+
 @section('main')
-    <div id='checkers_welcome'>
+    <div class='checkers_mainpage'>
         @auth
             @if ($emailVerified)
                 @lang('main.welcomeIfLogged', [ 'user' => $username ])
@@ -43,8 +47,4 @@
             <a href='login'>@lang('auth.login')</a>
         </div>
     @endauth
-@endsection
-
-@section('top-pageinfo')
-    @lang('main.welcome')
 @endsection

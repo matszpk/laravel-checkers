@@ -1,25 +1,30 @@
 @extends('layout')
 
+@section('top-pageinfo')
+    @lang('auth.registerTitle')
+@endsection
+
 @section('main')
-    <form method='POST' class='checkers_form' name='registerForm'>
+    <form method='POST' action="{{ route('register') }}"
+            class='checkers_form' name='registerForm'>
         @csrf
         <table>
             <tr>
                 <td><label for='register_name'>@lang('auth.registerName')</label></td>
-                <td><input type='text' id='register_name' name='name'></input></td>
+                <td><input type='text' id='register_name' name='name'/></td>
             </tr>
             <tr>
                 <td><label for='register_email'>
                     @lang('auth.registerEmail')</label></td>
                 <td>
-                    <input type='text' id='register_email' name='email'></input>
+                    <input type='text' id='register_email' name='email'/>
                 </td>
             </tr>
             <tr>
                 <td><label for='register_password'>
                     @lang('auth.registerPassword')</label></td>
                 <td>
-                    <input type='password' id='register_password' name='password'></input>
+                    <input type='password' id='register_password' name='password'/>
                 </td>
             </tr>
             <tr>
@@ -27,7 +32,7 @@
                     @lang('auth.registerPasswordConfirm')</label></td>
                 <td>
                     <input type='password' id='register_password_confirm'
-                        name='password_confirmation'></input>
+                        name='password_confirmation'/>
                 </td>
             </tr>
             <tr class="checkers_row_button">
@@ -37,9 +42,5 @@
     </form>
 
     @include('components.validation-errors')
-@endsection
-
-@section('top-pageinfo')
-    @lang('auth.registerTitle')
 @endsection
 

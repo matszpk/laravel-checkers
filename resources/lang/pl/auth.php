@@ -36,7 +36,12 @@ return [
     'doRegister' => 'Zarejestruj się',
 
     'emailNotVerified' => 'Email nie został zweryfikowany.',
-    'emailNoticeContent' => 'Just click verify your email clicking button.',
+    'emailNoticeContent' => 'Po prostu kliknij przycisk do weryfikacji emaila.',
     'emailVerifyTitle' => 'Weryfikacja emaila',
-    'doVerify' => 'Wyślij link do weryfikacji.',
+    'doVerify' => 'Wyślij link do weryfikacji',
+
+    'resetName' => 'Nazwa użytkownika',
+    'resetEmail' => 'Email',
+    'resetPassword' => 'Hasło',
+    'resetPasswordConfirm' => 'Potwierdź hasło',
 ];
