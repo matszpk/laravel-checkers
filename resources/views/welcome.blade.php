@@ -41,10 +41,13 @@
         @endif
     @else
         <div class='checkers_mainbutton'>
-            <a href='register'>@lang('auth.register')</a>
+            <a href="{{ route('register') }}">@lang('auth.register')</a>
         </div>
         <div class='checkers_mainbutton'>
-            <a href='login'>@lang('auth.login')</a>
+            <a href="{{ route('login') }}">@lang('auth.login')</a>
+        </div>
+        <div class='checkers_mainbutton'>
+            <a href="{{ route('password.request') }}">@lang('main.resetPassword')</a>
         </div>
     @endauth
 @endsection

@@ -40,8 +40,11 @@ return [
     'emailVerifyTitle' => 'Weryfikacja emaila',
     'doVerify' => 'Wyślij link do weryfikacji',
 
+    'resetPasswordTitle' => 'Resetuj hasło',
     'resetName' => 'Nazwa użytkownika',
     'resetEmail' => 'Email',
     'resetPassword' => 'Hasło',
     'resetPasswordConfirm' => 'Potwierdź hasło',
+    'doReset' => 'Resetuj hasło',
+    'doSendReset' => 'Wyślij link do resetowania',
 ];

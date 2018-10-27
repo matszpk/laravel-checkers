@@ -23,4 +23,5 @@ EOT
     'yourComments' => 'Your comments',
     'yourProfile' => 'Your profile',
     'verifyEmail' => 'Verify email',
+    'resetPassword' => 'Reset password',
 ];

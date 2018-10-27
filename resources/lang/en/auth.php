@@ -43,7 +43,10 @@ return [
     'emailVerifyTitle' => 'Email verification',
     'doVerify' => 'Send link to verification',
 
+    'resetPasswordTitle' => 'Reset password',
     'resetEmail' => 'Email',
     'resetPassword' => 'Password',
     'resetPasswordConfirm' => 'Confirm password',
+    'doReset' => 'Reset password',
+    'doSendReset' => 'Send link to reset',
 ];

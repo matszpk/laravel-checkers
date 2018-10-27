@@ -14,5 +14,7 @@
             <a href="{{ route('verification.resend') }}">@lang('auth.doVerify')</a>
         </div>
     @endif
+
+    @include('components.validation-errors')
 @endsection
 

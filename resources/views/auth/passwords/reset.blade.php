@@ -6,7 +6,7 @@
 
 @section('main')
 <div class='checkers_mainpage'>
-    <form method='POST' action="{{ route('update') }}"
+    <form method='POST' action="{{ route('password.update') }}"
             class='checkers_form' name='resetPasswordForm'>
         @csrf
         <table>
@@ -30,7 +30,12 @@
                         name='password_confirmation'/>
                 </td>
             </tr>
+            <tr class="checkers_row_button">
+                <td colspan='2'><button>@lang('auth.doReset')</button></td>
+            </tr>
         </table>
     </form>
 </div>
+
+@include('components.validation-errors')
 @endsection
