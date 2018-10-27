@@ -11,7 +11,9 @@
         <div id='checkers_main'>
             @section('top')
                 <div id='checkers_top'>
-                    <div id='checkers_title'>@lang('layout.topTitle')</div>
+                    <div id='checkers_title'>
+                        <a href="{{ route('home') }}">@lang('layout.topTitle')</a>
+                    </div>
                     <div id='checkers_toppageinfo'>
                         @yield('top-pageinfo')
                     </div>

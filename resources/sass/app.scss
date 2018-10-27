@@ -25,6 +25,17 @@
     color: yellow;
     font-size: 70px;
     text-align: center;
+    a {
+        color: yellow;
+    };
+    a:active {
+        color: yellow;
+        text-decoration: none;
+    };
+    a:hover {
+        color: yellow;
+        text-decoration: none;
+    };
 };
 
 #checkers_toppageinfo {
