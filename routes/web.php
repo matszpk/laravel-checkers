@@ -19,3 +19,7 @@ Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/users', 'UserController@index');
+
+Route::get('/user/{id}', 'UserController@getUser');
+
+Route::get('/user/{id}/update', 'UserController@userUpdate');

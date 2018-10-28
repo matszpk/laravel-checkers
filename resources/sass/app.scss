@@ -53,6 +53,7 @@
     top: 160px;
     bottom: 30px;
     text-align: center;
+    overflow-y: auto;
 };
 
 #checkers_footer {
@@ -111,7 +112,7 @@
     };
 };
 
-.checkers_form, .checkers_maintable {
+.checkers_form, .checkers_maintable, .checkers_data {
     margin: 100px 20px 100px 20px;
     text-align: center;
     font-size: 15px;
@@ -125,9 +126,22 @@
         input {
             width: 620px;
         };
+
+        td.data {
+            text-align: left;
+        };
     };
     .checkers_row_button {
         text-align: center;
+    };
+};
+
+.checkers_data {
+    table {
+        border: 1px black solid;
+    };
+    table td {
+        padding: 4px;
     };
 };
 

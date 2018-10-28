@@ -26,6 +26,7 @@ EOT
     'resetPassword' => 'Resetuj hasło',
 
     'users' => 'Użytkownicy',
+    'userProfile' => 'Profil użytkownika',
 
     'nr' => 'Nr',
 ];

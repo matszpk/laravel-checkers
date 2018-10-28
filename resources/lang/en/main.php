@@ -26,6 +26,7 @@ EOT
     'resetPassword' => 'Reset password',
 
     'users' => 'Users',
+    'userProfile' => 'User profile',
 
     'nr' => 'No.',
 ];

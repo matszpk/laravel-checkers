@@ -6,7 +6,7 @@
 
 @section('main')
 <div class='checkers_maintable'>
-    @lang('user.usersRange', ['start' => $data->firstItem(), 'end' => $data->lastItem()])
+    @lang('user.usersRange', ['start' => $pag->firstItem(), 'end' => $pag->lastItem()])
     <table>
         <thead>
             <tr>
@@ -18,9 +18,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($data->items() as $u)
+            @foreach ($pag->items() as $u)
             <tr>
-                <td>{{ $data->firstItem() + $loop->index }}</td>
+                <td>{{ $pag->firstItem() + $loop->index }}</td>
                 <td><a href="{{ url('/user/' . $u->id) }}">{{ $u->name }}</a></td>
                 <td>{{ $u->created_at }}</td>
                 <td>{{ $u->likes }}</td>
@@ -29,11 +29,11 @@
             @endforeach
         </tbody>
     </table>
-    @if ($data->previousPageUrl() != NULL)
-        <a href="{{ $data->previousPageUrl() }}">@lang('pagination.previous')</a>
+    @if ($pag->previousPageUrl() != NULL)
+        <a href="{{ $pag->previousPageUrl() }}">@lang('pagination.previous')</a>
     @endif
-    @if ($data->nextPageUrl() != NULL)
-        <a href="{{ $data->nextPageUrl() }}">@lang('pagination.next')</a>
+    @if ($pag->nextPageUrl() != NULL)
+        <a href="{{ $pag->nextPageUrl() }}">@lang('pagination.next')</a>
     @endif
 </div>
 
