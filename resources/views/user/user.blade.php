@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('top-pageinfo')
-    @lang('main.userProfile')
+    @lang('main.userProfileTitle')
 @endsection
 
 @section('main')
@@ -44,7 +44,7 @@
 </div>
     @can('update', $data)
         <div class='checkers_mainbutton'>
-            <a href="{{ url('/user/' . $userid . '/edit') }}">@lang('user.edit')</a>
+            <a href="{{ url('/user/' . $data->id . '/edit') }}">@lang('user.edit')</a>
         </div>
     @endcan
 @endsection

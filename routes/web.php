@@ -22,4 +22,6 @@ Route::get('/users', 'UserController@index');
 
 Route::get('/user/{id}', 'UserController@getUser');
 
-Route::get('/user/{id}/update', 'UserController@userUpdate');
+Route::get('/user/{id}/edit', 'UserController@editUser');
+Route::post('/user/{id}/edit', 'UserController@updateUser')->name('userUpdate');
+

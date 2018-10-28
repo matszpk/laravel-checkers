@@ -23,4 +23,29 @@ class UserController extends Controller
     {
         return view('user.user', [ 'data' => User::find($id) ]);
     }
+
+    // update user form
+    public function editUser(int $id)
+    {
+        $data = User::find($id);
+        $this->authorize('update', $data);
+        return view('user.edit', [ 'data' => $data ]);
+    }
+
+    public function updateUser(Request $request, int $id)
+    {
+        $data = User::find($id);
+        // authorization
+        $this->authorize('update', $data);
+        // validation
+        $this->validate($request, [ 'name' => 'required',
+            'password' => 'nullable|min:6|confirmed',
+        ]);
+
+        $data->name = $request->input('name');
+        if ($request->input('password') != NULL)
+            $data->password = bcrypt($request->input('password'));
+        $data->update();
+        return redirect('/user/' . $id);
+    }
 }

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('top-pageinfo')
-    @lang('main.users')
+    @lang('main.usersTitle')
 @endsection
 
 @section('main')

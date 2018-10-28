@@ -17,5 +17,7 @@ return [
 
     'usersRange' => 'Uzytkownicy od :start do :end',
 
-    'edit' => 'Edytuj profil',
+    'edit' => 'Edytuj konto',
+    'update' => 'Aktualizuj konto',
+    'userEdit' => 'Edycja konta dla :user',
 ];

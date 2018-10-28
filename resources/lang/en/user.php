@@ -17,5 +17,7 @@ return [
 
     'usersRange' => 'Users from :start to :end',
 
-    'edit' => 'Edit profile',
+    'edit' => 'Edit account',
+    'update' => 'Update account',
+    'userEdit' => 'Edit account for :user',
 ];

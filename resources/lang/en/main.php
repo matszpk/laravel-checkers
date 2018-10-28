@@ -25,8 +25,9 @@ EOT
     'verifyEmail' => 'Verify email',
     'resetPassword' => 'Reset password',
 
-    'users' => 'Users',
-    'userProfile' => 'User profile',
+    'usersTitle' => 'Users',
+    'userProfileTitle' => 'User profile',
+    'userEditTitle' => 'User account edit',
 
     'nr' => 'No.',
     'yes' => 'Yes',
