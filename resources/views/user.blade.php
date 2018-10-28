@@ -15,12 +15,12 @@
             <td>@lang('user.createdAt'):</td>
             <td class='data'>{{ $data->created_at }}</td>
         </tr>
-        @if ($data->id == $userid)
+        @can('viewUpdateAt', $data)
         <tr>
             <td>@lang('user.updatedAt'):</td>
             <td class='data'>{{ $data->updated_at }}</td>
         </tr>
-        @endif
+        @endcan
         <tr>
             <td>@lang('user.likes'):</td>
             <td class='data'>{{ $data->likes }}</td>
@@ -29,17 +29,17 @@
             <td>@lang('user.role'):</td>
             <td class='data'>@lang('user.role' . $data->role)</td>
         </tr>
-        @if ($data->id == $userid)
+        @can('viewEmail', $data)
         <tr>
             <td>@lang('user.email'):</td>
             <td class='data'>{{ $data->email }}</td>
         </tr>
-        @endif
+        @endcan
     </table>
 </div>
-    @if ($data->id == $userid)
+    @can('update', $data)
         <div class='checkers_mainbutton'>
             <a href="{{ url('/user/' . $userid . '/edit') }}">@lang('user.edit')</a>
         </div>
-    @endif
+    @endcan
 @endsection
