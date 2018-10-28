@@ -24,4 +24,8 @@ EOT
     'yourProfile' => 'Twój profil',
     'verifyEmail' => 'Zweryfikuj email',
     'resetPassword' => 'Resetuj hasło',
+
+    'users' => 'Użytkownicy',
+
+    'nr' => 'Nr',
 ];
