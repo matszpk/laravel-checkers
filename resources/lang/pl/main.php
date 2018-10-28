@@ -29,4 +29,6 @@ EOT
     'userProfile' => 'Profil użytkownika',
 
     'nr' => 'Nr',
+    'yes' => 'Tak',
+    'no' => 'Nie',
 ];

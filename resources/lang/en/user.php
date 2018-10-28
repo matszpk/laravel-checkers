@@ -10,6 +10,7 @@ return [
     'likes' => 'Likes',
     'role' => 'Role',
     'email' => 'Email address',
+    'emailVerified' => 'Email verified',
 
     'roleADMIN' => 'Administrator',
     'rolePLAYER' => 'Player',

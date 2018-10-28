@@ -34,6 +34,11 @@
             <td>@lang('user.email'):</td>
             <td class='data'>{{ $data->email }}</td>
         </tr>
+        <tr>
+            <td>@lang('user.emailVerified'):</td>
+            <td class='data'>
+                    {{ $data->hasVerifiedEmail()?__('main.yes'):__main('main.no') }}</td>
+        </tr>
         @endcan
     </table>
 </div>
