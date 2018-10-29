@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -22,7 +23,9 @@ class UserController extends Controller
     // get user - view single user
     public function getUser(int $id)
     {
-        return view('user.user', [ 'data' => User::find($id) ]);
+        return view('user.user', [ 'data' => User::with(['comments' => function($query) {
+                $query->orderBy('created_at', 'desc'); },
+                'comments.writtenBy' ])->find($id) ]);
     }
 
     // update user form
@@ -31,6 +34,19 @@ class UserController extends Controller
         $data = User::find($id);
         $this->authorize('update', $data);
         return view('user.edit', [ 'data' => $data ]);
+    }
+
+    public function addComment(Request $request, int $id)
+    {
+        $data = User::find($id);
+        $this->authorize('giveOpinion', $data);
+        // validation
+        $this->validate($request, [ 'content' => 'required|string|max:30000' ]);
+
+        $comment = new Comment(['content' => $request->input('content') ]);
+        $comment->writtenBy()->associate($request->user());
+        $data->comments()->save($comment);
+        return back();
     }
 
     public function updateUser(Request $request, int $id)

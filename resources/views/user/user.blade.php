@@ -47,4 +47,6 @@
             <a href="{{ url('/user/' . $data->id . '/edit') }}">@lang('user.edit')</a>
         </div>
     @endcan
+
+    @include('components.comments')
 @endsection

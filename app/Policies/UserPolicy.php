@@ -42,4 +42,9 @@ class UserPolicy
         return $user->id === $toView->id ||
             $user->role == 'ADMIN';
     }
+
+    public function giveOpinion(?User $user, User $toOpinion)
+    {
+        return $user->hasVerifiedEmail();
+    }
 }
