@@ -6,6 +6,9 @@
         <title>@lang('layout.webTitle')</title>
         <link rel="stylesheet" type="text/css" href="{!! url('/') !!}/css/app.css"/>
         <script type="text/javascript" src="{!! url('/') !!}/js/app.js"></script>
+        <script type="text/javascript">
+            @yield('script')
+        </script>
     </head>
     <body>
         <div id='checkers_main'>
@@ -20,7 +23,7 @@
                 </div>
                 @auth
                     <div id='checkers_logout'>
-                        <a href='{!! url('/') !!}/logout'>@lang('auth.logout')</a>
+                        <a href="{!! url('/') !!}/logout">@lang('auth.logout')</a>
                     </div>
                 @endauth
             @show

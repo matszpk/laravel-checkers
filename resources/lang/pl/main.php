@@ -36,4 +36,5 @@ EOT
 
     'comment' => 'Komentarz',
     'doComment' => 'Komentuj',
+    'doLike' => 'Polub',
 ];

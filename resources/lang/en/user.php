@@ -7,6 +7,7 @@ return [
     'name' => 'Name',
     'createdAt' => 'Created at',
     'updatedAt' => 'Updated at',
+    'comments' => 'Comments',
     'likes' => 'Likes',
     'role' => 'Role',
     'email' => 'Email address',

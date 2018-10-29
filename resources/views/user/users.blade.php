@@ -13,6 +13,7 @@
                 <th>@lang('main.nr')</th>
                 <th>@lang('user.name')</th>
                 <th>@lang('user.createdAt')</th>
+                <th>@lang('user.comments')</th>
                 <th>@lang('user.likes')</th>
                 <th>@lang('user.role')</th>
             </tr>
@@ -23,6 +24,7 @@
                 <td>{{ $pag->firstItem() + $loop->index }}</td>
                 <td><a href="{{ url('/user/' . $u->id) }}">{{ $u->name }}</a></td>
                 <td>{{ $u->created_at }}</td>
+                <td>{{ $u->comments_count }}</td>
                 <td>{{ $u->likes }}</td>
                 <td>@lang('user.role' .$u->role)</td>
             </tr>

@@ -1,5 +1,18 @@
 @extends('layout')
 
+@section('script')
+@can('giveOpinion', $data)
+$(function() {
+    $('#checkers_like_button').click(function() {
+        axios.post("{{ url('/user/' . $data->id . '/like') }}").then(function(response)
+        {
+            $('#checkers_userlikes').text(response.data.likes);
+        });
+    });
+});
+@endcan
+@endsection
+
 @section('top-pageinfo')
     @lang('main.userProfileTitle')
 @endsection
@@ -23,7 +36,12 @@
         @endcan
         <tr>
             <td>@lang('user.likes'):</td>
-            <td class='data'>{{ $data->likes }}</td>
+            <td class='data'><span id='checkers_userlikes'>{{ $data->likes }}</span>
+                @can('giveOpinion', $data)
+                <div class='checkers_button' id='checkers_like_button'>
+                        @lang('main.doLike')</div>
+                @endcan
+            </td>
         </tr>
         <tr>
             <td>@lang('user.role'):</td>
