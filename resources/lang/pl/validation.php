@@ -109,7 +109,7 @@ return [
     ],
     'string' => ':attribute musi być łańcuchem.',
     'timezone' => ':attribute musi być poprawną strefą czasową.',
-    'unique' => ':attribute został już podany.',
+    'unique' => 'Taki :attribute został już podany.',
     'uploaded' => 'Wgranie :attribute nie powiodło się.',
     'url' => 'Format :attribute jest niepoprawny.',
 
