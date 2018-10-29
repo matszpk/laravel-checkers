@@ -45,7 +45,7 @@ class UserController extends Controller
         $data->name = $request->input('name');
         if ($request->input('password') != NULL)
             $data->password = bcrypt($request->input('password'));
-        $data->update();
+        $data->save();
         return redirect('/user/' . $id);
     }
 }
