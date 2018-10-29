@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -38,7 +39,8 @@ class UserController extends Controller
         // authorization
         $this->authorize('update', $data);
         // validation
-        $this->validate($request, [ 'name' => 'required',
+        $this->validate($request, [ 'name' => [ 'required',
+            Rule::unique('users')->ignore($data->id) ],
             'password' => 'nullable|min:6|confirmed',
         ]);
 
