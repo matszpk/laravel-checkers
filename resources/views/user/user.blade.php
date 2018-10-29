@@ -37,7 +37,7 @@
         <tr>
             <td>@lang('user.emailVerified'):</td>
             <td class='data'>
-                    {{ $data->hasVerifiedEmail()?__('main.yes'):__main('main.no') }}</td>
+                    {{ $data->hasVerifiedEmail()?__('main.yes'):__('main.no') }}</td>
         </tr>
         @endcan
     </table>

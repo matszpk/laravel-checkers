@@ -15,6 +15,7 @@
                 <td><input type='text' id='user_name' name='name'
                     value="{{ $data->name }}"/></td>
             </tr>
+            @can('changeEmail', $data)
             <tr>
                 <td><label for='user_email'>
                     @lang('auth.registerEmail')</label></td>
@@ -23,6 +24,7 @@
                         value="{{ $data->email }}"/>
                 </td>
             </tr>
+            @endcan
             <tr>
                 <td><label for='user_password'>
                     @lang('auth.registerPassword')</label></td>

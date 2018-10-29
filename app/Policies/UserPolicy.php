@@ -31,6 +31,12 @@ class UserPolicy
             $user->role == 'ADMIN';
     }
 
+    public function changeEmail(?User $user, User $toView)
+    {
+        return ($user->id === $toView->id && $user->hasVerifiedEmail()) ||
+            $user->role == 'ADMIN';
+    }
+
     public function viewUpdateAt(?User $user, User $toView)
     {
         return $user->id === $toView->id ||
