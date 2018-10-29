@@ -16,6 +16,14 @@
                     value="{{ $data->name }}"/></td>
             </tr>
             <tr>
+                <td><label for='user_email'>
+                    @lang('auth.registerEmail')</label></td>
+                <td>
+                    <input type='text' id='user_email' name='email'
+                        value="{{ $data->email }}"/>
+                </td>
+            </tr>
+            <tr>
                 <td><label for='user_password'>
                     @lang('auth.registerPassword')</label></td>
                 <td>

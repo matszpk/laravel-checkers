@@ -39,12 +39,16 @@ class UserController extends Controller
         // authorization
         $this->authorize('update', $data);
         // validation
-        $this->validate($request, [ 'name' => [ 'required',
-            Rule::unique('users')->ignore($data->id) ],
+        $this->validate($request, [
+            'name' => [ 'required', 'string', 'max:255',
+                Rule::unique('users')->ignore($data->id) ],
+            'email' => [ 'required', 'string', 'email', 'max:255',
+                Rule::unique('users')->ignore($data->id) ],
             'password' => 'nullable|min:6|confirmed',
         ]);
 
         $data->name = $request->input('name');
+        $data->email = $request->input('email');
         if ($request->input('password') != NULL)
             $data->password = bcrypt($request->input('password'));
         $data->save();
