@@ -113,7 +113,7 @@
 };
 
 .checkers_form, .checkers_maintable, .checkers_data {
-    margin: 100px 20px 100px 20px;
+    margin: 100px 20px 40px 20px;
     text-align: center;
     font-size: 15px;
     font-weight: bold;
@@ -166,5 +166,25 @@
             border: 1px black solid;
             padding: 2px;
         };
+    };
+};
+
+#checkers_commentform {
+    textarea {
+        width: 800px;
+    };
+};
+
+#checkers_comments {
+    text-align: left;
+    .comment_info {
+        color: #333333;
+        margin-left: 3px;
+        margin-right: 3px;
+    };
+    .comment_content {
+        border: 1px solid black;
+        margin: 3px;
+        background: #eeeeee;
     };
 };

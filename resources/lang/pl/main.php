@@ -33,4 +33,7 @@ EOT
     'nr' => 'Nr',
     'yes' => 'Tak',
     'no' => 'Nie',
+
+    'comment' => 'Komentarz',
+    'doComment' => 'Komentuj',
 ];
