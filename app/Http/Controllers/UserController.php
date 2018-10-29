@@ -17,7 +17,7 @@ class UserController extends Controller
     // get users table
     public function index()
     {
-        return view('user.users', [ 'pag' => User::orderBy('name')->paginate(10) ]);
+        return view('user.users', [ 'pag' => User::orderBy('name')->paginate(15) ]);
     }
 
     // get user - view single user
