@@ -18,10 +18,9 @@ Route::get('/', function() {
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/users', 'UserController@index');
+Route::get('/users', 'UserController@index')->name('user.list');
 
 Route::get('/user/{id}', 'UserController@getUser');
 
 Route::get('/user/{id}/edit', 'UserController@editUser');
 Route::post('/user/{id}/edit', 'UserController@updateUser')->name('userUpdate');
-

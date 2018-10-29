@@ -35,10 +35,13 @@
             <div class='checkers_mainbutton'>
                 <a href='yourComments'>@lang('main.yourComments')</a>
             </div>
-            <div class='checkers_mainbutton'>
-                <a href='yourProfile'>@lang('main.yourProfile')</a>
-            </div>
         @endif
+        <div class='checkers_mainbutton'>
+            <a href="{{ url('/users') }}">@lang('main.users')</a>
+        </div>
+        <div class='checkers_mainbutton'>
+            <a href="{{ url('/user/' . $userid) }}">@lang('main.yourAccount')</a>
+        </div>
     @else
         <div class='checkers_mainbutton'>
             <a href="{{ route('register') }}">@lang('auth.register')</a>

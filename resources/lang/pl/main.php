@@ -21,7 +21,8 @@ EOT
     'contGame' => 'Kontynuuj grę',
     'yourGames' => 'Twoje gry',
     'yourComments' => 'Twoje komentarze',
-    'yourProfile' => 'Twój profil',
+    'yourAccount' => 'Twoje konto',
+    'users' => 'Użytkownicy',
     'verifyEmail' => 'Zweryfikuj email',
     'resetPassword' => 'Resetuj hasło',
 
