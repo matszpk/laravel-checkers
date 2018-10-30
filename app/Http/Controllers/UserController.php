@@ -29,6 +29,15 @@ class UserController extends Controller
             'comments.writtenBy' ])->find($id) ]);
     }
 
+    // get written comments for user
+    public function writtenComments(int $id)
+    {
+        return view('user.wcomments',
+                [ 'data' => User::with(['writtenComments' => function($query) {
+                    $query->orderBy('created_at', 'desc'); },
+                'comments.commentable' ])->find($id) ]);
+    }
+
     // update user form
     public function editUser(int $id)
     {

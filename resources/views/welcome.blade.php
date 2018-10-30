@@ -33,7 +33,8 @@
                 <a href='yourGames'>@lang('main.yourGames')</a>
             </div>
             <div class='checkers_mainbutton'>
-                <a href='yourComments'>@lang('main.yourComments')</a>
+                <a href='{{ url('/user/' . $userid . '/wcomments') }}'>
+                            @lang('main.yourComments')</a>
             </div>
         @endif
         <div class='checkers_mainbutton'>

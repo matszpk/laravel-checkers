@@ -63,6 +63,10 @@ $(function() {
     @can('update', $data)
     <div class='checkers_buttons'>
         <div class='checkers_mainbutton'>
+            <a href="{{ url('/user/' . $data->id . '/wcomments') }}">
+                    @lang('user.wcomments')</a>
+        </div>
+        <div class='checkers_mainbutton'>
             <a href="{{ url('/user/' . $data->id . '/edit') }}">@lang('user.edit')</a>
         </div>
     </div>

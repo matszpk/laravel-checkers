@@ -21,4 +21,5 @@ return [
     'edit' => 'Edit account',
     'update' => 'Update account',
     'userEdit' => 'Edit account for :user',
+    'wcomments' => 'Comments written by user',
 ];

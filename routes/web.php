@@ -27,3 +27,5 @@ Route::get('/user/{id}/edit', 'UserController@editUser');
 Route::post('/user/{id}/edit', 'UserController@updateUser')->name('userUpdate');
 
 Route::post('/user/{id}/like', 'UserController@likeUser');
+
+Route::get('/user/{id}/wcomments', 'UserController@writtenComments');

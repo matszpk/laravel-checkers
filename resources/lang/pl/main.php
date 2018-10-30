@@ -29,6 +29,7 @@ EOT
     'usersTitle' => 'Użytkownicy',
     'userProfileTitle' => 'Profil użytkownika',
     'userEditTitle' => 'Edycja konta użytkownika',
+    'userWCommentsTitle' => 'Komentarze napisane przez użytkownika',
 
     'nr' => 'Nr',
     'yes' => 'Tak',
@@ -37,4 +38,6 @@ EOT
     'comment' => 'Komentarz',
     'doComment' => 'Komentuj',
     'doLike' => 'Polub',
+    'writtenComments' => 'Napisane komentarze przez :user',
+    'writtenTo' => 'Napisane do',
 ];
