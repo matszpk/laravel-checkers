@@ -1,4 +1,0 @@
-<FilesMatch "^(\.env.*|\.git.*|artisan|.*\.log|package\..*|.*\.xml|.*\.lock|checkers\..*|.*\.js)$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
