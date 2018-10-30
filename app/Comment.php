@@ -17,6 +17,6 @@ class Comment extends Model
     }
     public function writtenBy()
     {
-        return $this->belongsTo('App\User', 'writer_id')->select(['name']);
+        return $this->belongsTo('App\User', 'writer_id');
     }
 }
