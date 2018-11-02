@@ -39,7 +39,7 @@ class UserController extends Controller
                 Same::makeMove($move->startpos, $move->endpos);
         }
         Same::makeMove(startPos, endPos);
-        // store game state after this move to session
+        // store game state after this m
         $session->put('game' . $gameId, $gameState);
     }
 };
