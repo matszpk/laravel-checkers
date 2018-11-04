@@ -721,4 +721,50 @@ class GameLogicTest extends TestCase
         $gameLogic = GameLogic::fromData($state, True, NULL);
         $this->assertTrue($gameLogic->canMove(3, False));
     }
+
+    // test GameLogic::checkGameEnd
+    public function testCheckGameEnd()
+    {
+        $gameLogic = new GameLogic();
+        $this->assertEquals(GameLogic::NOTEND, $gameLogic->checkGameEnd());
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', 'w', ' ', ' ', ' ', 'w', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'w', ' ', 'w', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $this->assertEquals(GameLogic::PLAYER1WIN, $gameLogic->checkGameEnd());
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ',
+           ' ', ' ', 'b', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'w', ' ', 'w', ' ', ' ', ' ', ' ',
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', ' ', ' ',
+           ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
+           'b', ' ', 'b', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'w',
+           ' ', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
+           ' ', ' ', ' ', 'b', ' ', 'b', ' ', 'b', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'b', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $this->assertEquals(GameLogic::DRAW, $gameLogic->checkGameEnd());
+    }
 }

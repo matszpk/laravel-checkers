@@ -243,7 +243,7 @@ class GameLogic
             // p is player number (0 or 1)
             for ($pos = 0; $pos < Self::BOARDDIM*Self::BOARDDIM; $pos++)
             {
-                if (!$this->isPlayerPiece($pos))
+                if (!$this->isGivenPlayerPiece($pos, $p==0))
                     continue;
                 // if player piece
                 if ($this->canMove($pos, $p==0))
