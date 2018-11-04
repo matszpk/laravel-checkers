@@ -1,9 +1,12 @@
 <?php
 
+namespace App\Logic;
+
 class GameLogic
 {
-    private array $state;
-    private bool $player1Move;
+    private $state;
+    private $player1Move;
+    private $lastBeat;
 
     // IMPORTANT NOTICE:
     // we treat moves as single move or single beat (not a whole sequence of beats)
@@ -30,6 +33,7 @@ class GameLogic
     public function startState()
     {
         $this->player1Move = True;
+        $this->lastBeat = NULL;
         $this->state = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
@@ -56,8 +60,17 @@ class GameLogic
         // now we check whether no mandatory beats
         $mandatoryBeatStarts = [];
         $mandatoryBeats = [];
-        for ($pos = 0; $pos < Self::BOARDDIM*Self::BOARDDIM; $pos++)
-            $this->findBestBeatsSeqs($pos, $mandatoryBeatStarts, $mandatoryBeats);
+        if ($this->lastBeat === NULL)
+            for ($pos = 0; $pos < Self::BOARDDIM*Self::BOARDDIM; $pos++)
+                $this->findBestBeatsSeqs($pos, $mandatoryBeatStarts, $mandatoryBeats);
+        else
+        {
+            if ($this->lastBeat[1] != $pos)
+                throw new GameException('This is not best beat');
+            // only for after last beat move
+            $this->findBestBeatsSeqs($$this->lastBeat[1],
+                    $mandatoryBeatStarts, $mandatoryBeats);
+        }
 
         // if we have mandatary beats
         if (count($mandatoryBeats) != 0)
@@ -94,8 +107,12 @@ class GameLogic
             $this->state[$endPos] = $piece; // your piece
 
             if (count($mandatoryBeats[$i][0]) == 1)
+            {
                 // if it last beat, we can promote if in suitable place
                 $this->handlePromotion($endPos);
+                // and reverse player
+                $this->player1Move = !$this->player1Move;
+            }
         }
         else
         {
@@ -146,6 +163,8 @@ class GameLogic
             $this->state[$startPos] = ' ';
             $this->state[$endPos] = $piece;
             $this->handlePromotion($endPos);
+            // reverse player
+            $this->player1Move = !$this->player1Move;
         }
     }
 
@@ -159,13 +178,13 @@ class GameLogic
     }
 
     // check whether player can any move by piece in this position
-    public function canMove(int $pos, bool $player): bool
+    public function canMove(int $pos, bool $player1): bool
     {
         $playerCanMove = False;
         // for directions king
         $dirs = [Self::MOVENE, Self::MOVENW, Self::MOVESE, Self::MOVESW];
-        if (!$this->isGivenKing($pos, $player))
-            $dirs = $player ? [Self::MOVENE, Self::MOVENW] :
+        if (!$this->isGivenKing($pos, $player1))
+            $dirs = $player1 ? [Self::MOVENE, Self::MOVENW] :
                 [Self::MOVESE, Self::MOVESW];
         // checker we can any move in these directions
         foreach ($dirs as $dir)
@@ -185,7 +204,7 @@ class GameLogic
                 if ($nextp < 0)
                     break; // no move
                 // if oponent piece in next place
-                if ($this->isGivenPlayerPiece($pos, !$player))
+                if ($this->isGivenPlayerPiece($pos, !$player1))
                 {
                     $nextp = Self::goNext($nextp, $dir);
                     if ($nextp >= 0 && $this->state[$pos] == ' ')
@@ -210,7 +229,7 @@ class GameLogic
                 if (!$this->isPlayerPiece($pos))
                     continue;
                 // if player piece
-                if ($this->canMove($pos, $p==1))
+                if ($this->canMove($pos, $p==0))
                 {
                     $playersCanMove[$p] = True;
                     break;
@@ -272,10 +291,10 @@ class GameLogic
         return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
     }
 
-    public static function isGivenPlayerPiece(int $pos, bool $player): bool
+    public static function isGivenPlayerPiece(int $pos, bool $player1): bool
     {
-        $opMen = $player ? 'w' : 'b';
-        $opKing = $player ? 'W' : 'B';
+        $opMen = $player1 ? 'w' : 'b';
+        $opKing = $player1 ? 'W' : 'B';
         return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
     }
 
@@ -284,9 +303,9 @@ class GameLogic
         return $this->player1Move ? $this->state[$pos] == 'W' : 'B';
     }
 
-    public function isGivenKing(int $pos, bool $player): bool
+    public function isGivenKing(int $pos, bool $player1): bool
     {
-        return $player ? $this->state[$pos] == 'W' : 'B';
+        return $player1 ? $this->state[$pos] == 'W' : 'B';
     }
 
     public function findFirstBeatPos(int $pos, int $dir, bool $king = False): array
@@ -311,12 +330,12 @@ class GameLogic
                 $nextp = [];    // not found for men
         }
         if ($nextp < 0)
-            return [];  // not found beat hit
+            return NULL;  // not found beat hit
 
         // check what is after oponent piece
         $afterPiece = Self::goNext($nextp, $dir);
         if ($afterPiece < 0 || $this->state[$afterPiece] != ' ')
-            return -1;  // no free place after piece
+            return NULL;  // no free place after piece
         // if free
         return [ $nextp, $afterPiece ];
     }
@@ -369,7 +388,7 @@ class GameLogic
     {
         $beat = $this->findFirstBeatPos($pos, $dir, $king);
         // check whether new beat can be done
-        if (count($beat) == 0 || in_array($beat[0], $beatArray))
+        if ($beat === NULL || in_array($beat[0], $beatArray))
         {
             // if beat not found in this position or duplicate in piece then
             // register sequence in outArray and go back
