@@ -789,7 +789,7 @@ class GameLogicTest extends TestCase
         $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
     }
 
-    // test GameLogic::findFirstBeatPos
+    // test GameLogic::nextFirstBeatPos
     public function testNextBeatPos()
     {
         $this->assertEquals(GameLogic::MOVENE,
@@ -823,5 +823,90 @@ class GameLogicTest extends TestCase
         $this->assertEquals(GameLogic::MOVENW,
                     GameLogic::nextBeatDir(4, GameLogic::MOVESW));
         $this->assertEquals(-1, GameLogic::nextBeatDir(0, GameLogic::MOVESW));
+    }
+
+    public function testFindFirstBeatPos()
+    {
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $state[56] = 'w';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $state[56] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals([56, 67],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $state[67] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $state[78] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        // if king
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $state[56] = 'w';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $state[56] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals([56, 67],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $state[67] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals([67, 78],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $state[78] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals([78, 89],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $state[56] = 'w';
+        $state[78] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $state[67] = 'w';
+        $state[78] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'W';
+        $state[89] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
     }
 }

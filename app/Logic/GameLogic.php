@@ -338,28 +338,31 @@ class GameLogic
         return $this->state[$pos] == ($player1 ? 'W' : 'B');
     }
 
-    public function findFirstBeatPos(int $pos, int $dir, bool $king = False): array
+    public function findFirstBeatPos(int $pos, int $dir, bool $king = False)
     {
-        $men = getCompetitionMen();
         $nextp = $pos;
         $foundOpPiece = False;
         if (($nextp = Self::goNext($nextp, $dir)) >= 0)
-             if (isOponentPiece($nextp))
+             if ($this->isOponentPiece($nextp))
                 $foundOpPiece = True;
 
         if (!$foundOpPiece)
         {
-            if ($king)
+            if ($king && $nextp >= 0 && $this->state[$nextp] == ' ')
                 // for king, check for all position cross line
+                // and if second position is empty
                 while (($nextp = Self::goNext($nextp, $dir)) >= 0)
                 {
-                    if (isOponentPiece($nextp))
-                    break;
+                    if ($this->isOponentPiece($nextp))
+                    {
+                        $foundOpPiece = True;
+                        break;
+                    }
+                    else if ($this->state[$nextp] != ' ')
+                        break; // if your piece
                 }
-            else
-                $nextp = [];    // not found for men
         }
-        if ($nextp < 0)
+        if (!$foundOpPiece)
             return NULL;  // not found beat hit
 
         // check what is after oponent piece
