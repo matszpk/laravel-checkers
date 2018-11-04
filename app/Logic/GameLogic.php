@@ -29,20 +29,32 @@ class GameLogic
     public const DRAW = 3;
     public const NOTEND = 0;
 
+    public static function fromData(array $newState,
+                bool $newPlayer1Move, $newLastBeat)
+    {
+        $gameLogic = new Self();
+        $gameLogic->state = $newState;
+        $gameLogic->player1Move = $newPlayer1Move;
+        $gameLogic->lastBeat = $newLastBeat;
+        return $gameLogic;
+    }
+
     // player1 plays whites, player2 playes blacks
     public function startState()
     {
         $this->player1Move = True;
         $this->lastBeat = NULL;
         $this->state = [
-           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
-           ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
-           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
-           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
-           'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
-           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
+           'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
     }
 
@@ -68,7 +80,7 @@ class GameLogic
             if ($this->lastBeat[1] != $pos)
                 throw new GameException('This is not best beat');
             // only for after last beat move
-            $this->findBestBeatsSeqs($$this->lastBeat[1],
+            $this->findBestBeatsSeqs($this->lastBeat[1],
                     $mandatoryBeatStarts, $mandatoryBeats);
         }
 
@@ -280,14 +292,14 @@ class GameLogic
     public function isOponentPiece(int $pos): bool
     {
         $opMen = $this->player1Move ? 'b' : 'w';
-        $opKing = $this->player2Move ? 'b' : 'w';
+        $opKing = $this->player1Move ? 'B' : 'W';
         return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
     }
 
     public function isPlayerPiece(int $pos): bool
     {
         $opMen = $this->player1Move ? 'w' : 'b';
-        $opKing = $this->player2Move ? 'W' : 'B';
+        $opKing = $this->player1Move ? 'W' : 'B';
         return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
     }
 
