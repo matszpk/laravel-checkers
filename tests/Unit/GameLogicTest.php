@@ -788,4 +788,40 @@ class GameLogicTest extends TestCase
         $gameLogic = GameLogic::fromData($state, True, NULL);
         $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
     }
+
+    // test GameLogic::findFirstBeatPos
+    public function testNextBeatPos()
+    {
+        $this->assertEquals(GameLogic::MOVENE,
+                    GameLogic::nextBeatDir(45, GameLogic::MOVENE));
+        $this->assertEquals(GameLogic::MOVENW,
+                    GameLogic::nextBeatDir(39, GameLogic::MOVENE));
+        $this->assertEquals(GameLogic::MOVESE,
+                    GameLogic::nextBeatDir(94, GameLogic::MOVENE));
+        $this->assertEquals(-1, GameLogic::nextBeatDir(99, GameLogic::MOVENE));
+
+        $this->assertEquals(GameLogic::MOVENW,
+                    GameLogic::nextBeatDir(45, GameLogic::MOVENW));
+        $this->assertEquals(GameLogic::MOVENE,
+                    GameLogic::nextBeatDir(30, GameLogic::MOVENW));
+        $this->assertEquals(GameLogic::MOVESW,
+                    GameLogic::nextBeatDir(94, GameLogic::MOVENW));
+        $this->assertEquals(-1, GameLogic::nextBeatDir(90, GameLogic::MOVENW));
+
+        $this->assertEquals(GameLogic::MOVESE,
+                    GameLogic::nextBeatDir(45, GameLogic::MOVESE));
+        $this->assertEquals(GameLogic::MOVESW,
+                    GameLogic::nextBeatDir(39, GameLogic::MOVESE));
+        $this->assertEquals(GameLogic::MOVENE,
+                    GameLogic::nextBeatDir(4, GameLogic::MOVESE));
+        $this->assertEquals(-1, GameLogic::nextBeatDir(9, GameLogic::MOVESE));
+
+        $this->assertEquals(GameLogic::MOVESW,
+                    GameLogic::nextBeatDir(45, GameLogic::MOVESW));
+        $this->assertEquals(GameLogic::MOVESE,
+                    GameLogic::nextBeatDir(30, GameLogic::MOVESW));
+        $this->assertEquals(GameLogic::MOVENW,
+                    GameLogic::nextBeatDir(4, GameLogic::MOVESW));
+        $this->assertEquals(-1, GameLogic::nextBeatDir(0, GameLogic::MOVESW));
+    }
 }

@@ -385,25 +385,21 @@ class GameLogic
                     return -1; // NE corner
                 // reflect direction
                 return ($xi+1 >= Self::BOARDDIM) ? Self::MOVENW : Self::MOVESE;
-                break;
             case Self::MOVESE:
                 if ($xi+1 >= Self::BOARDDIM && $yi-1 < 0)
                     return -1; // SE corner
                 // reflect direction
-                return ($xi+1 >= Self::BOARDDIM) ? Self::MOVESW : Self::MOVENW;
-                break;
+                return ($xi+1 >= Self::BOARDDIM) ? Self::MOVESW : Self::MOVENE;
             case Self::MOVENW:
                 if ($xi-1 < 0 && $yi+1 >= Self::BOARDDIM)
                     return -1;  // NW corner
                 // reflect direction
-                return ($xi < 0) ? Self::MOVENE : Self::MOVESW;
-                break;
+                return ($xi-1 < 0) ? Self::MOVENE : Self::MOVESW;
             case Self::MOVESW:
                 if ($xi-1 < 0 && $yi-1 < 0)
                     return -1;  /// SW corner
                 // reflect direction
-                return ($xi < 0) ? Self::MOVESE : Self::MOVENE;
-                break;
+                return ($xi-1 < 0) ? Self::MOVESE : Self::MOVENW;
         }
     }
 
