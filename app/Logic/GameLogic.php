@@ -203,28 +203,28 @@ class GameLogic
         if (!$this->isGivenKing($pos, $player1))
             $dirs = $player1 ? [Self::MOVENE, Self::MOVENW] :
                 [Self::MOVESE, Self::MOVESW];
-        // checker we can any move in these directions
+        // check we can any move in these directions
         foreach ($dirs as $dir)
         {
             $nextp = Self::goNext($pos, $dir);
-            if ($nextp >= 0)
+            if ($nextp >= 0 && $this->state[$nextp] == ' ')
             {
                 $playerCanMove = True;
                 break;
             }
         }
-        if (!$canMove)
+        if (!$playerCanMove)
             // check we can beats
             for ($dir = 0; $dir < 4; $dir++)
             {
                 $nextp = Self::goNext($pos, $dir);
                 if ($nextp < 0)
-                    break; // no move
+                    continue; // no move
                 // if oponent piece in next place
-                if ($this->isGivenPlayerPiece($pos, !$player1))
+                if ($this->isGivenPlayerPiece($nextp, !$player1))
                 {
                     $nextp = Self::goNext($nextp, $dir);
-                    if ($nextp >= 0 && $this->state[$pos] == ' ')
+                    if ($nextp >= 0 && $this->state[$nextp] == ' ')
                     {
                         $playerCanMove = True;
                         break;
