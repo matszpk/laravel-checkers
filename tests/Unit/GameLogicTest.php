@@ -49,7 +49,7 @@ class GameLogicTest extends TestCase
         $this->assertEquals(-1, GameLogic::goNext(0, GameLogic::MOVESW));
     }
 
-    // test GameLogic::isOponentPiece
+    // test GameLogic::isPlayerPiece
     public function testIsPlayerPiece()
     {
         $gameLogic = new GameLogic();
@@ -109,5 +109,111 @@ class GameLogicTest extends TestCase
         $this->assertTrue($gameLogic->isOponentPiece(15));
         $this->assertFalse($gameLogic->isOponentPiece(44));
         $this->assertFalse($gameLogic->isOponentPiece(73));
+    }
+
+    // test GameLogic::isGivenPlayerPiece
+    public function testIsGivenPlayerPiece()
+    {
+        $gameLogic = new GameLogic();
+        $this->assertTrue($gameLogic->isGivenPlayerPiece(71, False));
+        $this->assertFalse($gameLogic->isGivenPlayerPiece(72, False));
+        $this->assertFalse($gameLogic->isGivenPlayerPiece(11, False));
+        $state = [
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
+           'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
+        ];
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertTrue($gameLogic->isGivenPlayerPiece(84, False));
+        $this->assertFalse($gameLogic->isGivenPlayerPiece(85, False));
+        $this->assertFalse($gameLogic->isGivenPlayerPiece(13, False));
+
+        $this->assertTrue($gameLogic->isGivenPlayerPiece(13, True));
+        $this->assertTrue($gameLogic->isGivenPlayerPiece(15, True));
+        $this->assertFalse($gameLogic->isGivenPlayerPiece(44, True));
+        $this->assertFalse($gameLogic->isGivenPlayerPiece(73, True));
+    }
+
+    // test GameLogic::isKing
+    public function testIsKing()
+    {
+        $state = [
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
+           'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
+        ];
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertFalse($gameLogic->isKing(84));
+        $this->assertFalse($gameLogic->isKing(85));
+        $this->assertTrue($gameLogic->isKing(13));
+        $this->assertFalse($gameLogic->isKing(15));
+
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertTrue($gameLogic->isKing(84));
+        $this->assertFalse($gameLogic->isKing(85));
+        $this->assertFalse($gameLogic->isKing(13));
+        $this->assertFalse($gameLogic->isKing(15));
+    }
+
+    // test GameLogic::isGivenKing
+    public function testIsGivenKing()
+    {
+        $state = [
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
+           'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
+        ];
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertFalse($gameLogic->isGivenKing(84, True));
+        $this->assertFalse($gameLogic->isGivenKing(85, True));
+        $this->assertTrue($gameLogic->isGivenKing(13, True));
+        $this->assertFalse($gameLogic->isGivenKing(15, True));
+
+        $this->assertTrue($gameLogic->isGivenKing(84, False));
+        $this->assertFalse($gameLogic->isGivenKing(85, False));
+        $this->assertFalse($gameLogic->isGivenKing(13, False));
+        $this->assertFalse($gameLogic->isGivenKing(15, False));
+    }
+
+    public function handlePromotionEqual($pos, $player1, $initial, $expected)
+    {
+        $state = array_fill(0, 100, ' ');
+        $state[$pos] = $initial;
+        $gameLogic = GameLogic::fromData($state, $player1, NULL);
+        $gameLogic->handlePromotion($pos);
+        $this->assertEquals($expected, $gameLogic->getState()[$pos]);
+    }
+
+    // test GameLogic::handlePromotion (to king)
+    public function testHandlePromotion()
+    {
+        $this->handlePromotionEqual(85, True, 'w', 'w');
+        $this->handlePromotionEqual(5, True, 'w', 'w');
+        $this->handlePromotionEqual(95, True, 'w', 'W');
+
+        $this->handlePromotionEqual(15, False, 'b', 'b');
+        $this->handlePromotionEqual(95, False, 'b', 'b');
+        $this->handlePromotionEqual(5, False, 'b', 'B');
     }
 }

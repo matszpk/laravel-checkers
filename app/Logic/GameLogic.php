@@ -58,6 +58,11 @@ class GameLogic
         ];
     }
 
+    public function getState()
+    {
+        return $this->state;
+    }
+
     public function makeMove(int $startPos, int $endPos)
     {
         // check startPos and endPos
@@ -184,7 +189,7 @@ class GameLogic
     {
         $y = intdiv($pos, Self::BOARDDIM);
         if (($this->player1Move && $y == Self::BOARDDIM-1) ||
-            ($this->player2Move && $y == 0))
+            (!$this->player1Move && $y == 0))
             // make men to king
             $this->state[$pos] = strtoupper($this->state[$pos]);
     }
@@ -303,7 +308,7 @@ class GameLogic
         return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
     }
 
-    public static function isGivenPlayerPiece(int $pos, bool $player1): bool
+    public function isGivenPlayerPiece(int $pos, bool $player1): bool
     {
         $opMen = $player1 ? 'w' : 'b';
         $opKing = $player1 ? 'W' : 'B';
@@ -312,12 +317,12 @@ class GameLogic
 
     public function isKing(int $pos): bool
     {
-        return $this->player1Move ? $this->state[$pos] == 'W' : 'B';
+        return $this->state[$pos] == ($this->player1Move ? 'W' : 'B');
     }
 
     public function isGivenKing(int $pos, bool $player1): bool
     {
-        return $player1 ? $this->state[$pos] == 'W' : 'B';
+        return $this->state[$pos] == ($player1 ? 'W' : 'B');
     }
 
     public function findFirstBeatPos(int $pos, int $dir, bool $king = False): array
