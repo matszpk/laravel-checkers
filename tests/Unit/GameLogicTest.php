@@ -766,5 +766,26 @@ class GameLogicTest extends TestCase
            ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' '
         ], True, NULL);
         $this->assertEquals(GameLogic::DRAW, $gameLogic->checkGameEnd());
+        // same
+        $state = array_fill(0, 100, ' ');
+        $state[15] = 'w';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals(GameLogic::PLAYER1WIN, $gameLogic->checkGameEnd());
+        // same
+        $state = array_fill(0, 100, ' ');
+        $state[85] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
+
+        // same
+        $state = array_fill(0, 100, ' ');
+        $state[95] = 'w';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals(GameLogic::PLAYER1WIN, $gameLogic->checkGameEnd());
+        // same
+        $state = array_fill(0, 100, ' ');
+        $state[5] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
     }
 }

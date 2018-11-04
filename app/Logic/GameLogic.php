@@ -238,6 +238,7 @@ class GameLogic
     public function checkGameEnd(): int
     {
         $playersCanMove = [False, False];
+        $playerHavePieces = [False, False];
         for ($p = 0; $p < 2; $p++)
         {
             // p is player number (0 or 1)
@@ -245,6 +246,7 @@ class GameLogic
             {
                 if (!$this->isGivenPlayerPiece($pos, $p==0))
                     continue;
+                $playerHavePieces[$p] = True;
                 // if player piece
                 if ($this->canMove($pos, $p==0))
                 {
@@ -253,11 +255,22 @@ class GameLogic
                 }
             }
         }
-        if (!$playersCanMove[0] && $playersCanMove[1])
-            return Self::PLAYER2WIN; //
-        else if ($playersCanMove[0] && !$playersCanMove[1])
-            return Self::PLAYER1WIN; //
-        else if (!$playersCanMove[0] && !$playersCanMove[1])
+        if ($playerHavePieces[0] && $playerHavePieces[1])
+        {
+            // if all players have pieces
+            if (!$playersCanMove[0] && $playersCanMove[1])
+                return Self::PLAYER2WIN; //
+            else if ($playersCanMove[0] && !$playersCanMove[1])
+                return Self::PLAYER1WIN; //
+            else if (!$playersCanMove[0] && !$playersCanMove[1])
+                return Self::DRAW;
+        }
+        // otherwise
+        else if ($playerHavePieces[0])
+            return Self::PLAYER1WIN;
+        else if ($playerHavePieces[1])
+            return Self::PLAYER2WIN;
+        else
             return Self::DRAW;
         return Self::NOTEND;
     }
