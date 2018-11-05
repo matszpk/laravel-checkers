@@ -63,6 +63,11 @@ class GameLogic
         return $this->state;
     }
 
+    public function isPlayer1MakeMove()
+    {
+        return $this->player1Move;
+    }
+
     public function makeMove(int $startPos, int $endPos)
     {
         // check startPos and endPos
@@ -152,6 +157,8 @@ class GameLogic
                         $startPos - Self::BOARDDIM+1 != $endPos)
                         throw new GameException('Wrong end position');
                 }
+                if ($this->state[$endPos] != ' ')
+                    throw new GameException('No free field in end position');
             }
             else // for King
             {
@@ -165,7 +172,7 @@ class GameLogic
                     {
                         if ($this->state[$nextp] == ' ')
                         {
-                            if ($nextp == $endpos)
+                            if ($nextp == $endPos)
                             {
                                 $endPosFound = True;
                                 break;
@@ -176,8 +183,9 @@ class GameLogic
                     }
                 }
                 if (!$endPosFound)
-                    throw new GameExceptin('Wrong end position');
+                    throw new GameException('Wrong end position');
             }
+
             // make
             $piece = $this->state[$startPos];
             $this->state[$startPos] = ' ';
