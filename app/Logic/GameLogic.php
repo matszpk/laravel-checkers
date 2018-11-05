@@ -406,6 +406,9 @@ class GameLogic
         }
     }
 
+    private $countx;
+    private $levelx;
+
     // internal
     // find best beat sequence from specified position in  specified direction
     // beatArray - oponent piece position which have benn beaten
@@ -419,42 +422,71 @@ class GameLogic
         if ($dir >= 0)
             $beat = $this->findFirstBeatPos($pos, $dir, $king);
         // check whether new beat can be done
-        if ($beat === NULL || in_array($beat[0], $beatArray))
+        echo "levelx:", $this->levelx, ", countx:", $this->countx, "\n";
+        $this->countx++;
+
+        $haveBeat = False;
+        if ($beat !== NULL && !in_array($beat[0], $beatArray))
         {
-            // if beat not found in this position or duplicate in piece then
-            // register sequence in outArray and go back
-            if (count($outBeatArray) != 0)
+            // if we have beat and is not duplicate
+            if ($this->countx >= 40)
+                return;
+            $haveBeat = True;
+            // if we have beat, then push into arrays
+            echo "beat:", var_export($beat, True), "\n",
+                    "beatarray: ", var_export($beatArray, True),
+                    "\nstartarray:", var_export($startArray, True), "\n";
+            array_push($beatArray, $beat[0]);
+            array_push($startArray, $pos);
+            $haveNextBeats = False;
+            for ($dir = 0; $dir < 4; $dir++)
             {
-                if (count($outBeatArray[0]) < count($beatArray))
-                {
-                    // if better
-                    $outStartArray = [$startArray];
-                    $outBeatArray = [$beatArray]; // clear and put
-                }
-                else if (count($outBeatArray[0]) == count($beatArray))
-                {
-                    // just put
-                    array_push($outStartArray, $startArray);
-                    array_push($outBeatArray, $beatArray);
-                }
-            }
-            else // just put
-            {
-                $outStartArray = [$startArray];
-                $outBeatArray = [$beatArray];
+                echo "Nextdepth in ", $dir, "\n";
+                $this->levelx++;
+                $haveNextBeats |= $this->findBestBeatSeqsInt($beat[1], $dir, $startArray,
+                        $beatArray, $outStartArray, $outBeatArray, $king);
             }
 
-            // go back
-            if (count($beatArray) != 0)
-                array_pop($beatArray);
-            return;
+            if (!$haveNextBeats)
+            {
+                // no more next beats, put this result
+                if (count($beatArray) != 0)
+                {
+                    echo "----\nput:\n",
+                        "  beatarray: ", var_export($beatArray, True),
+                        "\n  startarray:", var_export($startArray, True), "\n";
+                    // put only if we have some beat
+                    if (count($outBeatArray) != 0)
+                    {
+                        if (count($outBeatArray[0]) < count($beatArray))
+                        {
+                            // if better
+                            $outStartArray = [$startArray];
+                            $outBeatArray = [$beatArray]; // clear and put
+                        }
+                        else if (count($outBeatArray[0]) == count($beatArray))
+                        {
+                            // just put
+                            array_push($outStartArray, $startArray);
+                            array_push($outBeatArray, $beatArray);
+                        }
+                    }
+                    else // just put
+                    {
+                        $outStartArray = [$startArray];
+                        $outBeatArray = [$beatArray];
+                    }
+                }
+            }
+
+            array_pop($startArray);
+            array_pop($beatArray);
         }
-        // if we have beat, then push into arrays
-        array_push($beatArray, $beat[0]);
-        array_push($startArray, $pos);
-        $nextdir = Self::nextBeatDir($beat[1], $dir);
-        $this->findBestBeatSeqsInt($beat[1], $nextdir, $startArray, $beatArray,
-                $outStartArray, $outBeatArray, $king);
+        //if ($beat !== NULL)
+            //echo "inarray: ", in_array($beat[0], $beatArray), "\n";
+
+        $this->levelx--;
+        return $haveBeat;
     }
 
     // find best beat sequence from specified position in  specified direction
@@ -463,13 +495,20 @@ class GameLogic
                 array& $outStartArray, array& $outBeatArray)
     {
         $king = $this->isKing($pos);
-        // find best sequence for NE
+        // before test, we remove piece from board
+        $piece = $this->state[$pos];
+        $this->state[$pos] = ' ';
         for ($dir = 0; $dir < 4; $dir++)
         {
+            echo "Next find for ", $dir, "\n";
+            $this->countx = 0;
+            $this->levelx = 0;
             $startArray = [];
             $beatArray = [];
             $this->findBestBeatSeqsInt($pos, $dir, $startArray, $beatArray,
                         $outStartArray, $outBeatArray, $king);
         }
+        // put back after test
+        $this->state[$pos] = $piece;
     }
 };

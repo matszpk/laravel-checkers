@@ -1031,5 +1031,41 @@ class GameLogicTest extends TestCase
         $gameLogic->findBestBeatsSeqs(24, $outStartArray, $outBeatArray);
         $this->assertEquals([[24, 42], [24, 2]], $outStartArray);
         $this->assertEquals([[33, 51], [13, 11]], $outBeatArray);
+
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', 'b',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', 'b',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(18, $outStartArray, $outBeatArray);
+        $this->assertEquals([[18]], $outStartArray);
+        $this->assertEquals([[27]], $outBeatArray);
+
+        /*$gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', ' ', ' ', 'b', ' ', 'b', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(18, $outStartArray, $outBeatArray);
+        $this->assertEquals([[18]], $outStartArray);
+        $this->assertEquals([[27]], $outBeatArray);*/
     }
 }
