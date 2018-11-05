@@ -838,9 +838,30 @@ class GameLogicTest extends TestCase
         $gameLogic = GameLogic::fromData($state, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
+        // oponent piece in other direction
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $state[54] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        // oponent piece in other direction
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $state[34] = 'B';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
         $state = array_fill(0, 100, ' ');
         $state[45] = 'w';
         $state[56] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $this->assertEquals([56, 67],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'w';
+        $state[56] = 'B';
         $gameLogic = GameLogic::fromData($state, True, NULL);
         $this->assertEquals([56, 67],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
@@ -934,5 +955,81 @@ class GameLogicTest extends TestCase
         $state[49] = 'w';
         $gameLogic = GameLogic::fromData($state, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+
+        /////////////////////////////////////////
+        /* blacks */
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'b';
+        $state[36] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+
+        // oponent piece in other direction
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'b';
+        $state[34] = 'w';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'b';
+        $state[36] = 'w';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertEquals([36, 27],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+
+        //////////////////////////////////////
+        // if king
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'B';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'B';
+        $state[34] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'B';
+        $state[34] = 'w';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertEquals([34, 23],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+
+        $state = array_fill(0, 100, ' ');
+        $state[45] = 'B';
+        $state[23] = 'w';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->assertEquals([23, 12],
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+    }
+
+    // test GameLogic::findBestBeatSeqs
+    public function testFindBestBeatSeqs()
+    {
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(24, $outStartArray, $outBeatArray);
+        $this->assertEquals([[24, 42], [24, 2]], $outStartArray);
+        $this->assertEquals([[33, 51], [13, 11]], $outBeatArray);
     }
 }

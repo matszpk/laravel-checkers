@@ -415,7 +415,9 @@ class GameLogic
             array& $startArray, array& $beatArray,
             array& $outStartArray, array& $outBeatArray, $king)
     {
-        $beat = $this->findFirstBeatPos($pos, $dir, $king);
+        $beat = NULL;
+        if ($dir >= 0)
+            $beat = $this->findFirstBeatPos($pos, $dir, $king);
         // check whether new beat can be done
         if ($beat === NULL || in_array($beat[0], $beatArray))
         {
@@ -450,10 +452,9 @@ class GameLogic
         // if we have beat, then push into arrays
         array_push($beatArray, $beat[0]);
         array_push($startArray, $pos);
-        $nextdir = Self::nextBeatDir($pos, $dir);
-        if ($nextdir >= 0)
-            $this->findBestBeatSeqsInt($beat[1], $nextdir, $startArray, $beatArray,
-                    $outStartArray, $outBeatArray, $king);
+        $nextdir = Self::nextBeatDir($beat[1], $dir);
+        $this->findBestBeatSeqsInt($beat[1], $nextdir, $startArray, $beatArray,
+                $outStartArray, $outBeatArray, $king);
     }
 
     // find best beat sequence from specified position in  specified direction
@@ -467,7 +468,7 @@ class GameLogic
         {
             $startArray = [];
             $beatArray = [];
-            $this->findBestBeatSeqsInt($pos, Self::MOVENE, $startArray, $beatArray,
+            $this->findBestBeatSeqsInt($pos, $dir, $startArray, $beatArray,
                         $outStartArray, $outBeatArray, $king);
         }
     }
