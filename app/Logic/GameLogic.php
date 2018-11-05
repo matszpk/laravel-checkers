@@ -68,6 +68,11 @@ class GameLogic
         return $this->player1Move;
     }
 
+    public function getLastBeat()
+    {
+        return $this->lastBeat;
+    }
+
     public function makeMove(int $startPos, int $endPos)
     {
         // check startPos and endPos
@@ -91,7 +96,7 @@ class GameLogic
         else
         {
             if ($this->lastBeat[1] != $startPos)
-                throw new GameException('This is not best beat');
+                throw new GameException('Move is not a mandatory beat');
             // only for after last beat move
             $this->findBestBeatsSeqs($this->lastBeat[1],
                     $mandatoryBeatStarts, $mandatoryBeats);
@@ -124,7 +129,7 @@ class GameLogic
                         $beatFound = True;
                 }
             if (!$beatFound)
-                throw new GameException('Move is not a mandary beat');
+                throw new GameException('Move is not a mandatory beat');
             // make move
             $piece = $this->state[$startPos];
             $this->state[$startPos] = ' ';
@@ -137,7 +142,11 @@ class GameLogic
                 $this->handlePromotion($endPos);
                 // and reverse player
                 $this->player1Move = !$this->player1Move;
+                $this->lastBeat = NULL; // clear lastBeat if last beat in sequence
             }
+            else
+                // this is not end of beating
+                $this->lastBeat = [$beatPos, $endPos];
         }
         else
         {

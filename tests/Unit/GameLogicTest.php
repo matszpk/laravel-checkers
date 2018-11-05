@@ -1219,6 +1219,7 @@ class GameLogicTest extends TestCase
         $expState[53] = 'w';
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
 
         $state = array_fill(0, 100, ' ');
         $state[75] = 'w';
@@ -1229,6 +1230,7 @@ class GameLogicTest extends TestCase
         $expState[97] = 'W'; // handle promotion
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
 
         $state = array_fill(0, 100, ' ');
         $state[65] = 'w';
@@ -1239,6 +1241,60 @@ class GameLogicTest extends TestCase
         $expState[87] = 'w';
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
+
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'w';
+        $state[86] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(75, 97);
+        $expState = array_fill(0, 100, ' ');
+        $expState[97] = 'W';    // promotion
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
+
+        // double beat (do not change player)
+        $state = array_fill(0, 100, ' ');
+        $state[65] = 'w';
+        $state[54] = 'b';
+        $state[32] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(65, 43);
+        $expState = array_fill(0, 100, ' ');
+        $expState[43] = 'w';
+        $expState[32] = 'b';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertTrue($gameLogic->isPlayer1MakeMove());
+        $this->assertEquals([54, 43], $gameLogic->getLastBeat());
+        // next beat
+        $gameLogic->makeMove(43, 21);
+        $expState = array_fill(0, 100, ' ');
+        $expState[21] = 'w';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
+
+        // double beat (do not change player)
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'w';
+        $state[86] = 'b';
+        $state[88] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(75, 97);
+        $expState = array_fill(0, 100, ' ');
+        $expState[97] = 'w';    // no promotion (not last beat)
+        $expState[88] = 'b';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertTrue($gameLogic->isPlayer1MakeMove());
+        $this->assertEquals([86, 97], $gameLogic->getLastBeat());
+        // next beat
+        $gameLogic->makeMove(97, 79);
+        $expState = array_fill(0, 100, ' ');
+        $expState[79] = 'w';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
     }
 
     public function testMakeMoveWrongEndPos()
@@ -1291,5 +1347,49 @@ class GameLogicTest extends TestCase
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('No free field in end position');
         $gameLogic->makeMove(13, 24);
+    }
+
+    public function testMakeMoveNoNextBeat()
+    {
+        // double beat (do not change player)
+        $state = array_fill(0, 100, ' ');
+        $state[65] = 'w';
+        $state[54] = 'b';
+        $state[32] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(65, 43);
+        $expState = array_fill(0, 100, ' ');
+        $expState[43] = 'w';
+        $expState[32] = 'b';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertTrue($gameLogic->isPlayer1MakeMove());
+        $this->assertEquals([54, 43], $gameLogic->getLastBeat());
+        // next beat
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Move is not a mandatory beat');
+        $gameLogic->makeMove(43, 52);
+    }
+
+    public function testMakeMoveNoNextBeat2()
+    {
+        // double beat (do not change player)
+        $state = array_fill(0, 100, ' ');
+        $state[65] = 'w';
+        $state[11] = 'w';
+        $state[54] = 'b';
+        $state[32] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(65, 43);
+        $expState = array_fill(0, 100, ' ');
+        $expState[11] = 'w';
+        $expState[43] = 'w';
+        $expState[32] = 'b';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertTrue($gameLogic->isPlayer1MakeMove());
+        $this->assertEquals([54, 43], $gameLogic->getLastBeat());
+        // next beat
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Move is not a mandatory beat');
+        $gameLogic->makeMove(11, 20);
     }
 }
