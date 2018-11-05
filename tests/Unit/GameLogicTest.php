@@ -789,42 +789,7 @@ class GameLogicTest extends TestCase
         $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
     }
 
-    // test GameLogic::nextFirstBeatPos
-    public function testNextBeatPos()
-    {
-        $this->assertEquals(GameLogic::MOVENE,
-                    GameLogic::nextBeatDir(45, GameLogic::MOVENE));
-        $this->assertEquals(GameLogic::MOVENW,
-                    GameLogic::nextBeatDir(39, GameLogic::MOVENE));
-        $this->assertEquals(GameLogic::MOVESE,
-                    GameLogic::nextBeatDir(94, GameLogic::MOVENE));
-        $this->assertEquals(-1, GameLogic::nextBeatDir(99, GameLogic::MOVENE));
-
-        $this->assertEquals(GameLogic::MOVENW,
-                    GameLogic::nextBeatDir(45, GameLogic::MOVENW));
-        $this->assertEquals(GameLogic::MOVENE,
-                    GameLogic::nextBeatDir(30, GameLogic::MOVENW));
-        $this->assertEquals(GameLogic::MOVESW,
-                    GameLogic::nextBeatDir(94, GameLogic::MOVENW));
-        $this->assertEquals(-1, GameLogic::nextBeatDir(90, GameLogic::MOVENW));
-
-        $this->assertEquals(GameLogic::MOVESE,
-                    GameLogic::nextBeatDir(45, GameLogic::MOVESE));
-        $this->assertEquals(GameLogic::MOVESW,
-                    GameLogic::nextBeatDir(39, GameLogic::MOVESE));
-        $this->assertEquals(GameLogic::MOVENE,
-                    GameLogic::nextBeatDir(4, GameLogic::MOVESE));
-        $this->assertEquals(-1, GameLogic::nextBeatDir(9, GameLogic::MOVESE));
-
-        $this->assertEquals(GameLogic::MOVESW,
-                    GameLogic::nextBeatDir(45, GameLogic::MOVESW));
-        $this->assertEquals(GameLogic::MOVESE,
-                    GameLogic::nextBeatDir(30, GameLogic::MOVESW));
-        $this->assertEquals(GameLogic::MOVENW,
-                    GameLogic::nextBeatDir(4, GameLogic::MOVESW));
-        $this->assertEquals(-1, GameLogic::nextBeatDir(0, GameLogic::MOVESW));
-    }
-
+    // test GameLogic::findFirstBeatPos
     public function testFindFirstBeatPos()
     {
         $state = array_fill(0, 100, ' ');
@@ -1050,7 +1015,7 @@ class GameLogicTest extends TestCase
         $this->assertEquals([[18]], $outStartArray);
         $this->assertEquals([[27]], $outBeatArray);
 
-        /*$gameLogic = GameLogic::fromData([
+        $gameLogic = GameLogic::fromData([
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', ' ',
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
@@ -1064,8 +1029,18 @@ class GameLogicTest extends TestCase
         ], True, NULL);
         $outStartArray = [];
         $outBeatArray = [];
-        $gameLogic->findBestBeatsSeqs(18, $outStartArray, $outBeatArray);
-        $this->assertEquals([[18]], $outStartArray);
-        $this->assertEquals([[27]], $outBeatArray);*/
+        $gameLogic->findBestBeatsSeqs(44, $outStartArray, $outBeatArray);
+        $this->assertEquals([[44, 26, 4, 22, 44, 66],
+                             [44, 26, 4, 22, 44, 66],
+                             [44, 26, 4, 22, 44, 62],
+                             [44, 22, 4, 26, 44, 66],
+                             [44, 22, 4, 26, 44, 66],
+                             [44, 22, 4, 26, 44, 62]], $outStartArray);
+        $this->assertEquals([[35, 15, 13, 33, 55, 77],
+                             [35, 15, 13, 33, 55, 75],
+                             [35, 15, 13, 33, 53, 71],
+                             [33, 13, 15, 35, 55, 77],
+                             [33, 13, 15, 35, 55, 75],
+                             [33, 13, 15, 35, 53, 71]], $outBeatArray);
     }
 }

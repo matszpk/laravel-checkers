@@ -373,42 +373,6 @@ class GameLogic
         return [ $nextp, $afterPiece ];
     }
 
-    public static function nextBeatDir(int $pos, int $dir): int
-    {
-        if (Self::goNext($pos, $dir) >= 0)
-            return $dir;
-        // if no next, check perpendicular cross line
-
-        $xi = $pos % Self::BOARDDIM;
-        $yi = intdiv($pos,Self::BOARDDIM);
-        switch ($dir)
-        {
-            case Self::MOVENE:
-                if ($xi+1 >= Self::BOARDDIM && $yi+1 >= Self::BOARDDIM)
-                    return -1; // NE corner
-                // reflect direction
-                return ($xi+1 >= Self::BOARDDIM) ? Self::MOVENW : Self::MOVESE;
-            case Self::MOVESE:
-                if ($xi+1 >= Self::BOARDDIM && $yi-1 < 0)
-                    return -1; // SE corner
-                // reflect direction
-                return ($xi+1 >= Self::BOARDDIM) ? Self::MOVESW : Self::MOVENE;
-            case Self::MOVENW:
-                if ($xi-1 < 0 && $yi+1 >= Self::BOARDDIM)
-                    return -1;  // NW corner
-                // reflect direction
-                return ($xi-1 < 0) ? Self::MOVENE : Self::MOVESW;
-            case Self::MOVESW:
-                if ($xi-1 < 0 && $yi-1 < 0)
-                    return -1;  /// SW corner
-                // reflect direction
-                return ($xi-1 < 0) ? Self::MOVESE : Self::MOVENW;
-        }
-    }
-
-    private $countx;
-    private $levelx;
-
     // internal
     // find best beat sequence from specified position in  specified direction
     // beatArray - oponent piece position which have benn beaten
@@ -422,39 +386,29 @@ class GameLogic
         if ($dir >= 0)
             $beat = $this->findFirstBeatPos($pos, $dir, $king);
         // check whether new beat can be done
-        echo "levelx:", $this->levelx, ", countx:", $this->countx, "\n";
-        $this->countx++;
 
-        $haveBeat = False;
         if ($beat !== NULL && !in_array($beat[0], $beatArray))
         {
             // if we have beat and is not duplicate
-            if ($this->countx >= 40)
-                return;
-            $haveBeat = True;
-            // if we have beat, then push into arrays
-            echo "beat:", var_export($beat, True), "\n",
+            /*echo "beat:", var_export($beat, True), "\n",
                     "beatarray: ", var_export($beatArray, True),
-                    "\nstartarray:", var_export($startArray, True), "\n";
+                    "\nstartarray:", var_export($startArray, True), "\n";*/
+            // if we have beat, then push into arrays
             array_push($beatArray, $beat[0]);
             array_push($startArray, $pos);
             $haveNextBeats = False;
             for ($dir = 0; $dir < 4; $dir++)
-            {
-                echo "Nextdepth in ", $dir, "\n";
-                $this->levelx++;
                 $haveNextBeats |= $this->findBestBeatSeqsInt($beat[1], $dir, $startArray,
                         $beatArray, $outStartArray, $outBeatArray, $king);
-            }
 
             if (!$haveNextBeats)
             {
                 // no more next beats, put this result
                 if (count($beatArray) != 0)
                 {
-                    echo "----\nput:\n",
+                    /*echo "----\nput:\n",
                         "  beatarray: ", var_export($beatArray, True),
-                        "\n  startarray:", var_export($startArray, True), "\n";
+                        "\n  startarray:", var_export($startArray, True), "\n";*/
                     // put only if we have some beat
                     if (count($outBeatArray) != 0)
                     {
@@ -481,12 +435,11 @@ class GameLogic
 
             array_pop($startArray);
             array_pop($beatArray);
+            return True;
         }
         //if ($beat !== NULL)
             //echo "inarray: ", in_array($beat[0], $beatArray), "\n";
-
-        $this->levelx--;
-        return $haveBeat;
+        return False;
     }
 
     // find best beat sequence from specified position in  specified direction
@@ -500,9 +453,7 @@ class GameLogic
         $this->state[$pos] = ' ';
         for ($dir = 0; $dir < 4; $dir++)
         {
-            echo "Next find for ", $dir, "\n";
-            $this->countx = 0;
-            $this->levelx = 0;
+            //echo "Next find for ", $dir, "\n";
             $startArray = [];
             $beatArray = [];
             $this->findBestBeatSeqsInt($pos, $dir, $startArray, $beatArray,
