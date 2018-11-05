@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Logic\GameLogic;
+use App\Logic\GameException;
 
 class GameLogicTest extends TestCase
 {
@@ -56,6 +57,7 @@ class GameLogicTest extends TestCase
         $this->assertFalse($gameLogic->isPlayerPiece(71));
         $this->assertFalse($gameLogic->isPlayerPiece(72));
         $this->assertTrue($gameLogic->isPlayerPiece(11));
+        $this->assertTrue($gameLogic->isPlayerPiece(24));
         $state = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
@@ -1015,6 +1017,25 @@ class GameLogicTest extends TestCase
         $this->assertEquals([[18]], $outStartArray);
         $this->assertEquals([[27]], $outBeatArray);
 
+        // no beats
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(18, $outStartArray, $outBeatArray);
+        $this->assertEquals([], $outStartArray);
+        $this->assertEquals([], $outBeatArray);
+
         $gameLogic = GameLogic::fromData([
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', ' ',
@@ -1042,5 +1063,140 @@ class GameLogicTest extends TestCase
                              [33, 13, 15, 35, 55, 77],
                              [33, 13, 15, 35, 55, 75],
                              [33, 13, 15, 35, 53, 71]], $outBeatArray);
+        // blacks
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'w', ' ', 'w', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'w', ' ', 'w', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], False, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(44, $outStartArray, $outBeatArray);
+        $this->assertEquals([[44, 26, 4, 22, 44, 66],
+                             [44, 26, 4, 22, 44, 66],
+                             [44, 26, 4, 22, 44, 62],
+                             [44, 22, 4, 26, 44, 66],
+                             [44, 22, 4, 26, 44, 66],
+                             [44, 22, 4, 26, 44, 62]], $outStartArray);
+        $this->assertEquals([[35, 15, 13, 33, 55, 77],
+                             [35, 15, 13, 33, 55, 75],
+                             [35, 15, 13, 33, 53, 71],
+                             [33, 13, 15, 35, 55, 77],
+                             [33, 13, 15, 35, 55, 75],
+                             [33, 13, 15, 35, 53, 71]], $outBeatArray);
+
+        // king
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', 'W', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ',
+           ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'b',
+           ' ', ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(35, $outStartArray, $outBeatArray);
+        $this->assertEquals([[35, 71, 93, 75]], $outStartArray);
+        $this->assertEquals([[62, 82, 84, 57]], $outBeatArray);
+
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', 'W', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ',
+           ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ', 'b',
+           ' ', ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(35, $outStartArray, $outBeatArray);
+        $this->assertEquals([[35, 71]], $outStartArray);
+        $this->assertEquals([[62, 82]], $outBeatArray);
+
+        /* black king */
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', 'B', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w', ' ', ' ',
+           ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', 'w', ' ', ' ', ' ', 'w',
+           ' ', ' ', 'w', ' ', 'w', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], False, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(35, $outStartArray, $outBeatArray);
+        $this->assertEquals([[35, 71]], $outStartArray);
+        $this->assertEquals([[62, 82]], $outBeatArray);
+    }
+
+    // test GameLogic::makeMove
+    public function testMakeMove()
+    {
+        $gameLogic = new GameLogic();
+        $gameLogic->makeMove(24, 35);
+        $this->assertEquals($state = [
+           'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+           ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
+           'w', ' ', 'w', ' ', ' ', ' ', 'w', ' ', 'w', ' ',
+           ' ', ' ', ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
+           'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
+           ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
+        ], $gameLogic->getState());
+    }
+
+    public function testMakeMoveWrongEndPos()
+    {
+        $gameLogic = new GameLogic();
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Wrong end position');
+        $gameLogic->makeMove(24, 38);
+    }
+
+    public function testMakeMoveNoPlayerPiece()
+    {
+        $gameLogic = new GameLogic();
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('No player piece in start position');
+        $gameLogic->makeMove(25, 35);
+    }
+
+    public function testMakeMoveStartOutOfRange1()
+    {
+        $gameLogic = new GameLogic();
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Move positions out of range');
+        $gameLogic->makeMove(-7, 35);
+    }
+
+    public function testMakeMoveStartOutOfRange2()
+    {
+        $gameLogic = new GameLogic();
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Move positions out of range');
+        $gameLogic->makeMove(20, 120);
     }
 }

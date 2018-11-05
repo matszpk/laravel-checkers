@@ -71,7 +71,7 @@ class GameLogic
             throw new GameException('Move positions out of range');
 
         // check start position
-        if ($this->isPlayerPiece($pos))
+        if (!$this->isPlayerPiece($startPos))
             throw new GameException('No player piece in start position');
 
         // now we check whether no mandatory beats
@@ -79,10 +79,13 @@ class GameLogic
         $mandatoryBeats = [];
         if ($this->lastBeat === NULL)
             for ($pos = 0; $pos < Self::BOARDDIM*Self::BOARDDIM; $pos++)
-                $this->findBestBeatsSeqs($pos, $mandatoryBeatStarts, $mandatoryBeats);
+            {
+                if ($this->isPlayerPiece($pos))
+                    $this->findBestBeatsSeqs($pos, $mandatoryBeatStarts, $mandatoryBeats);
+            }
         else
         {
-            if ($this->lastBeat[1] != $pos)
+            if ($this->lastBeat[1] != $startPos)
                 throw new GameException('This is not best beat');
             // only for after last beat move
             $this->findBestBeatsSeqs($this->lastBeat[1],
@@ -133,7 +136,7 @@ class GameLogic
         }
         else
         {
-            if (!$this->isKing[$startPos])
+            if (!$this->isKing($startPos))
             {
                 // otherwise this a normal move (not beat) for men
                 // check end position
@@ -390,9 +393,6 @@ class GameLogic
         if ($beat !== NULL && !in_array($beat[0], $beatArray))
         {
             // if we have beat and is not duplicate
-            /*echo "beat:", var_export($beat, True), "\n",
-                    "beatarray: ", var_export($beatArray, True),
-                    "\nstartarray:", var_export($startArray, True), "\n";*/
             // if we have beat, then push into arrays
             array_push($beatArray, $beat[0]);
             array_push($startArray, $pos);
@@ -406,9 +406,6 @@ class GameLogic
                 // no more next beats, put this result
                 if (count($beatArray) != 0)
                 {
-                    /*echo "----\nput:\n",
-                        "  beatarray: ", var_export($beatArray, True),
-                        "\n  startarray:", var_export($startArray, True), "\n";*/
                     // put only if we have some beat
                     if (count($outBeatArray) != 0)
                     {
