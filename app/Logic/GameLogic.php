@@ -108,7 +108,7 @@ class GameLogic
             for ($i = 0; $i < $c; $i++)
                 if ($mandatoryBeatStarts[$i][0] == $startPos)
                 {
-                    $beatPos = $mandatoryBeats[$i][1];
+                    $beatPos = $mandatoryBeats[$i][0];
                     // next position
                     $dir = 0;
                     // determine direction
@@ -116,7 +116,7 @@ class GameLogic
                         $dir = ($startPos + Self::BOARDDIM-1 == $beatPos) ?
                             Self::MOVENW : Self::MOVENE;
                     else
-                        $dir = ($startPos - Self::BOARDDIM-1 == $beatPos) ?
+                        $dir = ($startPos - (Self::BOARDDIM-1) == $beatPos) ?
                             Self::MOVESE : Self::MOVESW;
                     // calculate position after beat
                     $afterPiece = Self::goNext($beatPos, $dir);
@@ -131,7 +131,7 @@ class GameLogic
             $this->state[$beatPos] = ' ';
             $this->state[$endPos] = $piece; // your piece
 
-            if (count($mandatoryBeats[$i][0]) == 1)
+            if (count($mandatoryBeats[0]) == 1)
             {
                 // if it last beat, we can promote if in suitable place
                 $this->handlePromotion($endPos);

@@ -1206,6 +1206,39 @@ class GameLogicTest extends TestCase
         $expState[31] = 'W';
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
+
+        /*
+         * Make beats
+         */
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'w';
+        $state[64] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(75, 53);
+        $expState = array_fill(0, 100, ' ');
+        $expState[53] = 'w';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'w';
+        $state[86] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(75, 97);
+        $expState = array_fill(0, 100, ' ');
+        $expState[97] = 'W'; // handle promotion
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+
+        $state = array_fill(0, 100, ' ');
+        $state[65] = 'w';
+        $state[76] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(65, 87);
+        $expState = array_fill(0, 100, ' ');
+        $expState[87] = 'w';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
     }
 
     public function testMakeMoveWrongEndPos()
