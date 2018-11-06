@@ -1207,6 +1207,16 @@ class GameLogicTest extends TestCase
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
 
+        // for king 3
+        $state = array_fill(0, 100, ' ');
+        $state[41] = 'W';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(41, 85);
+        $expState = array_fill(0, 100, ' ');
+        $expState[85] = 'W';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+
         /*
          * Make beats
          */
@@ -1228,6 +1238,28 @@ class GameLogicTest extends TestCase
         $gameLogic->makeMove(75, 97);
         $expState = array_fill(0, 100, ' ');
         $expState[97] = 'W'; // handle promotion
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
+
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'w';
+        $state[84] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(75, 93);
+        $expState = array_fill(0, 100, ' ');
+        $expState[93] = 'W'; // handle promotion
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertFalse($gameLogic->isPlayer1MakeMove());
+        $this->assertNull($gameLogic->getLastBeat());
+
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'w';
+        $state[66] = 'b';
+        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic->makeMove(75, 57);
+        $expState = array_fill(0, 100, ' ');
+        $expState[57] = 'w';
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
@@ -1295,6 +1327,27 @@ class GameLogicTest extends TestCase
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
+
+        /*
+         * for blacks
+         */
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $gameLogic->makeMove(75, 66);
+        $expState = array_fill(0, 100, ' ');
+        $expState[66] = 'b';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertTrue($gameLogic->isPlayer1MakeMove());
+
+        $state = array_fill(0, 100, ' ');
+        $state[75] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $gameLogic->makeMove(75, 64);
+        $expState = array_fill(0, 100, ' ');
+        $expState[64] = 'b';
+        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertTrue($gameLogic->isPlayer1MakeMove());
     }
 
     public function testMakeMoveWrongEndPos()
@@ -1305,12 +1358,50 @@ class GameLogicTest extends TestCase
         $gameLogic->makeMove(24, 38);
     }
 
+    public function testMakeMoveWrongEndPosW2()
+    {
+        $gameLogic = new GameLogic();
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Wrong end position');
+        $gameLogic->makeMove(24, 34);
+    }
+
     public function testMakeMoveNoPlayerPiece()
     {
         $gameLogic = new GameLogic();
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('No player piece in start position');
         $gameLogic->makeMove(25, 35);
+    }
+
+    public function testMakeMoveWrongEndPosX()
+    {
+        $state = array_fill(0, 100, ' ');
+        $state[55] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Wrong end position');
+        $gameLogic->makeMove(55, 45);
+    }
+
+    public function testMakeMoveWrongEndPosX2()
+    {
+        $state = array_fill(0, 100, ' ');
+        $state[55] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Wrong end position');
+        $gameLogic->makeMove(55, 66);
+    }
+
+    public function testMakeMoveWrongEndPosX3()
+    {
+        $state = array_fill(0, 100, ' ');
+        $state[55] = 'b';
+        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Wrong end position');
+        $gameLogic->makeMove(55, 33);
     }
 
     public function testMakeMoveStartOutOfRange1()
@@ -1375,7 +1466,7 @@ class GameLogicTest extends TestCase
         // double beat (do not change player)
         $state = array_fill(0, 100, ' ');
         $state[65] = 'w';
-        $state[11] = 'w';
+        $state[11] = 'w';  // not this same
         $state[54] = 'b';
         $state[32] = 'b';
         $gameLogic = GameLogic::fromData($state, True, NULL);

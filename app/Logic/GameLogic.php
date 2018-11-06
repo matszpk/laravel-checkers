@@ -451,8 +451,6 @@ class GameLogic
             array_pop($beatArray);
             return True;
         }
-        //if ($beat !== NULL)
-            //echo "inarray: ", in_array($beat[0], $beatArray), "\n";
         return False;
     }
 
