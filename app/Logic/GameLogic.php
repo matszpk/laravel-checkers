@@ -172,9 +172,8 @@ class GameLogic
             else // for King
             {
                 // check end position for the king
-                $dirs = [ Self::MOVENE, Self::MOVENW, Self::MOVESE, Self::MOVESW ];
                 $endPosFound = False;
-                foreach ($dirs as $dir)
+                for($dir = 0; $dir < 4; $dir++)
                 {
                     $nextp = $startPos;
                     while (($nextp = Self::goNext($nextp, $dir)) >= 0)
