@@ -127,6 +127,20 @@ class GameLogic
                     $afterPiece = Self::goNext($beatPos, $dir);
                     if ($endPos == $afterPiece)
                         $beatFound = True;
+                    else if ($this->isKing($startPos))
+                    {
+                        // check all position in cross line in this direction
+                        $nextp = Self::goNext($afterPiece);
+                        while ($nextp >= 0 && $this->state[$nextp] == ' ')
+                        {
+                            if ($endPos == $nextp)
+                            {
+                                $beatFound = True;
+                                break;
+                            }
+                            $nextp = Self::goNext($nextp, $dir);
+                        }
+                    }
                 }
             if (!$beatFound)
                 throw new GameException('Move is not a mandatory beat');
@@ -401,11 +415,13 @@ class GameLogic
             array& $startArray, array& $beatArray,
             array& $outStartArray, array& $outBeatArray, $king)
     {
+        $revDirs = [ Self::MOVESW, Self::MOVENW, Self::MOVESE, Self::MOVENE ];
+        $revDir = $revDirs[$dir];
         $beat = NULL;
         if ($dir >= 0)
             $beat = $this->findFirstBeatPos($pos, $dir, $king);
-        // check whether new beat can be done
 
+        // check whether new beat can be done
         if ($beat !== NULL && !in_array($beat[0], $beatArray))
         {
             // if we have beat and is not duplicate
@@ -413,9 +429,30 @@ class GameLogic
             array_push($beatArray, $beat[0]);
             array_push($startArray, $pos);
             $haveNextBeats = False;
-            for ($dir = 0; $dir < 4; $dir++)
-                $haveNextBeats |= $this->findBestBeatSeqsInt($beat[1], $dir, $startArray,
-                        $beatArray, $outStartArray, $outBeatArray, $king);
+            if (!$king)
+                for ($dir = 0; $dir < 4; $dir++)
+                {
+                    if ($dir == $revDir)
+                        continue;
+                    $haveNextBeats |= $this->findBestBeatSeqsInt($beat[1], $dir,
+                            $startArray, $beatArray, $outStartArray, $outBeatArray, $king);
+                }
+            else
+            {
+                // if king check all position in cross line in this direction
+                for ($dir = 0; $dir < 4; $dir++)
+                {
+                    if ($dir == $revDir)
+                        continue;
+                    $nextp = $beat[1];
+                    while ($nextp >= 0 && $this->state[$nextp] == ' ')
+                    {
+                        $haveNextBeats |= $this->findBestBeatSeqsInt($nextp, $dir,
+                            $startArray, $beatArray, $outStartArray, $outBeatArray, $king);
+                        $nextp = Self::goNext($nextp, $dir);
+                    }
+                }
+            }
 
             if (!$haveNextBeats)
             {

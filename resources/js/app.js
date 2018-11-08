@@ -172,7 +172,6 @@ GameLogic = {
                 var endPosFound = false;
                 for(var dir = 0; dir < 4; dir++)
                 {
-                    var dir = dirs[i];
                     var nextp = startPos;
                     while ((nextp = this.goNext(nextp, dir)) >= 0)
                     {

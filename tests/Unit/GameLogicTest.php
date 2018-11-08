@@ -925,6 +925,7 @@ class GameLogicTest extends TestCase
 
         /////////////////////////////////////////
         /* blacks */
+
         $state = array_fill(0, 100, ' ');
         $state[45] = 'b';
         $gameLogic = GameLogic::fromData($state, False, NULL);
@@ -1063,6 +1064,7 @@ class GameLogicTest extends TestCase
                              [33, 13, 15, 35, 55, 77],
                              [33, 13, 15, 35, 55, 75],
                              [33, 13, 15, 35, 53, 71]], $outBeatArray);
+
         // blacks
         $gameLogic = GameLogic::fromData([
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
@@ -1108,8 +1110,9 @@ class GameLogicTest extends TestCase
         $outStartArray = [];
         $outBeatArray = [];
         $gameLogic->findBestBeatsSeqs(35, $outStartArray, $outBeatArray);
-        $this->assertEquals([[35, 71, 93, 75]], $outStartArray);
-        $this->assertEquals([[62, 82, 84, 57]], $outBeatArray);
+        $this->assertEquals([[35, 71, 93, 75], [35, 71, 93, 66]], $outStartArray);
+        $this->assertEquals([[62, 82, 84, 57], [62, 82, 84, 57]], $outBeatArray);
+
 
         $gameLogic = GameLogic::fromData([
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
