@@ -124,6 +124,20 @@ GameLogic = {
                     afterPiece = this.goNext(beatPos, dir);
                     if (endPos == afterPiece)
                         beatFound = true;
+                    else if (this.isKing(startPos))
+                    {
+                        // check all position in cross line in this direction
+                        var nextp = this.goNext(afterPiece);
+                        while (nextp >= 0 && this.state[nextp] == ' ')
+                        {
+                            if (endPos == nextp)
+                            {
+                                beatFound = true;
+                                break;
+                            }
+                            nextp = this.goNext(nextp, dir);
+                        }
+                    }
                 }
             if (!beatFound)
                 throw 'Move is not a mandatory beat';
@@ -389,6 +403,8 @@ GameLogic = {
         return [ nextp, afterPiece ];
     },
 
+    revDirs: [ this.MOVESW, this.MOVENW, this.MOVESE, this.MOVENE ],
+
     // internal
     // find best beat sequence from specified position in  specified direction
     // beatArray - oponent piece position which have benn beaten
@@ -397,6 +413,7 @@ GameLogic = {
     findBestBeatSeqsInt: function (pos, dir, startArray, beatArray,
             outStartArray, outBeatArray, king)
     {
+        var revDir = this.revDirs[dir];
         var beat = null;
         if (dir >= 0)
             beat = this.findFirstBeatPos(pos, dir, king);
@@ -409,9 +426,30 @@ GameLogic = {
             beatArray.push(beat[0]);
             startArray.push(pos);
             var haveNextBeats = false;
-            for (var dir = 0; dir < 4; dir++)
-                haveNextBeats |= this.findBestBeatSeqsInt(beat[1], dir, startArray,
-                        beatArray, outStartArray, outBeatArray, king);
+            if (!king)
+                for (var dir = 0; dir < 4; dir++)
+                {
+                    if (revDir == dir)
+                        continue;
+                    haveNextBeats |= this.findBestBeatSeqsInt(beat[1], dir, startArray,
+                            beatArray, outStartArray, outBeatArray, king);
+                }
+            else
+            {
+                // if king check all position in cross line in this direction
+                for (var dir = 0; dir < 4; dir++)
+                {
+                    if (dir == revDir)
+                        continue;
+                    nextp = beat[1];
+                    while (nextp >= 0 && this.state[nextp] == ' ')
+                    {
+                        haveNextBeats |= this.findBestBeatSeqsInt(nextp, dir,
+                            startArray, beatArray, outStartArray, outBeatArray, king);
+                        nextp = this.goNext(nextp, dir);
+                    }
+                }
+            }
 
             if (!haveNextBeats)
             {
