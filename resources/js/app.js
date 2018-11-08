@@ -13,10 +13,10 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-function setArraySingle(arr, v)
+setArraySingle = function(arr, v)
 {
     arr.splice(0, arr.length, v);
-}
+};
 
 GameLogic = {
     MOVENE: 0,
@@ -43,8 +43,8 @@ GameLogic = {
 
     startState: function()
     {
-        this.player1Move = True;
-        this.lastBeat = NULL;
+        this.player1Move = true;
+        this.lastBeat = null;
         this.state = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
@@ -57,6 +57,18 @@ GameLogic = {
            'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
+    },
+
+    toConsoleLog: function()
+    {
+        var s = "";
+        for (var y = 0; y < this.BOARDDIM; y++)
+        {
+            for (var x = 0; x < this.BOARDDIM; x++)
+                s += this.state[x+y*this.BOARDDIM]+'|';
+            s += '\n--------------------\n';
+        };
+        console.log(s + "Player1:" + this.player1Move+"\n");
     },
 
     makeMove: function(startPos, endPos)
@@ -222,7 +234,7 @@ GameLogic = {
             // check we can beats
             for (var dir = 0; dir < 4; dir++)
             {
-                var nextp = this.goNext($pos, $dir);
+                var nextp = this.goNext(pos, dir);
                 if (nextp < 0)
                     continue; // no move
                 // if oponent piece in next place
@@ -251,7 +263,7 @@ GameLogic = {
             {
                 if (!this.isGivenPlayerPiece(pos, p==0))
                     continue;
-                playerHavePieces[p] = True;
+                playerHavePieces[p] = true;
                 // if player piece
                 if (this.canMove(pos, p==0))
                 {
@@ -340,7 +352,7 @@ GameLogic = {
 
     isGivenKing: function (pos, player1)
     {
-        return this.state[pos] == ($player1 ? 'W' : 'B');
+        return this.state[pos] == (player1 ? 'W' : 'B');
     },
 
     findFirstBeatPos: function(pos, dir, king)
@@ -363,7 +375,7 @@ GameLogic = {
                         foundOpPiece = true;
                         break;
                     }
-                    else if (this.state[$nextp] != ' ')
+                    else if (this.state[nextp] != ' ')
                         break; // if your piece
                 }
         }
@@ -391,7 +403,7 @@ GameLogic = {
             beat = this.findFirstBeatPos(pos, dir, king);
         // check whether new beat can be done
 
-        if (beat !== null && $.inArray(beat[0], $beatArray) == -1)
+        if (beat !== null && $.inArray(beat[0], beatArray) == -1)
         {
             // if we have beat and is not duplicate
             // if we have beat, then push into arrays
@@ -413,20 +425,20 @@ GameLogic = {
                         if (outBeatArray[0].length < beatArray.length)
                         {
                             // if better, clear and put
-                            setArraySingle(outStartArray, startArray);
-                            setArraySingle(outBeatArray, beatArray);
+                            setArraySingle(outStartArray, startArray.slice());
+                            setArraySingle(outBeatArray, beatArray.slice());
                         }
                         else if (outBeatArray[0].length == beatArray.length)
                         {
                             // just put
-                            outStartArray.push(startArray);
-                            outBeatArray.push(beatArray);
+                            outStartArray.push(startArray.slice());
+                            outBeatArray.push(beatArray.slice());
                         }
                     }
                     else // just put
                     {
-                        setArraySingle(outStartArray, startArray);
-                        setArraySingle(outBeatArray, beatArray);
+                        setArraySingle(outStartArray, startArray.slice());
+                        setArraySingle(outBeatArray, beatArray.slice());
                     }
                 }
             }
@@ -439,7 +451,7 @@ GameLogic = {
     },
 
     // find best beat sequence from specified position in  specified direction
-    // $outArray - array of best sequences
+    // outArray - array of best sequences
     findBestBeatsSeqs: function (pos, outStartArray, outBeatArray)
     {
         var king = this.isKing(pos);
@@ -448,7 +460,7 @@ GameLogic = {
         this.state[pos] = ' ';
         for (var dir = 0; dir < 4; dir++)
         {
-            //echo "Next find for ", $dir, "\n";
+            //echo "Next find for ", dir, "\n";
             var startArray = [];
             var beatArray = [];
             this.findBestBeatSeqsInt(pos, dir, startArray, beatArray,

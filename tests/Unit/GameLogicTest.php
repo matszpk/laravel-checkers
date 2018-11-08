@@ -1348,6 +1348,21 @@ class GameLogicTest extends TestCase
         $expState[64] = 'b';
         $this->assertEquals($expState, $gameLogic->getState());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
+
+        // from my test
+        $gameLogic = GameLogic::fromData([
+            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
+            ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
+            'w', ' ', 'w', ' ', ' ', ' ', 'w', ' ', ' ', ' ',
+            ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'w', ' ', ' ',
+            ' ', ' ', ' ', ' ', ' ', ' ', 'w', ' ', ' ', ' ',
+            ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ',
+            ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+            ' ', 'b', ' ', 'b', ' ', ' ', ' ', ' ', ' ', 'b',
+            'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
+            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
+        ], True, NULL);
+        $gameLogic->makeMove(46, 64);
     }
 
     public function testMakeMoveWrongEndPos()
