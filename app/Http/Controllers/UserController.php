@@ -6,6 +6,7 @@ use App\User;
 use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -61,12 +62,16 @@ class UserController extends Controller
 
     public function likeUser(Request $request, int $id)
     {
-        $data = User::find($id);
-        $this->authorize('giveOpinion', $data);
+        $out = NULL;
+        DB::transaction(function () use ($id, &$out) {
+            $data = User::find($id);
+            $this->authorize('giveOpinion', $data);
 
-        $data->likes += 1;
-        $data->save();
-        return [ 'likes' => $data->likes ];
+            $data->likes += 1;
+            $data->save();
+            $out = [ 'likes' => $data->likes ];
+        });
+        return $out;
     }
 
     public function updateUser(Request $request, int $id)
