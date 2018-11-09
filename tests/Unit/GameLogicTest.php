@@ -1566,4 +1566,25 @@ class GameLogicTest extends TestCase
         $this->expectExceptionMessage('Move is not a mandatory beat');
         $gameLogic->makeMove(11, 20);
     }
+
+    public function testMakeMoveNoMandatory()
+    {
+        // king
+        // double beat (do not change player)
+        $gameLogic = GameLogic::fromData([
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'W', ' ',
+           ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('Move is not a mandatory beat');
+        $gameLogic->makeMove(18, 45);
+    }
 }
