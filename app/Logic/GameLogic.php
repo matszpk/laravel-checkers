@@ -119,7 +119,7 @@ class GameLogic
                     {
                         // if king and next beat is present then
                         // check endPos with start pos from next beating
-                        if ($mandatoryBeatStarts[$i][1] === $endPos)
+                        if ($mandatoryBeatStarts[$i][1] == $endPos)
                             $beatFound = True;
                     }
                     else
@@ -419,8 +419,6 @@ class GameLogic
         return [ $nextp, $afterPiece ];
     }
 
-    private const revDirs = [ Self::MOVESW, Self::MOVENW, Self::MOVESE, Self::MOVENE ];
-
     // internal
     // find best beat sequence from specified position in  specified direction
     // beatArray - oponent piece position which have benn beaten
@@ -430,7 +428,6 @@ class GameLogic
             array& $startArray, array& $beatArray,
             array& $outStartArray, array& $outBeatArray, $king)
     {
-        $revDir = Self::revDirs[$dir];
         $beat = NULL;
         if ($dir >= 0)
             $beat = $this->findFirstBeatPos($pos, $dir, $king);
