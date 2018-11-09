@@ -99,9 +99,6 @@ GameLogic = {
             this.findBestBeatsSeqs(this.lastBeat[1], mandatoryBeatStarts, mandatoryBeats);
         }
 
-        console.log("MandatoryBeatStarts:"+mandatoryBeatStarts);
-        console.log("MandatoryBeats:"+mandatoryBeats);
-
         // if we have mandatary beats
         if (mandatoryBeats.length != 0)
         {
