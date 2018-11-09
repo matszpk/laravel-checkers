@@ -114,33 +114,46 @@ class GameLogic
                 if ($mandatoryBeatStarts[$i][0] == $startPos)
                 {
                     $beatPos = $mandatoryBeats[$i][0];
-                    // next position
-                    $dir = 0;
-                    // determine direction
-                    if ($startPos < $beatPos)
-                        $dir = ($startPos + Self::BOARDDIM-1 == $beatPos) ?
-                            Self::MOVENW : Self::MOVENE;
-                    else
-                        $dir = ($startPos - (Self::BOARDDIM-1) == $beatPos) ?
-                            Self::MOVESE : Self::MOVESW;
-                    // calculate position after beat
-                    $afterPiece = Self::goNext($beatPos, $dir);
-                    if ($endPos == $afterPiece)
-                        $beatFound = True;
-                    else if ($this->isKing($startPos))
+                    if ($this->isKing($startPos) &&
+                        count($mandatoryBeats[$i]) >= 2)
                     {
-                        // check all position in cross line in this direction
-                        $nextp = Self::goNext($afterPiece);
-                        while ($nextp >= 0 && $this->state[$nextp] == ' ')
+                        // if king and next beat is present then
+                        // check endPos with start pos from next beating
+                        if ($mandatoryBeatStarts[$i][1] === $endPos)
+                            $beatFound = True;
+                    }
+                    else
+                    {
+                        // next position
+                        $dir = 0;
+                        // determine direction
+                        if ($startPos < $beatPos)
+                            $dir = ($startPos + Self::BOARDDIM-1 == $beatPos) ?
+                                Self::MOVENW : Self::MOVENE;
+                        else
+                            $dir = ($startPos - (Self::BOARDDIM-1) == $beatPos) ?
+                                Self::MOVESE : Self::MOVESW;
+                        // calculate position after beat
+                        $afterPiece = Self::goNext($beatPos, $dir);
+                        if ($endPos == $afterPiece)
+                            $beatFound = True;
+                        else if ($this->isKing($startPos))
                         {
-                            if ($endPos == $nextp)
+                            // check all position in cross line in this direction
+                            $nextp = Self::goNext($afterPiece);
+                            while ($nextp >= 0 && $this->state[$nextp] == ' ')
                             {
-                                $beatFound = True;
-                                break;
+                                if ($endPos == $nextp)
+                                {
+                                    $beatFound = True;
+                                    break;
+                                }
+                                $nextp = Self::goNext($nextp, $dir);
                             }
-                            $nextp = Self::goNext($nextp, $dir);
                         }
                     }
+                    if ($beatFound)
+                        break;
                 }
             if (!$beatFound)
                 throw new GameException('Move is not a mandatory beat');
@@ -431,29 +444,28 @@ class GameLogic
             array_push($startArray, $pos);
             $haveNextBeats = False;
             if (!$king)
-                for ($dir = 0; $dir < 4; $dir++)
+                for ($xdir = 0; $xdir < 4; $xdir++)
                 {
-                    if ($dir == $revDir)
+                    if ($xdir == $revDir)
                         continue;
-                    $haveNextBeats |= $this->findBestBeatSeqsInt($beat[1], $dir,
-                            $startArray, $beatArray, $outStartArray, $outBeatArray, $king);
+                    $haveNextBeats |= $this->findBestBeatSeqsInt($beat[1], $xdir,
+                        $startArray, $beatArray, $outStartArray, $outBeatArray, $king);
                 }
             else
-            {
                 // if king check all position in cross line in this direction
-                for ($dir = 0; $dir < 4; $dir++)
+                for ($xdir = 0; $xdir < 4; $xdir++)
                 {
-                    if ($dir == $revDir)
+                    if ($xdir == $revDir)
                         continue;
                     $nextp = $beat[1];
                     while ($nextp >= 0 && $this->state[$nextp] == ' ')
                     {
-                        $haveNextBeats |= $this->findBestBeatSeqsInt($nextp, $dir,
-                            $startArray, $beatArray, $outStartArray, $outBeatArray, $king);
+                        $haveNextBeats |= $this->findBestBeatSeqsInt($nextp, $xdir,
+                                $startArray, $beatArray,
+                                $outStartArray, $outBeatArray, $king);
                         $nextp = Self::goNext($nextp, $dir);
                     }
                 }
-            }
 
             if (!$haveNextBeats)
             {
@@ -502,7 +514,6 @@ class GameLogic
         $this->state[$pos] = ' ';
         for ($dir = 0; $dir < 4; $dir++)
         {
-            //echo "Next find for ", $dir, "\n";
             $startArray = [];
             $beatArray = [];
             $this->findBestBeatSeqsInt($pos, $dir, $startArray, $beatArray,
