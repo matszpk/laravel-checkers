@@ -445,27 +445,21 @@ class GameLogic
             $haveNextBeats = False;
             if (!$king)
                 for ($xdir = 0; $xdir < 4; $xdir++)
-                {
-                    if ($xdir == $revDir)
-                        continue;
                     $haveNextBeats |= $this->findBestBeatSeqsInt($beat[1], $xdir,
                         $startArray, $beatArray, $outStartArray, $outBeatArray, $king);
-                }
             else
-                // if king check all position in cross line in this direction
-                for ($xdir = 0; $xdir < 4; $xdir++)
+            {
+                $nextp = $beat[1];
+                while ($nextp >= 0 && $this->state[$nextp] == ' ')
                 {
-                    if ($xdir == $revDir)
-                        continue;
-                    $nextp = $beat[1];
-                    while ($nextp >= 0 && $this->state[$nextp] == ' ')
-                    {
+                    // if king check all position in cross line in this direction
+                    for ($xdir = 0; $xdir < 4; $xdir++)
                         $haveNextBeats |= $this->findBestBeatSeqsInt($nextp, $xdir,
                                 $startArray, $beatArray,
                                 $outStartArray, $outBeatArray, $king);
-                        $nextp = Self::goNext($nextp, $dir);
-                    }
+                    $nextp = Self::goNext($nextp, $dir);
                 }
+            }
 
             if (!$haveNextBeats)
             {
