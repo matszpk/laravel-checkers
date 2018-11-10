@@ -48,6 +48,11 @@ class UserController extends Controller
         $gameLogic = GameLogic::fromData($game->board, $game->player1_move,
                 $last_beat);
         $doneByPlayer1 = $gameLogic->isPlayer1MakeMove();
+
+        if ($gameLogic->checkGameEnd() != GameLogic::NOTEND)
+            // if end of game
+            return [ 'error' => 'End of game' ];
+
         // try to make move
         try
         {
@@ -55,7 +60,7 @@ class UserController extends Controller
         }
         catch (GameException $ex)
         {
-            return [ 'error' => $ex->getMessage();
+            return [ 'error' => $ex->getMessage() ];
         }
         // save move in database
         $move = new Move([ 'startpos' => $startPos, 'endPos' => $endPos,
