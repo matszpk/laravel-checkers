@@ -17,8 +17,8 @@ class Gamestate extends Migration
         Schema::table('games', function (Blueprint $table) {
             $table->char('board', 100);
             $table->boolean('player1_move');
-            $table->unsignedTinyInteger('prev_start')->nullable();
-            $table->unsignedTinyInteger('beat')->nullable();
+            $table->unsignedTinyInteger('last_start')->nullable();
+            $table->unsignedTinyInteger('last_beat')->nullable();
         });
     }
 
@@ -33,8 +33,8 @@ class Gamestate extends Migration
         Schema::table('games', function (Blueprint $table) {
             $table->dropColumn('board');
             $table->dropColumn('player1_move');
-            $table->dropColumn('prev_start');
-            $table->dropColumn('beat');
+            $table->dropColumn('last_start');
+            $table->dropColumn('last_beat');
         });
     }
 }
