@@ -14,7 +14,7 @@ class GameController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', 'verified');
+        $this->middleware(['auth', 'verified']);
     }
 
     /* create new game and begin it as player1 or player2
@@ -100,4 +100,4 @@ class GameController extends Controller
 
         return [ 'player1Move' => $gameLogic->isPlayer1MakeMove() ];
     }
-};
+}

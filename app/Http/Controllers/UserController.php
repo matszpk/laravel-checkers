@@ -76,32 +76,34 @@ class UserController extends Controller
 
     public function updateUser(Request $request, int $id)
     {
-        $data = User::find($id);
-        // authorization
-        $this->authorize('update', $data);
+        DB::transaction(function () use ($id, $request) {
+            $data = User::find($id);
+            // authorization
+            $this->authorize('update', $data);
 
-        $valRules = [
-            'name' => [ 'required', 'string', 'max:255',
-                Rule::unique('users')->ignore($data->id) ],
-            'password' => 'nullable|min:6|confirmed',
-        ];
-        $canChangeEmail = $request->user()->can('changeEmail', $data);
-        if ($canChangeEmail)
-            $valRules['email'] = [ 'required', 'string', 'email', 'max:255',
-                Rule::unique('users')->ignore($data->id) ];
+            $valRules = [
+                'name' => [ 'required', 'string', 'max:255',
+                    Rule::unique('users')->ignore($data->id) ],
+                'password' => 'nullable|min:6|confirmed',
+            ];
+            $canChangeEmail = $request->user()->can('changeEmail', $data);
+            if ($canChangeEmail)
+                $valRules['email'] = [ 'required', 'string', 'email', 'max:255',
+                    Rule::unique('users')->ignore($data->id) ];
 
-        // validation
-        $this->validate($request, $valRules);
+            // validation
+            $this->validate($request, $valRules);
 
-        $data->name = $request->input('name');
+            $data->name = $request->input('name');
 
-        if ($canChangeEmail)
-            // only if can change email
-            $data->email = $request->input('email');
+            if ($canChangeEmail)
+                // only if can change email
+                $data->email = $request->input('email');
 
-        if ($request->input('password') != NULL)
-            $data->password = bcrypt($request->input('password'));
-        $data->save();
+            if ($request->input('password') != NULL)
+                $data->password = bcrypt($request->input('password'));
+            $data->save();
+        });
         return redirect('/user/' . $id);
     }
 }
