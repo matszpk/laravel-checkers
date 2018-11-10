@@ -14,7 +14,7 @@ class GameLogic
     public function __construct()
     {
         // construct
-        $this->startBoard();
+        $this->startState();
     }
 
     // north - y+, south - y-, east - x+, west - x-
@@ -40,7 +40,7 @@ class GameLogic
     }
 
     // player1 plays whites, player2 playes blacks
-    public function startBoard()
+    public function startState()
     {
         $this->player1Move = True;
         $this->lastBeat = NULL;

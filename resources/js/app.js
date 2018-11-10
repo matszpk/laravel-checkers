@@ -41,7 +41,7 @@ GameLogic = {
         this.newLastBeat = newLastBeat;
     },
 
-    startBoard: function()
+    startState: function()
     {
         this.player1Move = true;
         this.lastBeat = null;
