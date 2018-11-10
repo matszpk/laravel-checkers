@@ -10,7 +10,7 @@ use App\Move;
 use Illuminate\Http\Request;
 use App\Logic\GameLogic;
 
-class UserController extends Controller
+class GameController extends Controller
 {
     public function __construct()
     {
