@@ -30,22 +30,22 @@ GameLogic = {
     DRAW: 3,
     NOTEND: 0,
 
-    state: null,
+    board: null,
     player1Move: false,
     lastBeat: null,
 
-    fromData: function(newState, newPlayer1Move, newLastBeat)
+    fromData: function(newBoard, newPlayer1Move, newLastBeat)
     {
-        this.state = newState;
+        this.board = newBoard;
         this.player1Move = newPlayer1Move;
         this.newLastBeat = newLastBeat;
     },
 
-    startState: function()
+    startBoard: function()
     {
         this.player1Move = true;
         this.lastBeat = null;
-        this.state = [
+        this.board = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
@@ -65,7 +65,7 @@ GameLogic = {
         for (var y = 0; y < this.BOARDDIM; y++)
         {
             for (var x = 0; x < this.BOARDDIM; x++)
-                s += this.state[x+y*this.BOARDDIM]+'|';
+                s += this.board[x+y*this.BOARDDIM]+'|';
             s += '\n--------------------\n';
         };
         console.log(s + "Player1:" + this.player1Move+"\n");
@@ -137,7 +137,7 @@ GameLogic = {
                         {
                             // check all position in cross line in this direction
                             var nextp = this.goNext(afterPiece);
-                            while (nextp >= 0 && this.state[nextp] == ' ')
+                            while (nextp >= 0 && this.board[nextp] == ' ')
                             {
                                 if (endPos == nextp)
                                 {
@@ -151,13 +151,15 @@ GameLogic = {
                     if (beatFound)
                         break;
                 }
+
+            // after finding, we check whether mandatory beat is found
             if (!beatFound)
                 throw 'Move is not a mandatory beat';
             // make move
-            var piece = this.state[startPos];
-            this.state[startPos] = ' ';
-            this.state[beatPos] = ' ';
-            this.state[endPos] = piece; // your piece
+            var piece = this.board[startPos];
+            this.board[startPos] = ' ';
+            this.board[beatPos] = ' ';
+            this.board[endPos] = piece; // your piece
 
             if (mandatoryBeats[0].length == 1)
             {
@@ -189,7 +191,7 @@ GameLogic = {
                         startPos - this.BOARDDIM+1 != endPos)
                         throw 'Wrong end position';
                 }
-                if (this.state[endPos] != ' ')
+                if (this.board[endPos] != ' ')
                     throw 'No free field in end position';
             }
             else // for King
@@ -201,7 +203,7 @@ GameLogic = {
                     var nextp = startPos;
                     while ((nextp = this.goNext(nextp, dir)) >= 0)
                     {
-                        if (this.state[nextp] == ' ')
+                        if (this.board[nextp] == ' ')
                         {
                             if (nextp == endPos)
                             {
@@ -218,9 +220,9 @@ GameLogic = {
             }
 
             // make
-            piece = this.state[startPos];
-            this.state[startPos] = ' ';
-            this.state[endPos] = piece;
+            piece = this.board[startPos];
+            this.board[startPos] = ' ';
+            this.board[endPos] = piece;
             this.handlePromotion(endPos);
             // reverse player
             this.player1Move = !this.player1Move;
@@ -233,7 +235,7 @@ GameLogic = {
         if ((this.player1Move && y == this.BOARDDIM-1) ||
             (!this.player1Move && y == 0))
             // make men to king
-            this.state[pos] = this.state[pos].toUpperCase();
+            this.board[pos] = this.board[pos].toUpperCase();
     },
 
     // check whether player can any move by piece in this position
@@ -249,7 +251,7 @@ GameLogic = {
         {
             var dir = dirs[i];
             var nextp = this.goNext(pos, dir);
-            if (nextp >= 0 && this.state[nextp] == ' ')
+            if (nextp >= 0 && this.board[nextp] == ' ')
             {
                 playerCanMove = true;
                 break;
@@ -266,7 +268,7 @@ GameLogic = {
                 if (this.isGivenPlayerPiece(nextp, !player1))
                 {
                     nextp = this.goNext(nextp, dir);
-                    if (nextp >= 0 && this.state[nextp] == ' ')
+                    if (nextp >= 0 && this.board[nextp] == ' ')
                     {
                         playerCanMove = true;
                         break;
@@ -353,31 +355,31 @@ GameLogic = {
     {
         var opMen = this.player1Move ? 'b' : 'w';
         var opKing = this.player1Move ? 'B' : 'W';
-        return this.state[pos] == opMen || this.state[pos] == opKing;
+        return this.board[pos] == opMen || this.board[pos] == opKing;
     },
 
     isPlayerPiece: function(pos)
     {
         var opMen = this.player1Move ? 'w' : 'b';
         var opKing = this.player1Move ? 'W' : 'B';
-        return this.state[pos] == opMen || this.state[pos] == opKing;
+        return this.board[pos] == opMen || this.board[pos] == opKing;
     },
 
     isGivenPlayerPiece: function (pos, player1)
     {
         var opMen = player1 ? 'w' : 'b';
         var opKing = player1 ? 'W' : 'B';
-        return this.state[pos] == opMen || this.state[pos] == opKing;
+        return this.board[pos] == opMen || this.board[pos] == opKing;
     },
 
     isKing: function(pos)
     {
-        return this.state[pos] == (this.player1Move ? 'W' : 'B');
+        return this.board[pos] == (this.player1Move ? 'W' : 'B');
     },
 
     isGivenKing: function (pos, player1)
     {
-        return this.state[pos] == (player1 ? 'W' : 'B');
+        return this.board[pos] == (player1 ? 'W' : 'B');
     },
 
     findFirstBeatPos: function(pos, dir, king)
@@ -390,7 +392,7 @@ GameLogic = {
 
         if (!foundOpPiece)
         {
-            if (king && nextp >= 0 && this.state[nextp] == ' ')
+            if (king && nextp >= 0 && this.board[nextp] == ' ')
                 // for king, check for all position cross line
                 // and if second position is empty
                 while ((nextp = this.goNext(nextp, dir)) >= 0)
@@ -400,7 +402,7 @@ GameLogic = {
                         foundOpPiece = true;
                         break;
                     }
-                    else if (this.state[nextp] != ' ')
+                    else if (this.board[nextp] != ' ')
                         break; // if your piece
                 }
         }
@@ -409,7 +411,7 @@ GameLogic = {
 
         // check what is after oponent piece
         afterPiece = this.goNext(nextp, dir);
-        if (afterPiece < 0 || this.state[afterPiece] != ' ')
+        if (afterPiece < 0 || this.board[afterPiece] != ' ')
             return null;  // no free place after piece
         // if free
         return [ nextp, afterPiece ];
@@ -442,7 +444,7 @@ GameLogic = {
             else
             {
                 var nextp = beat[1];
-                while (nextp >= 0 && this.state[nextp] == ' ')
+                while (nextp >= 0 && this.board[nextp] == ' ')
                 {
                     // if king check all position in cross line in this direction
                     for (var xdir = 0; xdir < 4; xdir++)
@@ -495,8 +497,8 @@ GameLogic = {
     {
         var king = this.isKing(pos);
         // before test, we remove piece from board
-        var piece = this.state[pos];
-        this.state[pos] = ' ';
+        var piece = this.board[pos];
+        this.board[pos] = ' ';
         for (var dir = 0; dir < 4; dir++)
         {
             //echo "Next find for ", dir, "\n";
@@ -506,6 +508,6 @@ GameLogic = {
                         outStartArray, outBeatArray, king);
         }
         // put back after test
-        this.state[pos] = piece;
+        this.board[pos] = piece;
     }
 };

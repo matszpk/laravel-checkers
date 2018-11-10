@@ -58,7 +58,7 @@ class GameLogicTest extends TestCase
         $this->assertFalse($gameLogic->isPlayerPiece(72));
         $this->assertTrue($gameLogic->isPlayerPiece(11));
         $this->assertTrue($gameLogic->isPlayerPiece(24));
-        $state = [
+        $board = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
@@ -70,12 +70,12 @@ class GameLogicTest extends TestCase
            'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->isPlayerPiece(84));
         $this->assertFalse($gameLogic->isPlayerPiece(85));
         $this->assertTrue($gameLogic->isPlayerPiece(13));
 
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertFalse($gameLogic->isPlayerPiece(13));
         $this->assertFalse($gameLogic->isPlayerPiece(15));
         $this->assertFalse($gameLogic->isPlayerPiece(44));
@@ -89,7 +89,7 @@ class GameLogicTest extends TestCase
         $this->assertTrue($gameLogic->isOponentPiece(71));
         $this->assertFalse($gameLogic->isOponentPiece(72));
         $this->assertFalse($gameLogic->isOponentPiece(11));
-        $state = [
+        $board = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
@@ -101,12 +101,12 @@ class GameLogicTest extends TestCase
            'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->isOponentPiece(84));
         $this->assertFalse($gameLogic->isOponentPiece(85));
         $this->assertFalse($gameLogic->isOponentPiece(13));
 
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertTrue($gameLogic->isOponentPiece(13));
         $this->assertTrue($gameLogic->isOponentPiece(15));
         $this->assertFalse($gameLogic->isOponentPiece(44));
@@ -120,7 +120,7 @@ class GameLogicTest extends TestCase
         $this->assertTrue($gameLogic->isGivenPlayerPiece(71, False));
         $this->assertFalse($gameLogic->isGivenPlayerPiece(72, False));
         $this->assertFalse($gameLogic->isGivenPlayerPiece(11, False));
-        $state = [
+        $board = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
@@ -132,7 +132,7 @@ class GameLogicTest extends TestCase
            'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->isGivenPlayerPiece(84, False));
         $this->assertFalse($gameLogic->isGivenPlayerPiece(85, False));
         $this->assertFalse($gameLogic->isGivenPlayerPiece(13, False));
@@ -146,7 +146,7 @@ class GameLogicTest extends TestCase
     // test GameLogic::isKing
     public function testIsKing()
     {
-        $state = [
+        $board = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
@@ -158,13 +158,13 @@ class GameLogicTest extends TestCase
            'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->isKing(84));
         $this->assertFalse($gameLogic->isKing(85));
         $this->assertTrue($gameLogic->isKing(13));
         $this->assertFalse($gameLogic->isKing(15));
 
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertTrue($gameLogic->isKing(84));
         $this->assertFalse($gameLogic->isKing(85));
         $this->assertFalse($gameLogic->isKing(13));
@@ -174,7 +174,7 @@ class GameLogicTest extends TestCase
     // test GameLogic::isGivenKing
     public function testIsGivenKing()
     {
-        $state = [
+        $board = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'W', ' ', 'w', ' ', 'w', ' ', 'w',
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
@@ -186,7 +186,7 @@ class GameLogicTest extends TestCase
            'b', ' ', 'b', ' ', 'B', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->isGivenKing(84, True));
         $this->assertFalse($gameLogic->isGivenKing(85, True));
         $this->assertTrue($gameLogic->isGivenKing(13, True));
@@ -200,11 +200,11 @@ class GameLogicTest extends TestCase
 
     public function handlePromotionEqual($pos, $player1, $initial, $expected)
     {
-        $state = array_fill(0, 100, ' ');
-        $state[$pos] = $initial;
-        $gameLogic = GameLogic::fromData($state, $player1, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[$pos] = $initial;
+        $gameLogic = GameLogic::fromData($board, $player1, NULL);
         $gameLogic->handlePromotion($pos);
-        $this->assertEquals($expected, $gameLogic->getState()[$pos]);
+        $this->assertEquals($expected, $gameLogic->getBoard()[$pos]);
     }
 
     // test GameLogic::handlePromotion (to king)
@@ -226,501 +226,501 @@ class GameLogicTest extends TestCase
          * test for whites
          */
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
 
         // one forward
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // two forward
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'w';
-        $state[26] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'w';
+        $board[26] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(15, True));
         // two forward kings
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'W';
-        $state[26] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'W';
+        $board[26] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(15, True));
         // one oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // one oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[26] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[26] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // two oponent pieces
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'b';
-        $state[26] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'b';
+        $board[26] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // one oponent piece and own piece
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'b';
-        $state[26] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'b';
+        $board[26] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
 
         // one oponent piece and own piece
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'w';
-        $state[26] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'w';
+        $board[26] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
 
         // two forward and oponent piece back
-        $state = array_fill(0, 100, ' ');
-        $state[35] = 'w';
-        $state[44] = 'w';
-        $state[46] = 'w';
-        $state[26] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[35] = 'w';
+        $board[44] = 'w';
+        $board[46] = 'w';
+        $board[26] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(35, True));
         // two forward and oponent piece back (not for beat)
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $state[24] = 'w';
-        $state[26] = 'w';
-        $state[6] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $board[24] = 'w';
+        $board[26] = 'w';
+        $board[6] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(15, True));
         // two forward and oponent piece back
-        $state = array_fill(0, 100, ' ');
-        $state[35] = 'w';
-        $state[44] = 'w';
-        $state[46] = 'w';
-        $state[24] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[35] = 'w';
+        $board[44] = 'w';
+        $board[46] = 'w';
+        $board[24] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(35, True));
         // two forward and two oponent pieces back
-        $state = array_fill(0, 100, ' ');
-        $state[35] = 'w';
-        $state[44] = 'w';
-        $state[46] = 'w';
-        $state[24] = 'B';
-        $state[26] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[35] = 'w';
+        $board[44] = 'w';
+        $board[46] = 'w';
+        $board[24] = 'B';
+        $board[26] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(35, True));
 
         // same at end
-        $state = array_fill(0, 100, ' ');
-        $state[93] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[93] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(93, True));
 
         // same at left side
-        $state = array_fill(0, 100, ' ');
-        $state[40] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[40] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(40, True));
         // left side but own piece
-        $state = array_fill(0, 100, ' ');
-        $state[40] = 'w';
-        $state[51] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[40] = 'w';
+        $board[51] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(40, True));
         // left side but oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[40] = 'w';
-        $state[51] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[40] = 'w';
+        $board[51] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(40, True));
         // left side but oponent piece and own
-        $state = array_fill(0, 100, ' ');
-        $state[40] = 'w';
-        $state[51] = 'w';
-        $state[31] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[40] = 'w';
+        $board[51] = 'w';
+        $board[31] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(40, True));
 
         // same at right side
-        $state = array_fill(0, 100, ' ');
-        $state[49] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[49] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(49, True));
         // right side but own piece
-        $state = array_fill(0, 100, ' ');
-        $state[49] = 'w';
-        $state[58] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[49] = 'w';
+        $board[58] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(49, True));
         // left side but oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[49] = 'w';
-        $state[58] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[49] = 'w';
+        $board[58] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(49, True));
         // left side but oponent piece and own
-        $state = array_fill(0, 100, ' ');
-        $state[49] = 'w';
-        $state[58] = 'w';
-        $state[38] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[49] = 'w';
+        $board[58] = 'w';
+        $board[38] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(49, True));
 
         /* test for white king */
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // one forward
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $state[24] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $board[24] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // two forward
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $state[24] = 'w';
-        $state[26] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $board[24] = 'w';
+        $board[26] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // two forward
-        $state = array_fill(0, 100, ' ');
-        $state[5] = 'W';
-        $state[14] = 'w';
-        $state[16] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[5] = 'W';
+        $board[14] = 'w';
+        $board[16] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(5, True));
         // two forward, one backward
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $state[24] = 'w';
-        $state[26] = 'w';
-        $state[6] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $board[24] = 'w';
+        $board[26] = 'w';
+        $board[6] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // two forward, two backward
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $state[24] = 'w';
-        $state[26] = 'w';
-        $state[4] = 'w';
-        $state[6] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $board[24] = 'w';
+        $board[26] = 'w';
+        $board[4] = 'w';
+        $board[6] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(15, True));
         // one oponent rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $state[24] = 'w';
-        $state[26] = 'b';
-        $state[4] = 'w';
-        $state[6] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $board[24] = 'w';
+        $board[26] = 'b';
+        $board[4] = 'w';
+        $board[6] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(15, True));
         // one oponent (but not to beat) rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $state[24] = 'w';
-        $state[26] = 'w';
-        $state[4] = 'w';
-        $state[6] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $board[24] = 'w';
+        $board[26] = 'w';
+        $board[4] = 'w';
+        $board[6] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(15, True));
         // one oponent (but not to beat) rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'W';
-        $state[24] = 'w';
-        $state[26] = 'w';
-        $state[4] = 'b';
-        $state[6] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'W';
+        $board[24] = 'w';
+        $board[26] = 'w';
+        $board[4] = 'b';
+        $board[6] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(15, True));
 
         // one oponent rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[25] = 'W';
-        $state[34] = 'w';
-        $state[36] = 'w';
-        $state[14] = 'w';
-        $state[16] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[25] = 'W';
+        $board[34] = 'w';
+        $board[36] = 'w';
+        $board[14] = 'w';
+        $board[16] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(25, True));
         // one oponent rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[25] = 'W';
-        $state[34] = 'w';
-        $state[36] = 'w';
-        $state[14] = 'b';
-        $state[16] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[25] = 'W';
+        $board[34] = 'w';
+        $board[36] = 'w';
+        $board[14] = 'b';
+        $board[16] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(25, True));
 
         // same at end
-        $state = array_fill(0, 100, ' ');
-        $state[93] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[93] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(93, True));
 
         /*
          * test for blacks
          */
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
 
         // one forward
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
         // two forward
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'b';
-        $state[76] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'b';
+        $board[76] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(85, False));
         // two forward kings
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'B';
-        $state[76] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'B';
+        $board[76] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(85, False));
         // one oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(75, False));
         // one oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[76] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[76] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(75, False));
 
         // two oponent pieces
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'w';
-        $state[76] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'w';
+        $board[76] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
         // one oponent piece and own piece
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'w';
-        $state[76] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'w';
+        $board[76] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
 
         // one oponent piece and own piece
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'b';
-        $state[76] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'b';
+        $board[76] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
 
         // two forward and oponent piece back
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'b';
-        $state[64] = 'b';
-        $state[66] = 'b';
-        $state[86] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'b';
+        $board[64] = 'b';
+        $board[66] = 'b';
+        $board[86] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(75, False));
         // two forward and oponent piece back
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'b';
-        $state[64] = 'b';
-        $state[66] = 'b';
-        $state[84] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'b';
+        $board[64] = 'b';
+        $board[66] = 'b';
+        $board[84] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(75, False));
         // two forward and oponent piece back (bot not for beat)
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $state[74] = 'b';
-        $state[76] = 'b';
-        $state[94] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $board[74] = 'b';
+        $board[76] = 'b';
+        $board[94] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(85, False));
         // two forward and two oponent pieces back
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'b';
-        $state[64] = 'b';
-        $state[66] = 'b';
-        $state[84] = 'W';
-        $state[86] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'b';
+        $board[64] = 'b';
+        $board[66] = 'b';
+        $board[84] = 'W';
+        $board[86] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(75, False));
 
         // same at end
-        $state = array_fill(0, 100, ' ');
-        $state[3] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[3] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(3, False));
 
         // same at left side
-        $state = array_fill(0, 100, ' ');
-        $state[60] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[60] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(60, False));
         // left side but own piece
-        $state = array_fill(0, 100, ' ');
-        $state[60] = 'b';
-        $state[51] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[60] = 'b';
+        $board[51] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(60, False));
         // left side but oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[60] = 'b';
-        $state[51] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[60] = 'b';
+        $board[51] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(60, False));
         // left side but oponent piece and own
-        $state = array_fill(0, 100, ' ');
-        $state[60] = 'b';
-        $state[51] = 'b';
-        $state[71] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[60] = 'b';
+        $board[51] = 'b';
+        $board[71] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(60, False));
 
         // same at right side
-        $state = array_fill(0, 100, ' ');
-        $state[69] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[69] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(69, False));
         // right side but own piece
-        $state = array_fill(0, 100, ' ');
-        $state[69] = 'b';
-        $state[58] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[69] = 'b';
+        $board[58] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(69, False));
         // left side but oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[69] = 'b';
-        $state[58] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[69] = 'b';
+        $board[58] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(69, False));
         // left side but oponent piece and own
-        $state = array_fill(0, 100, ' ');
-        $state[69] = 'b';
-        $state[58] = 'b';
-        $state[78] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[69] = 'b';
+        $board[58] = 'b';
+        $board[78] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(69, False));
 
         /* test for black king */
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
         // one forward
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'B';
-        $state[74] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'B';
+        $board[74] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
         // two forward
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'B';
-        $state[74] = 'b';
-        $state[76] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'B';
+        $board[74] = 'b';
+        $board[76] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, True));
         // two forward
-        $state = array_fill(0, 100, ' ');
-        $state[95] = 'B';
-        $state[84] = 'b';
-        $state[86] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[95] = 'B';
+        $board[84] = 'b';
+        $board[86] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(95, False));
         // two forward, one backward
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'W';
-        $state[74] = 'w';
-        $state[76] = 'w';
-        $state[96] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'W';
+        $board[74] = 'w';
+        $board[76] = 'w';
+        $board[96] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
         // two forward, two backward
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'B';
-        $state[74] = 'b';
-        $state[76] = 'b';
-        $state[94] = 'b';
-        $state[96] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'B';
+        $board[74] = 'b';
+        $board[76] = 'b';
+        $board[94] = 'b';
+        $board[96] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(85, False));
         // one oponent rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'B';
-        $state[74] = 'b';
-        $state[76] = 'w';
-        $state[94] = 'b';
-        $state[96] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'B';
+        $board[74] = 'b';
+        $board[76] = 'w';
+        $board[94] = 'b';
+        $board[96] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertTrue($gameLogic->canMove(85, False));
         // one oponent (but not to beat) rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'B';
-        $state[74] = 'b';
-        $state[76] = 'b';
-        $state[94] = 'b';
-        $state[96] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'B';
+        $board[74] = 'b';
+        $board[76] = 'b';
+        $board[94] = 'b';
+        $board[96] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(85, False));
         // one oponent (but not to beat) rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'B';
-        $state[74] = 'b';
-        $state[76] = 'b';
-        $state[94] = 'w';
-        $state[96] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'B';
+        $board[74] = 'b';
+        $board[76] = 'b';
+        $board[94] = 'w';
+        $board[96] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertFalse($gameLogic->canMove(85, False));
 
         // one oponent rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'B';
-        $state[64] = 'b';
-        $state[66] = 'b';
-        $state[84] = 'b';
-        $state[86] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'B';
+        $board[64] = 'b';
+        $board[66] = 'b';
+        $board[84] = 'b';
+        $board[86] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(75, False));
         // one oponent rest is own
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'B';
-        $state[64] = 'b';
-        $state[66] = 'b';
-        $state[84] = 'w';
-        $state[86] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'B';
+        $board[64] = 'b';
+        $board[66] = 'b';
+        $board[84] = 'w';
+        $board[86] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(75, False));
 
         // same at end
-        $state = array_fill(0, 100, ' ');
-        $state[3] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[3] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertTrue($gameLogic->canMove(3, False));
     }
 
@@ -769,212 +769,212 @@ class GameLogicTest extends TestCase
         ], True, NULL);
         $this->assertEquals(GameLogic::DRAW, $gameLogic->checkGameEnd());
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[15] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[15] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals(GameLogic::PLAYER1WIN, $gameLogic->checkGameEnd());
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[85] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[85] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
 
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[95] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[95] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals(GameLogic::PLAYER1WIN, $gameLogic->checkGameEnd());
         // same
-        $state = array_fill(0, 100, ' ');
-        $state[5] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[5] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals(GameLogic::PLAYER2WIN, $gameLogic->checkGameEnd());
     }
 
     // test GameLogic::findFirstBeatPos
     public function testFindFirstBeatPos()
     {
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $state[56] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
-
-        // oponent piece in other direction
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $state[54] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $board[56] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
         // oponent piece in other direction
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $state[34] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $board[54] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $state[56] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        // oponent piece in other direction
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $board[34] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $board[56] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([56, 67],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $state[56] = 'B';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $board[56] = 'B';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([56, 67],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $state[67] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $board[67] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'w';
-        $state[78] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'w';
+        $board[78] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[56] = 'w';
-        $state[78] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[56] = 'w';
+        $board[78] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[49] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[49] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
         // if oponent piece in edge
-        $state = array_fill(0, 100, ' ');
-        $state[48] = 'W';
-        $state[59] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[48] = 'W';
+        $board[59] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
 
         //////////////////////////////////////
         // if king
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[56] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[56] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[56] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[56] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([56, 67],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[67] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[67] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([67, 78],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[78] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[78] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([78, 89],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
 
         // if your piece precedes oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[56] = 'w';
-        $state[78] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[56] = 'w';
+        $board[78] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
         // if your piece precedes oponent piece
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[67] = 'w';
-        $state[78] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[67] = 'w';
+        $board[78] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
         // if oponent piece in edge
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'W';
-        $state[89] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'W';
+        $board[89] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[49] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[49] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
 
         /////////////////////////////////////////
         /* blacks */
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'b';
-        $state[36] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'b';
+        $board[36] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
 
         // oponent piece in other direction
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'b';
-        $state[34] = 'w';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'b';
+        $board[34] = 'w';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'b';
-        $state[36] = 'w';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'b';
+        $board[36] = 'w';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertEquals([36, 27],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
 
         //////////////////////////////////////
         // if king
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'B';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'B';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'B';
-        $state[34] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'B';
+        $board[34] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'B';
-        $state[34] = 'w';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'B';
+        $board[34] = 'w';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertEquals([34, 23],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
 
-        $state = array_fill(0, 100, ' ');
-        $state[45] = 'B';
-        $state[23] = 'w';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[45] = 'B';
+        $board[23] = 'w';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertEquals([23, 12],
                 $gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
     }
@@ -1168,7 +1168,7 @@ class GameLogicTest extends TestCase
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
            'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
-        ], $gameLogic->getState());
+        ], $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
 
         //
@@ -1185,149 +1185,149 @@ class GameLogicTest extends TestCase
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
            'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
-        ], $gameLogic->getState());
+        ], $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
 
         // for king
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 42);
-        $expState = array_fill(0, 100, ' ');
-        $expState[42] = 'W';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[42] = 'W';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
 
         // for king 2
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'W';
-        $state[31] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'W';
+        $board[31] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 42);
-        $expState = array_fill(0, 100, ' ');
-        $expState[42] = 'W';
-        $expState[31] = 'W';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[42] = 'W';
+        $expBoard[31] = 'W';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
 
         // for king 3
-        $state = array_fill(0, 100, ' ');
-        $state[41] = 'W';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[41] = 'W';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(41, 85);
-        $expState = array_fill(0, 100, ' ');
-        $expState[85] = 'W';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[85] = 'W';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
 
         /*
          * Make beats
          */
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'w';
-        $state[64] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'w';
+        $board[64] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 53);
-        $expState = array_fill(0, 100, ' ');
-        $expState[53] = 'w';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[53] = 'w';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'w';
-        $state[86] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'w';
+        $board[86] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 97);
-        $expState = array_fill(0, 100, ' ');
-        $expState[97] = 'W'; // handle promotion
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[97] = 'W'; // handle promotion
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'w';
-        $state[84] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'w';
+        $board[84] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 93);
-        $expState = array_fill(0, 100, ' ');
-        $expState[93] = 'W'; // handle promotion
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[93] = 'W'; // handle promotion
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'w';
-        $state[66] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'w';
+        $board[66] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 57);
-        $expState = array_fill(0, 100, ' ');
-        $expState[57] = 'w';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[57] = 'w';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
-        $state = array_fill(0, 100, ' ');
-        $state[65] = 'w';
-        $state[76] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[65] = 'w';
+        $board[76] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(65, 87);
-        $expState = array_fill(0, 100, ' ');
-        $expState[87] = 'w';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[87] = 'w';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'w';
-        $state[86] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'w';
+        $board[86] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 97);
-        $expState = array_fill(0, 100, ' ');
-        $expState[97] = 'W';    // promotion
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[97] = 'W';    // promotion
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
         // double beat (do not change player)
-        $state = array_fill(0, 100, ' ');
-        $state[65] = 'w';
-        $state[54] = 'b';
-        $state[32] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[65] = 'w';
+        $board[54] = 'b';
+        $board[32] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(65, 43);
-        $expState = array_fill(0, 100, ' ');
-        $expState[43] = 'w';
-        $expState[32] = 'b';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[43] = 'w';
+        $expBoard[32] = 'b';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
         $this->assertEquals([54, 43], $gameLogic->getLastBeat());
         // next beat
         $gameLogic->makeMove(43, 21);
-        $expState = array_fill(0, 100, ' ');
-        $expState[21] = 'w';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[21] = 'w';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
         // double beat (do not change player)
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'w';
-        $state[86] = 'b';
-        $state[88] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'w';
+        $board[86] = 'b';
+        $board[88] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(75, 97);
-        $expState = array_fill(0, 100, ' ');
-        $expState[97] = 'w';    // no promotion (not last beat)
-        $expState[88] = 'b';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[97] = 'w';    // no promotion (not last beat)
+        $expBoard[88] = 'b';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
         $this->assertEquals([86, 97], $gameLogic->getLastBeat());
         // next beat
         $gameLogic->makeMove(97, 79);
-        $expState = array_fill(0, 100, ' ');
-        $expState[79] = 'w';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[79] = 'w';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
@@ -1346,7 +1346,7 @@ class GameLogicTest extends TestCase
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
         ], True, NULL);
         $gameLogic->makeMove(18, 54);
-        $expState = [
+        $expBoard = [
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
@@ -1358,12 +1358,12 @@ class GameLogicTest extends TestCase
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
         ];
-        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
         $this->assertEquals([36, 54], $gameLogic->getLastBeat());
         // next beat
         $gameLogic->makeMove(54, 32);
-        $expState = [
+        $expBoard = [
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
@@ -1375,12 +1375,12 @@ class GameLogicTest extends TestCase
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
         ];
-        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
         $this->assertEquals([43, 32], $gameLogic->getLastBeat());
         // last beat
         $gameLogic->makeMove(32, 10);
-        $expState = [
+        $expBoard = [
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            'W', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
@@ -1392,29 +1392,29 @@ class GameLogicTest extends TestCase
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
         ];
-        $this->assertEquals($expState, $gameLogic->getState());
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertFalse($gameLogic->isPlayer1MakeMove());
         $this->assertNull($gameLogic->getLastBeat());
 
         /*
          * for blacks
          */
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $gameLogic->makeMove(75, 66);
-        $expState = array_fill(0, 100, ' ');
-        $expState[66] = 'b';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[66] = 'b';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
 
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $gameLogic->makeMove(75, 64);
-        $expState = array_fill(0, 100, ' ');
-        $expState[64] = 'b';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[64] = 'b';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
 
         // from my test
@@ -1459,9 +1459,9 @@ class GameLogicTest extends TestCase
 
     public function testMakeMoveWrongEndPosX()
     {
-        $state = array_fill(0, 100, ' ');
-        $state[55] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[55] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('Wrong end position');
         $gameLogic->makeMove(55, 45);
@@ -1469,9 +1469,9 @@ class GameLogicTest extends TestCase
 
     public function testMakeMoveWrongEndPosX2()
     {
-        $state = array_fill(0, 100, ' ');
-        $state[55] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[55] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('Wrong end position');
         $gameLogic->makeMove(55, 66);
@@ -1479,9 +1479,9 @@ class GameLogicTest extends TestCase
 
     public function testMakeMoveWrongEndPosX3()
     {
-        $state = array_fill(0, 100, ' ');
-        $state[55] = 'b';
-        $gameLogic = GameLogic::fromData($state, False, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[55] = 'b';
+        $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('Wrong end position');
         $gameLogic->makeMove(55, 33);
@@ -1506,10 +1506,10 @@ class GameLogicTest extends TestCase
     public function testMakeMoveWrongEndPos2()
     {
         // for king
-        $state = array_fill(0, 100, ' ');
-        $state[75] = 'W';
-        $state[42] = 'w';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[75] = 'W';
+        $board[42] = 'w';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('Wrong end position');
         $gameLogic->makeMove(75, 42);
@@ -1526,16 +1526,16 @@ class GameLogicTest extends TestCase
     public function testMakeMoveNoNextBeat()
     {
         // double beat (do not change player)
-        $state = array_fill(0, 100, ' ');
-        $state[65] = 'w';
-        $state[54] = 'b';
-        $state[32] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[65] = 'w';
+        $board[54] = 'b';
+        $board[32] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(65, 43);
-        $expState = array_fill(0, 100, ' ');
-        $expState[43] = 'w';
-        $expState[32] = 'b';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[43] = 'w';
+        $expBoard[32] = 'b';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
         $this->assertEquals([54, 43], $gameLogic->getLastBeat());
         // next beat
@@ -1547,18 +1547,18 @@ class GameLogicTest extends TestCase
     public function testMakeMoveNoNextBeat2()
     {
         // double beat (do not change player)
-        $state = array_fill(0, 100, ' ');
-        $state[65] = 'w';
-        $state[11] = 'w';  // not this same
-        $state[54] = 'b';
-        $state[32] = 'b';
-        $gameLogic = GameLogic::fromData($state, True, NULL);
+        $board = array_fill(0, 100, ' ');
+        $board[65] = 'w';
+        $board[11] = 'w';  // not this same
+        $board[54] = 'b';
+        $board[32] = 'b';
+        $gameLogic = GameLogic::fromData($board, True, NULL);
         $gameLogic->makeMove(65, 43);
-        $expState = array_fill(0, 100, ' ');
-        $expState[11] = 'w';
-        $expState[43] = 'w';
-        $expState[32] = 'b';
-        $this->assertEquals($expState, $gameLogic->getState());
+        $expBoard = array_fill(0, 100, ' ');
+        $expBoard[11] = 'w';
+        $expBoard[43] = 'w';
+        $expBoard[32] = 'b';
+        $this->assertEquals($expBoard, $gameLogic->getBoard());
         $this->assertTrue($gameLogic->isPlayer1MakeMove());
         $this->assertEquals([54, 43], $gameLogic->getLastBeat());
         // next beat

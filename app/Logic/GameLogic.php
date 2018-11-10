@@ -4,17 +4,17 @@ namespace App\Logic;
 
 class GameLogic
 {
-    private $state;
+    private $board;
     private $player1Move;
     private $lastBeat;
 
-    // IMPORTANT NOTICE:
+    // IMPORTANT NOTICE:/
     // we treat moves as single move or single beat (not a whole sequence of beats)
 
     public function __construct()
     {
         // construct
-        $this->startState();
+        $this->startBoard();
     }
 
     // north - y+, south - y-, east - x+, west - x-
@@ -29,22 +29,22 @@ class GameLogic
     public const DRAW = 3;
     public const NOTEND = 0;
 
-    public static function fromData(array $newState,
+    public static function fromData(array $newBoard,
                 bool $newPlayer1Move, $newLastBeat)
     {
         $gameLogic = new Self();
-        $gameLogic->state = $newState;
+        $gameLogic->board = $newBoard;
         $gameLogic->player1Move = $newPlayer1Move;
         $gameLogic->lastBeat = $newLastBeat;
         return $gameLogic;
     }
 
     // player1 plays whites, player2 playes blacks
-    public function startState()
+    public function startBoard()
     {
         $this->player1Move = True;
         $this->lastBeat = NULL;
-        $this->state = [
+        $this->board = [
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
            ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w',
            'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ', 'w', ' ',
@@ -58,9 +58,9 @@ class GameLogic
         ];
     }
 
-    public function getState()
+    public function getBoard()
     {
-        return $this->state;
+        return $this->board;
     }
 
     public function isPlayer1MakeMove()
@@ -141,7 +141,7 @@ class GameLogic
                         {
                             // check all position in cross line in this direction
                             $nextp = Self::goNext($afterPiece);
-                            while ($nextp >= 0 && $this->state[$nextp] == ' ')
+                            while ($nextp >= 0 && $this->board[$nextp] == ' ')
                             {
                                 if ($endPos == $nextp)
                                 {
@@ -155,13 +155,15 @@ class GameLogic
                     if ($beatFound)
                         break;
                 }
+
+            // after finding, we check whether mandatory beat is found
             if (!$beatFound)
                 throw new GameException('Move is not a mandatory beat');
             // make move
-            $piece = $this->state[$startPos];
-            $this->state[$startPos] = ' ';
-            $this->state[$beatPos] = ' ';
-            $this->state[$endPos] = $piece; // your piece
+            $piece = $this->board[$startPos];
+            $this->board[$startPos] = ' ';
+            $this->board[$beatPos] = ' ';
+            $this->board[$endPos] = $piece; // your piece
 
             if (count($mandatoryBeats[0]) == 1)
             {
@@ -193,7 +195,7 @@ class GameLogic
                         $startPos - Self::BOARDDIM+1 != $endPos)
                         throw new GameException('Wrong end position');
                 }
-                if ($this->state[$endPos] != ' ')
+                if ($this->board[$endPos] != ' ')
                     throw new GameException('No free field in end position');
             }
             else // for King
@@ -205,7 +207,7 @@ class GameLogic
                     $nextp = $startPos;
                     while (($nextp = Self::goNext($nextp, $dir)) >= 0)
                     {
-                        if ($this->state[$nextp] == ' ')
+                        if ($this->board[$nextp] == ' ')
                         {
                             if ($nextp == $endPos)
                             {
@@ -222,9 +224,9 @@ class GameLogic
             }
 
             // make
-            $piece = $this->state[$startPos];
-            $this->state[$startPos] = ' ';
-            $this->state[$endPos] = $piece;
+            $piece = $this->board[$startPos];
+            $this->board[$startPos] = ' ';
+            $this->board[$endPos] = $piece;
             $this->handlePromotion($endPos);
             // reverse player
             $this->player1Move = !$this->player1Move;
@@ -237,7 +239,7 @@ class GameLogic
         if (($this->player1Move && $y == Self::BOARDDIM-1) ||
             (!$this->player1Move && $y == 0))
             // make men to king
-            $this->state[$pos] = strtoupper($this->state[$pos]);
+            $this->board[$pos] = strtoupper($this->board[$pos]);
     }
 
     // check whether player can any move by piece in this position
@@ -253,7 +255,7 @@ class GameLogic
         foreach ($dirs as $dir)
         {
             $nextp = Self::goNext($pos, $dir);
-            if ($nextp >= 0 && $this->state[$nextp] == ' ')
+            if ($nextp >= 0 && $this->board[$nextp] == ' ')
             {
                 $playerCanMove = True;
                 break;
@@ -270,7 +272,7 @@ class GameLogic
                 if ($this->isGivenPlayerPiece($nextp, !$player1))
                 {
                     $nextp = Self::goNext($nextp, $dir);
-                    if ($nextp >= 0 && $this->state[$nextp] == ' ')
+                    if ($nextp >= 0 && $this->board[$nextp] == ' ')
                     {
                         $playerCanMove = True;
                         break;
@@ -357,31 +359,31 @@ class GameLogic
     {
         $opMen = $this->player1Move ? 'b' : 'w';
         $opKing = $this->player1Move ? 'B' : 'W';
-        return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
+        return $this->board[$pos] == $opMen || $this->board[$pos] == $opKing;
     }
 
     public function isPlayerPiece(int $pos): bool
     {
         $opMen = $this->player1Move ? 'w' : 'b';
         $opKing = $this->player1Move ? 'W' : 'B';
-        return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
+        return $this->board[$pos] == $opMen || $this->board[$pos] == $opKing;
     }
 
     public function isGivenPlayerPiece(int $pos, bool $player1): bool
     {
         $opMen = $player1 ? 'w' : 'b';
         $opKing = $player1 ? 'W' : 'B';
-        return $this->state[$pos] == $opMen || $this->state[$pos] == $opKing;
+        return $this->board[$pos] == $opMen || $this->board[$pos] == $opKing;
     }
 
     public function isKing(int $pos): bool
     {
-        return $this->state[$pos] == ($this->player1Move ? 'W' : 'B');
+        return $this->board[$pos] == ($this->player1Move ? 'W' : 'B');
     }
 
     public function isGivenKing(int $pos, bool $player1): bool
     {
-        return $this->state[$pos] == ($player1 ? 'W' : 'B');
+        return $this->board[$pos] == ($player1 ? 'W' : 'B');
     }
 
     public function findFirstBeatPos(int $pos, int $dir, bool $king = False)
@@ -394,7 +396,7 @@ class GameLogic
 
         if (!$foundOpPiece)
         {
-            if ($king && $nextp >= 0 && $this->state[$nextp] == ' ')
+            if ($king && $nextp >= 0 && $this->board[$nextp] == ' ')
                 // for king, check for all position cross line
                 // and if second position is empty
                 while (($nextp = Self::goNext($nextp, $dir)) >= 0)
@@ -404,7 +406,7 @@ class GameLogic
                         $foundOpPiece = True;
                         break;
                     }
-                    else if ($this->state[$nextp] != ' ')
+                    else if ($this->board[$nextp] != ' ')
                         break; // if your piece
                 }
         }
@@ -413,7 +415,7 @@ class GameLogic
 
         // check what is after oponent piece
         $afterPiece = Self::goNext($nextp, $dir);
-        if ($afterPiece < 0 || $this->state[$afterPiece] != ' ')
+        if ($afterPiece < 0 || $this->board[$afterPiece] != ' ')
             return NULL;  // no free place after piece
         // if free
         return [ $nextp, $afterPiece ];
@@ -447,7 +449,7 @@ class GameLogic
             else
             {
                 $nextp = $beat[1];
-                while ($nextp >= 0 && $this->state[$nextp] == ' ')
+                while ($nextp >= 0 && $this->board[$nextp] == ' ')
                 {
                     // if king check all position in cross line in this direction
                     for ($xdir = 0; $xdir < 4; $xdir++)
@@ -501,8 +503,8 @@ class GameLogic
     {
         $king = $this->isKing($pos);
         // before test, we remove piece from board
-        $piece = $this->state[$pos];
-        $this->state[$pos] = ' ';
+        $piece = $this->board[$pos];
+        $this->board[$pos] = ' ';
         for ($dir = 0; $dir < 4; $dir++)
         {
             $startArray = [];
@@ -511,6 +513,6 @@ class GameLogic
                         $outStartArray, $outBeatArray, $king);
         }
         // put back after test
-        $this->state[$pos] = $piece;
+        $this->board[$pos] = $piece;
     }
 };
