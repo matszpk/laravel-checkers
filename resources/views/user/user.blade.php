@@ -22,7 +22,7 @@ $(function() {
     <table>
         <tr>
             <td>@lang('user.name'):</td>
-            <td class='data'>{{ $data->name }}</td>
+            <td class='data'>{{ $data->getName() }}</td>
         </tr>
         <tr>
             <td>@lang('user.createdAt'):</td>

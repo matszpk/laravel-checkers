@@ -25,4 +25,11 @@ class Game extends Model
     {
         return $this->morphMany('App\Comment', 'commentable');
     }
+
+    public function getName()
+    {
+        return trans('game.beginAt') .' '. $this->created_at .' '. trans('game.by') .' '.
+                $this->player1->getResults()->name .' '. trans('game.andBy') .' '.
+                $this->player2->getResults()->name;
+    }
 }

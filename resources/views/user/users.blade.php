@@ -22,7 +22,7 @@
             @foreach ($pag->items() as $u)
             <tr>
                 <td>{{ $pag->firstItem() + $loop->index }}</td>
-                <td><a href="{{ url('/user/' . $u->id) }}">{{ $u->name }}</a></td>
+                <td><a href="{{ url('/user/' . $u->id) }}">{{ $u->getName() }}</a></td>
                 <td>{{ $u->created_at }}</td>
                 <td>{{ $u->comments_count }}</td>
                 <td>{{ $u->likes }}</td>

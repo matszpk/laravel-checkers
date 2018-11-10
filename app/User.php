@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,5 +46,10 @@ class User extends Authenticatable
     public function writtenComments()
     {
         return $this->hasMany('App\Comment', 'writer_id');
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -2,7 +2,7 @@
 
 return [
     /*
-     * main application translations
+     * user application translations
      */
     'name' => 'Name',
     'createdAt' => 'Created at',

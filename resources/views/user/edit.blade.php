@@ -5,7 +5,7 @@
 @endsection
 
 @section('main')
-    <p>@lang('user.userEdit', ['user' => $data->name])</p>
+    <p>@lang('user.userEdit', ['user' => $data->getName()])</p>
     <form method='POST' action="{{ route('userUpdate', [$data->id]) }}"
             class='checkers_form' name='userAccountForm'>
         @csrf
@@ -13,7 +13,7 @@
             <tr>
                 <td><label for='user_name'>@lang('user.name')</label></td>
                 <td><input type='text' id='user_name' name='name'
-                    value="{{ $data->name }}"/></td>
+                    value="{{ $data->getName() }}"/></td>
             </tr>
             @can('changeEmail', $data)
             <tr>

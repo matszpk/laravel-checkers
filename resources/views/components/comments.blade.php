@@ -9,7 +9,7 @@
 
 <div id='checkers_comments'>
     @foreach ($data->comments->all() as $comment)
-        <div class='comment_info'>{{ $comment->writtenBy()->getResults()->name }},
+        <div class='comment_info'>{{ $comment->writtenBy()->getResults()->getName() }},
             {{ $comment->created_at }}:</div>
         <div class='comment_content'>{{ $comment->content }}</div>
     @endforeach
