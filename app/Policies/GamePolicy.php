@@ -22,8 +22,8 @@ class GamePolicy
 
     public function joinToGame(?User $user, Game $game)
     {
-        return ($game->player1->getResults() === NULL ||
-                $game->player2->getResults() === NULL);
+        return ($game->player1_id === NULL ||
+                $game->player2_id === NULL);
     }
 
     public function play(?User $user, Game $game)

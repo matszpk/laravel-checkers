@@ -9,6 +9,7 @@ use App\Logic\GameException;
 use App\Move;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
@@ -17,14 +18,89 @@ class GameController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
-    /* create new game and begin it as player1 or player2
-     */
-    public function createNewGame(Request $request, bool $asPlayer1)
+    public function index()
     {
+        $user = Auth::user();
+        return view('game.games', [ 'pag' => Game::orderBy('created_at', 'desc')->
+            where(function ($query) use ($user) {
+                $query->where('player1_id',$user->id)->
+                orWhere('player2_id',$user->id);
+            })->
+            withCount('comments')->paginate(15) ]);
     }
 
-    public function beginGameAsSecond(Request $request, int $gameId)
+    public function listGamesToContinue()
     {
+        $user = Auth::user();
+        return view('game.tocont', [ 'pag' => Game::orderBy('created_at', 'desc')->
+            where(function ($query) use ($user) {
+                $query->where('player1_id',$user->id)->
+                orWhere('player2_id',$user->id);
+            })->
+            whereNull('result')->withCount('comments')->paginate(15) ]);
+    }
+
+    public function getGameState(int $gameId)
+    {
+        $game = Game::find($gameId);
+        // authorizatrion
+        $this->authorize('play', $game);
+
+        $board = [];
+        for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
+            $board[$i] = $game->board[$i];
+        return [ 'board' => $board, 'player1Move' => $game->player1_move,
+                    'lastBeat' =>[ $game->last_start, $game->last_beat ] ];
+    }
+
+    /* create new game and begin it as player1 or player2
+     */
+    public function createNewGame(bool $asPlayer1)
+    {
+        $user = Auth::user();
+        $game = Game::find($gameId);
+        // authorizatrion
+        $this->authorize('joinToGame', $game);
+
+        $currentTime = now();
+        $game = new Game([]);
+        if ($asPlayer1)
+        {
+            $game->player1()->associate($user);
+            $game->begin1_at = $currentTime;
+        }
+        else
+        {
+            $game->player2()->associate($user);
+            $game->begin2_at = $currentTime;
+        }
+        $game->save();
+        return route('gameplay', [ 'id' => $game->id ]);
+    }
+
+    public function beginGameAsSecond(int $gameId)
+    {
+        $user = Auth::user();
+        DB::transaction(function() use($gameId) {
+            $game = Game::find($gameId);
+            // authorizatrion
+            $this->authorize('joinToGame', $game);
+            $currentTime = now();
+            if ($game->player1_id == NULL)
+            {
+                $game->player1()->associate($user);
+                $game->begin1_at = $currentTime;
+            }
+            else if ($game->player2_id == NULL)
+            {
+                $game->player2()->associate($user);
+                $game->begin2_at = $currentTime;
+            }
+            else
+                throw new Exception('ERRROR');
+            $game->save();
+        });
+        return route('gameplay', [ 'id' => $gameId ]);
     }
 
     private const GameResultNames = [NULL, 'player1', 'player2', 'draw'];
@@ -104,8 +180,8 @@ class GameController extends Controller
                 $game->result = Self::GameResultNames[$gameResult];
                 $game->end_at = $currentTime;
             }
-
             $game->moves()->save($move);
+            $game->save();
         });
 
         if ($error !== NULL)
