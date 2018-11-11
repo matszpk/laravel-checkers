@@ -21,7 +21,8 @@ class GameController extends Controller
     public function index(int $userId)
     {
         $user = User::find($userId);
-        return view('game.games', [ 'pag' => Game::orderBy('created_at', 'desc')->
+        return view('game.games', [ 'viewPurpose' => 'index',
+            'pag' => Game::orderBy('created_at', 'desc')->
             where(function ($query) use ($userId) {
                 $query->where('player1_id',$userId)->
                 orWhere('player2_id',$userId);
@@ -32,12 +33,26 @@ class GameController extends Controller
     public function listGamesToContinue()
     {
         $user = Auth::user();
-        return view('game.tocont', [ 'pag' => Game::orderBy('created_at', 'desc')->
+        return view('game.games', [ 'viewPurpose' => 'toContinue',
+            'pag' => Game::orderBy('created_at', 'desc')->
             where(function ($query) use ($user) {
                 $query->where('player1_id',$user->id)->
                 orWhere('player2_id',$user->id);
             })->
             whereNull('result')->withCount('comments')->paginate(15) ]);
+
+    }
+
+    public function listGamesToReplay(int $userId)
+    {
+        $user = Auth::user();
+        return view('game.toreplay', [ 'viewPurpose' => 'toReplay',
+            'pag' => Game::orderBy('created_at', 'desc')->
+            where(function ($query) use ($userId) {
+                $query->where('player1_id',$userId)->
+                orWhere('player2_id',$userId);
+            })->
+            whereNotNull('result')->withCount('comments')->paginate(15) ]);
     }
 
     public function getGameState(int $gameId)
@@ -51,6 +66,23 @@ class GameController extends Controller
             $board[$i] = $game->board[$i];
         return [ 'board' => $board, 'player1Move' => $game->player1_move,
                     'lastBeat' =>[ $game->last_start, $game->last_beat ] ];
+    }
+
+    // get game moves to replay
+    public function getGameToReplay(int $gameId)
+    {
+        $game = Game::with(['moves'  => function($query) {
+                $query->orderBy('done_at', 'asc'); },
+                'comments' => function($query) {
+                $query->orderBy('created_at', 'desc'); },
+                'comments.writtenBy' ])->find($gameId);
+        $this->authorize('replay', $game);
+        return view('game.replay', [ 'data' => $game ]);
+    }
+
+    public function newGameView()
+    {
+        return view('game.newgame');
     }
 
     /* create new game and begin it as player1 or player2

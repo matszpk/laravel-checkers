@@ -40,4 +40,8 @@ EOT
     'doLike' => 'Like',
     'writtenComments' => 'Written comments by :user',
     'writtenTo' => 'Written to',
+
+    'gamesTitle' => 'Games',
+    'gamesToPlayTitle' => 'Games to play',
+    'gamesToReplayTitle' => 'Games to replay',
 ];

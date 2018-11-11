@@ -38,5 +38,4 @@
         <a href="{{ $pag->nextPageUrl() }}">@lang('pagination.next')</a>
     @endif
 </div>
-
 @endsection

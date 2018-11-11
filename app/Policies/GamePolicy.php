@@ -22,18 +22,27 @@ class GamePolicy
 
     public function joinToGame(?User $user, Game $game)
     {
+        if (!$user->hasVerifiedEmail())
+            return False;
         return ($game->player1_id === NULL ||
                 $game->player2_id === NULL);
     }
 
     public function play(?User $user, Game $game)
     {
+        if (!$user->hasVerifiedEmail())
+            return False;
         $player1 = $game->player1->getResults();
         if ($player1 !== NULL && $game->player1_move && $user->id === $player1->id)
             return True;
         $player2 = $game->player2->getResults();
-        if ($player2 !== NULL && $game->player2_move &&  $user->id === $player2->id)
+        if ($player2 !== NULL && !$game->player1_move &&  $user->id === $player2->id)
             return True;
         return False;
+    }
+
+    public function replay(?User $user, Game $game)
+    {
+        return $user->hasVerifiedEmail();
     }
 }

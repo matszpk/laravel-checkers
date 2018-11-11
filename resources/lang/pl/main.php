@@ -40,4 +40,8 @@ EOT
     'doLike' => 'Polub',
     'writtenComments' => 'Napisane komentarze przez :user',
     'writtenTo' => 'Napisane do',
+
+    'gamesTitle' => 'Gry',
+    'gamesToPlayTitle' => 'Gry do rozegrania',
+    'gamesToReplayTitle' => 'Gry do odtworzenia',
 ];
