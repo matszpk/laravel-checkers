@@ -18,13 +18,13 @@ class GameController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
-    public function index()
+    public function index(int $userId)
     {
-        $user = Auth::user();
+        $user = User::find($userId);
         return view('game.games', [ 'pag' => Game::orderBy('created_at', 'desc')->
-            where(function ($query) use ($user) {
-                $query->where('player1_id',$user->id)->
-                orWhere('player2_id',$user->id);
+            where(function ($query) use ($userId) {
+                $query->where('player1_id',$userId)->
+                orWhere('player2_id',$userId);
             })->
             withCount('comments')->paginate(15) ]);
     }
@@ -58,10 +58,14 @@ class GameController extends Controller
     public function createNewGame(bool $asPlayer1)
     {
         $user = Auth::user();
-        $game = Game::find($gameId);
+        $gameLogic = new GameLogic();
         // authorizatrion
         $this->authorize('joinToGame', $game);
 
+        $outBoard = '';
+        for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
+            $outBoard .= $gameLogic->getBoard()[$i];
+        $game->board = $outBoard;
         $currentTime = now();
         $game = new Game([]);
         if ($asPlayer1)
@@ -156,6 +160,7 @@ class GameController extends Controller
             $outBoard = '';
             for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
                 $outBoard .= $gameLogic->getBoard()[$i];
+            $game->board = $outBoard;
 
             // update last beat
             if ($lastBeat !== NULL)

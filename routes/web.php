@@ -20,12 +20,12 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/users', 'UserController@index')->name('user.list');
 
-Route::get('/user/{id}', 'UserController@getUser');
-Route::post('/user/{id}', 'UserController@addComment');
+Route::get('/user/{userId}', 'UserController@getUser');
+Route::post('/user/{userId}', 'UserController@addComment');
 
-Route::get('/user/{id}/edit', 'UserController@editUser');
-Route::post('/user/{id}/edit', 'UserController@updateUser')->name('userUpdate');
+Route::get('/user/{userId}/edit', 'UserController@editUser');
+Route::post('/user/{userId}/edit', 'UserController@updateUser')->name('userUpdate');
 
-Route::post('/user/{id}/like', 'UserController@likeUser');
+Route::post('/user/{userId}/like', 'UserController@likeUser');
 
-Route::get('/user/{id}/wcomments', 'UserController@writtenComments');
+Route::get('/user/{userId}/wcomments', 'UserController@writtenComments');

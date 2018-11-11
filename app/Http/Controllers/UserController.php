@@ -23,33 +23,33 @@ class UserController extends Controller
     }
 
     // get user - view single user
-    public function getUser(int $id)
+    public function getUser(int $userId)
     {
         return view('user.user', [ 'data' => User::with(['comments' => function($query) {
                 $query->orderBy('created_at', 'desc'); },
-            'comments.writtenBy' ])->find($id) ]);
+            'comments.writtenBy' ])->find($userId) ]);
     }
 
     // get written comments for user
-    public function writtenComments(int $id)
+    public function writtenComments(int $userId)
     {
         return view('user.wcomments',
                 [ 'data' => User::with(['writtenComments' => function($query) {
                     $query->orderBy('created_at', 'desc'); },
-                'comments.commentable' ])->find($id) ]);
+                'comments.commentable' ])->find($userId) ]);
     }
 
     // update user form
-    public function editUser(int $id)
+    public function editUser(int $userId)
     {
-        $data = User::find($id);
+        $data = User::find($userId);
         $this->authorize('update', $data);
         return view('user.edit', [ 'data' => $data ]);
     }
 
-    public function addComment(Request $request, int $id)
+    public function addComment(Request $request, int $userId)
     {
-        $data = User::find($id);
+        $data = User::find($userId);
         $this->authorize('giveOpinion', $data);
         // validation
         $this->validate($request, [ 'content' => 'required|string|max:30000' ]);
@@ -60,11 +60,11 @@ class UserController extends Controller
         return back();
     }
 
-    public function likeUser(Request $request, int $id)
+    public function likeUser(Request $request, int $userId)
     {
         $out = NULL;
-        DB::transaction(function () use ($id, &$out) {
-            $data = User::find($id);
+        DB::transaction(function () use ($userId, &$out) {
+            $data = User::find($userId);
             $this->authorize('giveOpinion', $data);
 
             $data->likes += 1;
@@ -74,10 +74,10 @@ class UserController extends Controller
         return $out;
     }
 
-    public function updateUser(Request $request, int $id)
+    public function updateUser(Request $request, int $userId)
     {
-        DB::transaction(function () use ($id, $request) {
-            $data = User::find($id);
+        DB::transaction(function () use ($userId, $request) {
+            $data = User::find($userId);
             // authorization
             $this->authorize('update', $data);
 
@@ -104,6 +104,6 @@ class UserController extends Controller
                 $data->password = bcrypt($request->input('password'));
             $data->save();
         });
-        return redirect('/user/' . $id);
+        return redirect('/user/' . $userId);
     }
 }
