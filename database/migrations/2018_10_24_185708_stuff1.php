@@ -15,9 +15,9 @@ class Stuff1 extends Migration
     {
         //
         Schema::create('games', function(Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('player1_id');
-            $table->unsignedInteger('player2_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('player1_id');
+            $table->unsignedBigInteger('player2_id');
             $table->foreign('player1_id')->references('id')->on('users')->
                     onDelete('cascade')->nullable();
             $table->foreign('player2_id')->references('id')->on('users')->
@@ -30,8 +30,8 @@ class Stuff1 extends Migration
         });
 
         Schema::create('moves', function(Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('ingame_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('ingame_id');
             $table->foreign('ingame_id')->
                     references('id')->on('games')->onDelete('cascade');
             $table->boolean('done_by_player1');

@@ -18,7 +18,7 @@ class GameController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
-    public function index(int $userId)
+    public function index(string $userId)
     {
         $user = User::find($userId);
         return view('game.games', [ 'viewPurpose' => 'toPlay',
@@ -55,7 +55,7 @@ class GameController extends Controller
 
     }
 
-    public function listGamesToReplay(int $userId)
+    public function listGamesToReplay(string $userId)
     {
         $user = Auth::user();
         return view('game.toreplay', [ 'viewPurpose' => 'toReplay',
@@ -67,7 +67,7 @@ class GameController extends Controller
             whereNotNull('result')->withCount('comments')->paginate(15) ]);
     }
 
-    public function getGameState(int $gameId)
+    public function getGameState(string $gameId)
     {
         $game = Game::find($gameId);
         // authorizatrion
@@ -81,7 +81,7 @@ class GameController extends Controller
     }
 
     // get game moves to replay
-    public function getGameToReplay(int $gameId)
+    public function getGameToReplay(string $gameId)
     {
         $game = Game::with(['moves'  => function($query) {
                 $query->orderBy('done_at', 'asc'); },
@@ -126,7 +126,7 @@ class GameController extends Controller
         return route('gameplay', [ 'id' => $game->id ]);
     }
 
-    public function beginGameAsSecond(int $gameId)
+    public function beginGameAsSecond(string $gameId)
     {
         $user = Auth::user();
         DB::transaction(function() use($gameId) {
@@ -153,7 +153,7 @@ class GameController extends Controller
 
     private const GameResultNames = [NULL, 'player1', 'player2', 'draw'];
 
-    public function makeMove(int $gameId, int $startPos, int $endPos)
+    public function makeMove(string $gameId, int $startPos, int $endPos)
     {
         $error = NULL;
         $outIsPlayer1Move = False;

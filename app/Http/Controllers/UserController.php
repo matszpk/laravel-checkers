@@ -23,7 +23,7 @@ class UserController extends Controller
     }
 
     // get user - view single user
-    public function getUser(int $userId)
+    public function getUser(string $userId)
     {
         return view('user.user', [ 'data' => User::with(['comments' => function($query) {
                 $query->orderBy('created_at', 'desc'); },
@@ -31,7 +31,7 @@ class UserController extends Controller
     }
 
     // get written comments for user
-    public function writtenComments(int $userId)
+    public function writtenComments(string $userId)
     {
         return view('user.wcomments',
                 [ 'data' => User::with(['writtenComments' => function($query) {
@@ -40,14 +40,14 @@ class UserController extends Controller
     }
 
     // update user form
-    public function editUser(int $userId)
+    public function editUser(string $userId)
     {
         $data = User::find($userId);
         $this->authorize('update', $data);
         return view('user.edit', [ 'data' => $data ]);
     }
 
-    public function addComment(Request $request, int $userId)
+    public function addComment(Request $request, string $userId)
     {
         $data = User::find($userId);
         $this->authorize('giveOpinion', $data);
@@ -60,7 +60,7 @@ class UserController extends Controller
         return back();
     }
 
-    public function likeUser(Request $request, int $userId)
+    public function likeUser(Request $request, string $userId)
     {
         $out = NULL;
         DB::transaction(function () use ($userId, &$out) {
@@ -74,7 +74,7 @@ class UserController extends Controller
         return $out;
     }
 
-    public function updateUser(Request $request, int $userId)
+    public function updateUser(Request $request, string $userId)
     {
         DB::transaction(function () use ($userId, $request) {
             $data = User::find($userId);

@@ -15,14 +15,14 @@ class Likes extends Migration
     {
         //
         Schema::table('games', function(Blueprint $table) {
-            $table->unsignedInteger('likes')->default(0);
+            $table->unsignedBigInteger('likes')->default(0);
         });
         // Early migration - no data, do not write in that way!
         Schema::table('comments', function(Blueprint $table) {
             $table->dropColumn('likes')->default(0);
         });
         Schema::table('comments', function(Blueprint $table) {
-            $table->unsignedInteger('likes')->default(0);
+            $table->unsignedBigInteger('likes')->default(0);
         });
     }
 
@@ -42,7 +42,7 @@ class Likes extends Migration
             $table->dropColumn('likes')->default(0);
         });
         Schema::table('comments', function(Blueprint $table) {
-            $table->unsignedInteger('likes');
+            $table->unsignedBigInteger('likes');
         });
     }
 }

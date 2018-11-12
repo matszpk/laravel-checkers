@@ -15,10 +15,10 @@ class Stuff2 extends Migration
     {
         //
         Schema::create('comments', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->morphs('commentable');
             $table->text('content');
-            $table->unsignedInteger('likes');
+            $table->unsignedBigInteger('likes');
             $table->timestamps();
         });
     }

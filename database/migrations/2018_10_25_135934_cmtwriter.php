@@ -15,7 +15,7 @@ class Cmtwriter extends Migration
     {
         //
         Schema::table('comments', function (Blueprint $table) {
-            $table->unsignedInteger('writer_id');
+            $table->unsignedBigInteger('writer_id');
             $table->foreign('writer_id')->references('id')->on('users')->
                     onDelete('cascade');
         });

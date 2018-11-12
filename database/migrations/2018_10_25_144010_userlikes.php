@@ -15,7 +15,7 @@ class Userlikes extends Migration
     {
         //
         Schema::table('users', function(Blueprint $table) {
-            $table->unsignedInteger('likes')->default(0);
+            $table->unsignedBigInteger('likes')->default(0);
         });
     }
 
