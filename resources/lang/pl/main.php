@@ -41,6 +41,9 @@ EOT
     'writtenComments' => 'Napisane komentarze przez :user',
     'writtenTo' => 'Napisane do',
 
+    'newGameTitle' => 'Nowa gra',
+    'gamePlayTitle' => 'Graj w grę',
+    'gameReplayTitle' => 'Odtwarzanie gry',
     'gamesTitle' => 'Gry',
     'gamesToPlayTitle' => 'Gry do rozegrania',
     'gamesToReplayTitle' => 'Gry do odtworzenia',

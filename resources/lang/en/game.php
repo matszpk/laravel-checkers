@@ -22,6 +22,6 @@ return [
     'result_player1' => 'Whites won',
     'result_player2' => 'Blacks won',
 
-    'playWithWhites' => 'Play with whites',
-    'playWithBlacks' => 'Play with blacks',
+    'playWhites' => 'Play whites',
+    'playBlacks' => 'Play blacks',
 ];

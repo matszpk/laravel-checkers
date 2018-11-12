@@ -24,10 +24,10 @@
             </div>
         @else
             <div class='checkers_mainbutton'>
-                <a href='begin'>@lang('main.beginGame')</a>
+                <a href="{{ route('game.new') }}">@lang('main.beginGame')</a>
             </div>
             <div class='checkers_mainbutton'>
-                <a href='continue'>@lang('main.contGame')</a>
+                <a href="{{ route('game.listToContinue') }}">@lang('main.contGame')</a>
             </div>
             <div class='checkers_mainbutton'>
                 <a href='yourGames'>@lang('main.yourGames')</a>

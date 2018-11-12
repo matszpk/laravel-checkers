@@ -94,7 +94,7 @@ class GameController extends Controller
     // play game
     public function playGame(string $gameId)
     {
-        $game = $this->getGameData();
+        $game = $this->getGameData($gameId);
         $this->authorize('play', $game);
         return view('game.play', [ 'replay' => False,'data' => $game ]);
     }
@@ -102,43 +102,44 @@ class GameController extends Controller
     // replay game
     public function replayGame(string $gameId)
     {
-        $game = $this->getGameData();
+        $game = $this->getGameData($gameId);
         $this->authorize('replay', $game);
         return view('game.replay', [ 'data' => $game ]);
     }
 
-    public function newGameView()
+    public function newGame()
     {
         return view('game.newgame');
     }
 
     /* create new game and begin it as player1 or player2
      */
-    public function createNewGame(bool $asPlayer1)
+    public function createGame(bool $asPlayer1)
     {
         $user = Auth::user();
         $gameLogic = new GameLogic();
-        // authorizatrion
-        $this->authorize('joinToGame', $game);
 
+        $game = new Game([]);
         $outBoard = '';
         for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
             $outBoard .= $gameLogic->getBoard()[$i];
-        $game->board = $outBoard;
         $currentTime = now();
         $game = new Game([]);
+        $game->board = $outBoard;
         if ($asPlayer1)
         {
             $game->player1()->associate($user);
             $game->begin1_at = $currentTime;
+            $game->player1_move = True;
         }
         else
         {
             $game->player2()->associate($user);
             $game->begin2_at = $currentTime;
+            $game->player1_move = False;
         }
         $game->save();
-        return route('gameplay', [ 'id' => $game->id ]);
+        return redirect(route('game.play', $game->id));
     }
 
     public function joinToGame(string $gameId)
@@ -196,7 +197,7 @@ class GameController extends Controller
             if ($gameLogic->checkGameEnd() != GameLogic::NOTEND)
             {
                 // if end of game
-                $error = 'error' => $ex->getMessage();
+                $error = $ex->getMessage();
                 return;
             }
 
@@ -207,7 +208,7 @@ class GameController extends Controller
             }
             catch (GameException $ex)
             {
-                $error = 'error' => $ex->getMessage();
+                $error = $ex->getMessage();
                 return;
             }
             // save move in database

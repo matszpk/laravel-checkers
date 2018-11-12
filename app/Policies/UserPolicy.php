@@ -21,25 +21,25 @@ class UserPolicy
 
     public function update(?User $user, User $toChange)
     {
-        return $user->id === $toChange->id ||
+        return $user->id == $toChange->id ||
             $user->role == 'ADMIN';
     }
 
     public function viewEmail(?User $user, User $toView)
     {
-        return $user->id === $toView->id ||
+        return $user->id == $toView->id ||
             $user->role == 'ADMIN';
     }
 
     public function changeEmail(?User $user, User $toChange)
     {
-        return ($user->id === $toChange->id && $user->hasVerifiedEmail()) ||
+        return ($user->id == $toChange->id && $user->hasVerifiedEmail()) ||
             $user->role == 'ADMIN';
     }
 
     public function viewUpdateAt(?User $user, User $toView)
     {
-        return $user->id === $toView->id ||
+        return $user->id == $toView->id ||
             $user->role == 'ADMIN';
     }
 

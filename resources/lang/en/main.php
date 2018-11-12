@@ -41,6 +41,9 @@ EOT
     'writtenComments' => 'Written comments by :user',
     'writtenTo' => 'Written to',
 
+    'newGameTitle' => 'New game',
+    'gamePlayTitle' => 'Play game',
+    'gameReplayTitle' => 'Replay game',
     'gamesTitle' => 'Games',
     'gamesToPlayTitle' => 'Games to play',
     'gamesToReplayTitle' => 'Games to replay',

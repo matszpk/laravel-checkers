@@ -9,6 +9,8 @@ class Game extends Model
     //
     protected $table = 'games';
 
+    protected $fillable = [ 'board', 'player1_move' ];
+
     public function player1()
     {
         return $this->belongsTo('App\User', 'player1_id');
