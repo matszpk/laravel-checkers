@@ -16,8 +16,8 @@ class Stuff1 extends Migration
         //
         Schema::create('games', function(Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('player1_id')->nullable();
-            $table->unsignedBigInteger('player2_id')->nullable();
+            $table->unsignedBigInteger('player1_id');
+            $table->unsignedBigInteger('player2_id');
             $table->foreign('player1_id')->references('id')->on('users')->
                     onDelete('cascade')->nullable();
             $table->foreign('player2_id')->references('id')->on('users')->
