@@ -5,6 +5,8 @@
         @lang('main.gamesTitle')
     @elseif ($viewPurpose == 'toContinue')
         @lang('main.gamesToPlayTitle')
+    @elseif ($viewPurpose == 'toJoin')
+        @lang('main.gamesToJoinTitle')
     @else
         @lang('main.gamesToReplayTitle')
     @endif
@@ -33,6 +35,9 @@
                 @can('play', $g)
                     <td><a href="{{ url('/game/' . $g->id . ($u->result!==NULL ?
                             '/play' : '/replay')) }}">
+                            {{ $g->created_at }}</a></td>
+                @elsecan('join', $g)
+                    <td><a href="{{ url('/game/' . $g->id . '.join' }}">
                             {{ $g->created_at }}</a></td>
                 @else
                     <td><a href="{{ url('/game/' . $g->id . '/replay') }}">

@@ -16,16 +16,17 @@ Route::get('/', function() {
 })->name('home');
 
 Auth::routes(['verify' => true]);
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/users', 'UserController@index')->name('user.list');
 
-Route::get('/user/{userId}', 'UserController@getUser');
+Route::get('/user/{userId}', 'UserController@getUser')->name('user.user');
 Route::post('/user/{userId}', 'UserController@addComment');
 
-Route::get('/user/{userId}/edit', 'UserController@editUser');
-Route::post('/user/{userId}/edit', 'UserController@updateUser')->name('userUpdate');
+Route::get('/user/{userId}/edit', 'UserController@editUser')->name('user.edit');
+Route::post('/user/{userId}/edit', 'UserController@updateUser')->name('user.update');
 
-Route::post('/user/{userId}/like', 'UserController@likeUser');
+Route::post('/user/{userId}/like', 'UserController@likeUser')->name('user.like');
 
-Route::get('/user/{userId}/wcomments', 'UserController@writtenComments');
+Route::get('/user/{userId}/wcomments', 'UserController@writtenComments')
+        ->name('user.wcomments');

@@ -21,7 +21,7 @@ class GameController extends Controller
     public function index(int $userId)
     {
         $user = User::find($userId);
-        return view('game.games', [ 'viewPurpose' => 'index',
+        return view('game.games', [ 'viewPurpose' => 'toPlay',
             'pag' => Game::orderBy('created_at', 'desc')->
             where(function ($query) use ($userId) {
                 $query->where('player1_id',$userId)->
@@ -43,14 +43,26 @@ class GameController extends Controller
 
     }
 
+    public function listGamesToJoin()
+    {
+        $user = Auth::user();
+        return view('game.games', [ 'viewPurpose' => 'toJoin',
+            'pag' => Game::orderBy('created_at', 'desc')->
+            where(function ($query) {
+                $query->whereIsNull('player1_id')->
+                orWhereIsNull('player2_id');
+            })->whereNull('result')->withCount('comments')->paginate(15) ]);
+
+    }
+
     public function listGamesToReplay(int $userId)
     {
         $user = Auth::user();
         return view('game.toreplay', [ 'viewPurpose' => 'toReplay',
             'pag' => Game::orderBy('created_at', 'desc')->
-            where(function ($query) use ($userId) {
-                $query->where('player1_id',$userId)->
-                orWhere('player2_id',$userId);
+            where(function ($query) {
+                $query->whereIsNotNull('player1_id')->
+                andWhereIsNotNull('player2_id');
             })->
             whereNotNull('result')->withCount('comments')->paginate(15) ]);
     }

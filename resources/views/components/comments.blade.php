@@ -9,7 +9,9 @@
 
 <div id='checkers_comments'>
     @foreach ($data->comments->all() as $comment)
-        <div class='comment_info'>{{ $comment->writtenBy()->getResults()->getName() }},
+        <div class='comment_info'>
+            <a href="{{ route('user.user', [ 'userId' => $comment->writer_id]) }}">
+                    {{ $comment->writtenBy()->getResults()->getName() }}</a>,
             {{ $comment->created_at }}:</div>
         <div class='comment_content'>{{ $comment->content }}</div>
     @endforeach
