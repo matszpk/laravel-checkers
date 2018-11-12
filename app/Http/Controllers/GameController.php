@@ -20,14 +20,17 @@ class GameController extends Controller
 
     public function index(string $userId)
     {
-        $user = User::find($userId);
+        $temp = NULL;   // temp object for querying
+        if ($userId === NULL)
+            $temp = Game::orderBy('created_at', 'desc');
+        else
+            $temp = Game::orderBy('created_at', 'desc')->
+                where(function ($query) use ($userId) {
+                    $query->where('player1_id',$userId)->
+                    orWhere('player2_id',$userId);
+                });
         return view('game.games', [ 'viewPurpose' => 'toPlay',
-            'pag' => Game::orderBy('created_at', 'desc')->
-            where(function ($query) use ($userId) {
-                $query->where('player1_id',$userId)->
-                orWhere('player2_id',$userId);
-            })->
-            withCount('comments')->paginate(15) ]);
+            'pag' => $temp->withCount('comments')->paginate(15) ]);
     }
 
     public function listGamesToContinue()
@@ -57,7 +60,6 @@ class GameController extends Controller
 
     public function listGamesToReplay(string $userId)
     {
-        $user = Auth::user();
         return view('game.toreplay', [ 'viewPurpose' => 'toReplay',
             'pag' => Game::orderBy('created_at', 'desc')->
             where(function ($query) {
@@ -80,14 +82,27 @@ class GameController extends Controller
                     'lastBeat' =>[ $game->last_start, $game->last_beat ] ];
     }
 
-    // get game moves to replay
-    public function getGameToReplay(string $gameId)
+    public function getGameData(string $gameId)
     {
-        $game = Game::with(['moves'  => function($query) {
+        return Game::with(['moves'  => function($query) {
                 $query->orderBy('done_at', 'asc'); },
                 'comments' => function($query) {
                 $query->orderBy('created_at', 'desc'); },
                 'comments.writtenBy' ])->find($gameId);
+    }
+
+    // play game
+    public function playGame(string $gameId)
+    {
+        $game = $this->getGameData();
+        $this->authorize('play', $game);
+        return view('game.play', [ 'replay' => False,'data' => $game ]);
+    }
+
+    // replay game
+    public function replayGame(string $gameId)
+    {
+        $game = $this->getGameData();
         $this->authorize('replay', $game);
         return view('game.replay', [ 'data' => $game ]);
     }
@@ -126,7 +141,7 @@ class GameController extends Controller
         return route('gameplay', [ 'id' => $game->id ]);
     }
 
-    public function beginGameAsSecond(string $gameId)
+    public function joinToGame(string $gameId)
     {
         $user = Auth::user();
         DB::transaction(function() use($gameId) {
@@ -164,7 +179,7 @@ class GameController extends Controller
 
             $currentTime = now();
             // authorizatrion
-            $this->authorize('play', $game);
+            $this->authorize('makeMove', $game);
             $lastBeat = NULL;
             if ($game->last_beat !== NULL)
                 $lastBeat = [$game->last_start, $game->last_beat];

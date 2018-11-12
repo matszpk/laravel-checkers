@@ -26,6 +26,10 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        Route::pattern('gameId', '[0-9]+');
+        Route::pattern('commentId', '[0-9]+');
+        Route::pattern('userId', '[0-9]+');
     }
 
     /**

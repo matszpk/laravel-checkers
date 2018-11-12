@@ -33,3 +33,26 @@ Route::get('/user/{userId}/wcomments', 'UserController@writtenComments')
 
 Route::post('/comment/{commentId}/like', 'CommentController@likeComment')
         ->name('comment.like');
+
+Route::get('/game/{userId?}', 'GameController@index')->name('game.list');
+Route::get('/game/tocont', 'GameController@listGamesToContinue')
+        ->name('game.listToContinue');
+Route::get('/game/tojoin', 'GameController@listGamesToJoin')
+        ->name('game.listToJoin');
+Route::get('/game/toreplay', 'GameController@gamesToReplay')
+        ->name('game.listToReplay');
+Route::get('/game/toreplay', 'GameController@gamesToReplay')
+        ->name('game.listToReplay');
+
+Route::get('/game/newgame', 'GameController@newGame')->name('game.new');
+Route::get('/game/create/{asPlayer1}', 'GameController@createGame')
+        ->name('game.create');
+Route::get('/game/{gameId}/join', 'GameController@joinToGame')
+        ->name('game.join');
+
+Route::get('/game/{gameId}/play', 'GameController@playGame')
+        ->name('game.play');
+Route::get('/game/{gameId}/replay', 'GameController@replayGame')
+        ->name('game.replay');
+Route::get('/game/{gameId}/move', 'GameController@makeMove')
+        ->name('game.move');

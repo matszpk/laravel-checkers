@@ -28,7 +28,7 @@ class GamePolicy
                 $game->player2_id === NULL);
     }
 
-    public function play(?User $user, Game $game)
+    public function makeMove(?User $user, Game $game)
     {
         if (!$user->hasVerifiedEmail())
             return False;
@@ -37,6 +37,19 @@ class GamePolicy
             return True;
         $player2 = $game->player2->getResults();
         if ($player2 !== NULL && !$game->player1_move &&  $user->id === $player2->id)
+            return True;
+        return False;
+    }
+
+    public function play(?User $user, Game $game)
+    {
+        if (!$user->hasVerifiedEmail())
+            return False;
+        $player1 = $game->player1->getResults();
+        if ($player1 !== NULL && $user->id === $player1->id)
+            return True;
+        $player2 = $game->player2->getResults();
+        if ($player2 !== NULL && $user->id === $player2->id)
             return True;
         return False;
     }
