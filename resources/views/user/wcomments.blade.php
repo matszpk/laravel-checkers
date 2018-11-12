@@ -4,13 +4,27 @@
     @lang('main.userWCommentsTitle')
 @endsection
 
+@section('script')
+@include('components.comments_scripts')
+@endsection
+
 @section('main')
 <p>@lang('main.writtenComments', [ 'user' => $data->getName() ])</p>
 <div id='checkers_comments'>
     @foreach ($data->writtenComments->all() as $comment)
         <div class='comment_info'>@lang('main.writtenTo')
             {{ $comment->commentable()->getResults()->name }},
-            {{ $comment->created_at }}:</div>
+            {{ $comment->created_at }}:
+            @lang('main.likes'):
+            <span id="checkers_comment_likes_{{ $comment->id }}">
+                {{ $comment->likes }}</span>
+            @can('giveOpinion',$comment)
+            <div class='checkers_comment_dolike'
+                id="checkers_comment_dolike_{{ $comment->id }}">
+                @lang('main.doLike')</div>
+            </span>
+            @endcan
+        </div>
         <div class='comment_content'>{{ $comment->content }}</div>
     @endforeach
 </div>

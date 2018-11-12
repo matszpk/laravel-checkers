@@ -22,6 +22,7 @@
                 @lang('main.doLike')</div>
             </span>
             @endcan
+        </div>
         <div class='comment_content'>{{ $comment->content }}</div>
     @endforeach
 </div>
