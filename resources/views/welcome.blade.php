@@ -33,16 +33,14 @@
                 <a href='yourGames'>@lang('main.yourGames')</a>
             </div>
             <div class='checkers_mainbutton'>
-                <a href="{{ route('user.wcomments', [ 'userId' => $userid ]) }}">
-                            @lang('main.yourComments')</a>
+                <a href="{{ route('user.wcomments', $userid) }}">@lang('main.yourComments')</a>
             </div>
         @endif
         <div class='checkers_mainbutton'>
             <a href="{{ route('user.list') }}">@lang('main.users')</a>
         </div>
         <div class='checkers_mainbutton'>
-            <a href="{{ route('user.user', ['userId' => $userid]) }}">
-                    @lang('main.yourAccount')</a>
+            <a href="{{ route('user.user', $userid) }}">@lang('main.yourAccount')</a>
         </div>
     @else
         <div class='checkers_mainbutton'>

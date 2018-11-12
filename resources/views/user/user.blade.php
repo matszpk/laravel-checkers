@@ -4,7 +4,7 @@
 @can('giveOpinion', $data)
 $(function() {
     $('#checkers_like_button').click(function() {
-        axios.post("{{ route('user.like', [ 'userId' => $data->id ]) }}")
+        axios.post("{{ route('user.like', $data->id) }}")
                 .then(function(response)
         {
             $('#checkers_userlikes').text(response.data.likes);
@@ -64,11 +64,11 @@ $(function() {
     @can('update', $data)
     <div class='checkers_buttons'>
         <div class='checkers_mainbutton'>
-            <a href="{{ route('user.wcomments', [ 'userId' => $data->id ]) }}">
+            <a href="{{ route('user.wcomments', $data->id) }}">
                     @lang('user.wcomments')</a>
         </div>
         <div class='checkers_mainbutton'>
-            <a href="{{ route('user.edit', [ 'userId' => $data->id]) }}">
+            <a href="{{ route('user.edit', $data->id) }}">
                     @lang('user.edit')</a>
         </div>
     </div>
