@@ -12,7 +12,16 @@
         <div class='comment_info'>
             <a href="{{ route('user.user', $comment->writer_id) }}">
                     {{ $comment->writtenBy()->getResults()->getName() }}</a>,
-            {{ $comment->created_at }}:</div>
+            {{ $comment->created_at }}:
+            @lang('main.likes'):
+            <span id="checkers_comment_likes_{{ $comment->id }}">
+                {{ $comment->likes }}</span>
+            @can('giveOpinion',$comment)
+            <div class='checkers_comment_dolike'
+                id="checkers_comment_dolike_{{ $comment->id }}">
+                @lang('main.doLike')</div>
+            </span>
+            @endcan
         <div class='comment_content'>{{ $comment->content }}</div>
     @endforeach
 </div>

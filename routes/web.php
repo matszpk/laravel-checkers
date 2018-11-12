@@ -31,4 +31,5 @@ Route::post('/user/{userId}/like', 'UserController@likeUser')->name('user.like')
 Route::get('/user/{userId}/wcomments', 'UserController@writtenComments')
         ->name('user.wcomments');
 
-//Route::post('/comment/{commentId}/like', 'CommentController@likeComment')->name('comment.like');
+Route::post('/comment/{commentId}/like', 'CommentController@likeComment')
+        ->name('comment.like');

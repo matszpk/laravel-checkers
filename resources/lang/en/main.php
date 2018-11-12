@@ -44,4 +44,6 @@ EOT
     'gamesTitle' => 'Games',
     'gamesToPlayTitle' => 'Games to play',
     'gamesToReplayTitle' => 'Games to replay',
+
+    'likes' => 'Likes',
 ];

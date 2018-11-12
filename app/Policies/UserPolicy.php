@@ -45,6 +45,6 @@ class UserPolicy
 
     public function giveOpinion(?User $user, User $toOpinion)
     {
-        return $user->hasVerifiedEmail() && $user->id != $toOpinion->id;;
+        return $user->hasVerifiedEmail() && $user->id != $toOpinion->id;
     }
 }

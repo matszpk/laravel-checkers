@@ -44,4 +44,6 @@ EOT
     'gamesTitle' => 'Gry',
     'gamesToPlayTitle' => 'Gry do rozegrania',
     'gamesToReplayTitle' => 'Gry do odtworzenia',
+
+    'likes' => 'Polubienia',
 ];

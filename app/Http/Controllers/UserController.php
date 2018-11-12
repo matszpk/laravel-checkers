@@ -60,7 +60,7 @@ class UserController extends Controller
         return back();
     }
 
-    public function likeUser(Request $request, string $userId)
+    public function likeUser(string $userId)
     {
         $out = NULL;
         DB::transaction(function () use ($userId, &$out) {

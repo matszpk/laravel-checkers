@@ -12,6 +12,8 @@ $(function() {
     });
 });
 @endcan
+
+@include('components.comments_scripts')
 @endsection
 
 @section('top-pageinfo')
