@@ -20,7 +20,7 @@ class GamePolicy
         //
     }
 
-    public function joinToGame(?User $user, Game $game)
+    public function join(?User $user, Game $game)
     {
         if (!$user->hasVerifiedEmail())
             return False;

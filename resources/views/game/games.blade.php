@@ -33,21 +33,21 @@
             <tr>
                 <td>{{ $pag->firstItem() + $loop->index }}</td>
                 @can('play', $g)
-                    <td><a href="{{ url('/game/' . $g->id . ($u->result!==NULL ?
-                            '/play' : '/replay')) }}">
+                    <td><a href="{{ route(($g->result!==NULL || $viewPurpose=='toReplay') ?
+                                'game.replay' : 'game.play', $g->id) }}">
                             {{ $g->created_at }}</a></td>
                 @elsecan('join', $g)
-                    <td><a href="{{ url('/game/' . $g->id . '.join' }}">
+                    <td><a href="{{ route('game.join', $g->id) }}">
                             {{ $g->created_at }}</a></td>
                 @else
-                    <td><a href="{{ url('/game/' . $g->id . '/replay') }}">
+                    <td><a href="{{ route('game.replay', $g->id) }}">
                             {{ $g->created_at }}</a></td>
                 @endcan
                 <td>{{ $g->end_at }}</td>
                 <td>{{ $g->comments_count }}</td>
                 <td>{{ $g->likes }}</td>
-                <td>{{ $g->player1->getResults()->name }}</td>
-                <td>{{ $g->player2->getResults()->name }}</td>
+                <td>{{ $g->player1!=NULL ? $g->player1->name : '' }}</td>
+                <td>{{ $g->player2!=NULL ? $g->player2->name : '' }}</td>
                 <td>@lang('game.result_'.$g->result)</td>
             </tr>
             @endforeach

@@ -34,14 +34,12 @@ Route::get('/user/{userId}/wcomments', 'UserController@writtenComments')
 Route::post('/comment/{commentId}/like', 'CommentController@likeComment')
         ->name('comment.like');
 
-Route::get('/games/{userId?}', 'GameController@index')->name('game.list');
+Route::get('/games/list/{userId?}', 'GameController@index')->name('game.list');
 Route::get('/games/tocont', 'GameController@listGamesToContinue')
         ->name('game.listToContinue');
 Route::get('/games/tojoin', 'GameController@listGamesToJoin')
         ->name('game.listToJoin');
-Route::get('/games/toplay', 'GameController@gamesToPlay')
-        ->name('game.listToReplay');
-Route::get('/games/toreplay', 'GameController@gamesToReplay')
+Route::get('/games/toreplay', 'GameController@listGamesToReplay')
         ->name('game.listToReplay');
 
 Route::get('/game/newgame', 'GameController@newGame')->name('game.new');

@@ -18,7 +18,7 @@ class GameController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
-    public function index(string $userId)
+    public function index(string $userId = NULL)
     {
         $temp = NULL;   // temp object for querying
         if ($userId === NULL)
@@ -43,7 +43,6 @@ class GameController extends Controller
                 orWhere('player2_id',$user->id);
             })->
             whereNull('result')->withCount('comments')->paginate(15) ]);
-
     }
 
     public function listGamesToJoin()
@@ -52,19 +51,19 @@ class GameController extends Controller
         return view('game.games', [ 'viewPurpose' => 'toJoin',
             'pag' => Game::orderBy('created_at', 'desc')->
             where(function ($query) {
-                $query->whereIsNull('player1_id')->
-                orWhereIsNull('player2_id');
+                $query->whereNull('player1_id')->
+                orWhereNull('player2_id');
             })->whereNull('result')->withCount('comments')->paginate(15) ]);
 
     }
 
-    public function listGamesToReplay(string $userId)
+    public function listGamesToReplay()
     {
-        return view('game.toreplay', [ 'viewPurpose' => 'toReplay',
+        return view('game.games', [ 'viewPurpose' => 'toReplay',
             'pag' => Game::orderBy('created_at', 'desc')->
             where(function ($query) {
-                $query->whereIsNotNull('player1_id')->
-                andWhereIsNotNull('player2_id');
+                $query->whereNotNull('player1_id')->
+                whereNotNull('player2_id');
             })->
             whereNotNull('result')->withCount('comments')->paginate(15) ]);
     }
@@ -145,10 +144,10 @@ class GameController extends Controller
     public function joinToGame(string $gameId)
     {
         $user = Auth::user();
-        DB::transaction(function() use($gameId) {
+        DB::transaction(function() use($gameId, $user) {
             $game = Game::find($gameId);
             // authorizatrion
-            $this->authorize('joinToGame', $game);
+            $this->authorize('join', $game);
             $currentTime = now();
             if ($game->player1_id == NULL)
             {
@@ -164,7 +163,7 @@ class GameController extends Controller
                 throw new Exception('ERRROR');
             $game->save();
         });
-        return route('gameplay', [ 'id' => $gameId ]);
+        return route('play', [ 'id' => $gameId ]);
     }
 
     private const GameResultNames = [NULL, 'player1', 'player2', 'draw'];

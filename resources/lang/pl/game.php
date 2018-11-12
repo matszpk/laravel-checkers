@@ -17,7 +17,7 @@ return [
     'player1' => 'Białe',
     'player2' => 'Czarne',
     'result' => 'Wynik',
-    'result_' => 'Brack',
+    'result_' => '-',
     'result_draw' => 'Remis',
     'result_player1' => 'Białe wygrały',
     'result_player2' => 'Czarne wygrały',

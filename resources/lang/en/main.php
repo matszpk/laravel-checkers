@@ -46,6 +46,7 @@ EOT
     'gameReplayTitle' => 'Replay game',
     'gamesTitle' => 'Games',
     'gamesToPlayTitle' => 'Games to play',
+    'gamesToJoinTitle' => 'Games to join',
     'gamesToReplayTitle' => 'Games to replay',
 
     'likes' => 'Likes',

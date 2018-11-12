@@ -46,6 +46,7 @@ EOT
     'gameReplayTitle' => 'Odtwarzanie gry',
     'gamesTitle' => 'Gry',
     'gamesToPlayTitle' => 'Gry do rozegrania',
+    'gamesToJoinTitle' => 'Gry do dołączenia',
     'gamesToReplayTitle' => 'Gry do odtworzenia',
 
     'likes' => 'Polubienia',
