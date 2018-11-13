@@ -25,9 +25,11 @@ class UserController extends Controller
     // get user - view single user
     public function getUser(string $userId)
     {
-        return view('user.user', [ 'data' => User::with(['comments' => function($query) {
-                $query->orderBy('created_at', 'desc'); },
-            'comments.writtenBy' ])->find($userId) ]);
+        $data = User::with(['comments' => function($query) {
+                $query->orderBy('created_at', 'desc'); } ])->find($userId);
+        $writer_ids = $data->comments->map(function($v) { return $v->writer_id; });
+        $writers = User::find($writer_ids)->keyBy('id');
+        return view('user.user', [ 'data' => $data, 'writers' => $writers ]);
     }
 
     // get written comments for user
@@ -35,8 +37,7 @@ class UserController extends Controller
     {
         return view('user.wcomments',
                 [ 'data' => User::with(['writtenComments' => function($query) {
-                    $query->orderBy('created_at', 'desc'); },
-                'comments.commentable' ])->find($userId) ]);
+                    $query->orderBy('created_at', 'desc'); } ])->find($userId) ]);
     }
 
     // update user form

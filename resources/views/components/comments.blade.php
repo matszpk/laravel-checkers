@@ -11,7 +11,7 @@
     @foreach ($data->comments->all() as $comment)
         <div class='comment_info'>
             <a href="{{ route('user.user', $comment->writer_id) }}">
-                    {{ $comment->writtenBy()->getResults()->getName() }}</a>,
+                    {{ $writers[$comment->writer_id]->getName() }}</a>,
             {{ $comment->created_at }}:
             @lang('main.likes'):
             <span id="checkers_comment_likes_{{ $comment->id }}">
