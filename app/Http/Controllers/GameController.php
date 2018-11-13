@@ -97,15 +97,15 @@ class GameController extends Controller
     public function playGame(string $gameId)
     {
         $data = $this->getGameData($gameId);
-        $this->authorize('play', $game);
+        $this->authorize('play', $data['data']);
         return view('game.play', array_merge($data, [ 'replay' => False ]));
     }
 
     // replay game
     public function replayGame(string $gameId)
     {
-        $game = $this->getGameData($gameId);
-        $this->authorize('replay', $game);
+        $data = $this->getGameData($gameId);
+        $this->authorize('replay', $data['data']);
         return view('game.replay', array_merge($data, [ 'replay' => True ]));
     }
 

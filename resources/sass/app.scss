@@ -212,5 +212,115 @@
     color: white;
     background: blue;
     cursor: pointer;
-}
+};
 
+#checkers_board {
+    position: absolute;
+    left: 100px;
+    top: 20px;
+    width: 480px;
+    height: 480px;
+    background: orange;
+};
+
+#checkers_board_main {
+    position: absolute;
+    left: 100px;
+    width: 400px;
+    height: 400px;
+    background: yellow;
+    left: 40px;
+    top: 40px;
+};
+
+.checkers_axis {
+    position: absolute;
+    color: black;
+};
+
+#checkers_yaxis_left {
+    top: 40px;
+    left: 0px;
+    width: 40px;
+    height: 400px;
+};
+
+#checkers_yaxis_right {
+    top: 40px;
+    left: 440px;
+    width: 40px;
+    height: 400px;
+};
+
+#checkers_xaxis_top {
+    top: 0px;
+    left: 40px;
+    width: 400px;
+    height: 40px;
+};
+
+#checkers_xaxis_bottom {
+    top: 440px;
+    left: 40px;
+    width: 400px;
+    height: 40px;
+};
+
+.checkers_board_row {
+    position: absolute;
+    width: 400px;
+    height: 40px;
+    margin: 0px;
+    padding: 0px;
+};
+
+.checkers_board_cell {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    margin: 0px;
+    padding: 0px;
+};
+.checkers_board_cell_black {
+    background: brown;
+};
+
+.checkers_board_cell_white {
+    background: yellow;
+};
+
+.checkers_yaxis_ypos {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 0px;
+    text-align: center;
+    vertical-align: middle;
+};
+
+.checkers_xaxis_xpos {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 0px;
+    text-align: center;
+    vertical-align: middle;
+};
+
+#checkers_movelist {
+    position: absolute;
+    top: 20px;
+    left: 600px;
+    width: 200px;
+    height: 500px;
+    background: #eeeeee;
+};
+
+#checkers_gamestatus {
+    position: absolute;
+    top: 540px;
+    left: 100px;
+    width: 700px;
+    height: 30px;
+    background: #eeeeee;
+};
