@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Comment;
+use App\Game;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -27,17 +28,29 @@ class UserController extends Controller
     {
         $data = User::with(['comments' => function($query) {
                 $query->orderBy('created_at', 'desc'); } ])->find($userId);
-        $writer_ids = $data->comments->map(function($v) { return $v->writer_id; });
-        $writers = User::find($writer_ids)->keyBy('id');
+        // get writers for comments
+        $writerIds = $data->comments->pluck('writer_id');
+        $writers = User::find($writerIds, ['id','name'])->keyBy('id');
         return view('user.user', [ 'data' => $data, 'writers' => $writers ]);
     }
 
     // get written comments for user
     public function writtenComments(string $userId)
     {
-        return view('user.wcomments',
-                [ 'data' => User::with(['writtenComments' => function($query) {
-                    $query->orderBy('created_at', 'desc'); } ])->find($userId) ]);
+        $data = User::with(['writtenComments' => function($query) {
+                    $query->orderBy('created_at', 'desc'); } ])->find($userId);
+        // get commentable
+        $userIds = $data->writtenComments->filter(
+                function($v) { return $v->commentable_type == 'App\User'; })
+                ->pluck('commentable_id');
+        $gameIds = $data->writtenComments->filter(
+                function($v) { return $v->commentable_type == 'App\Game'; })
+                ->pluck('commentable_id');
+        $cgames = Game::with(['player1', 'player2'])->
+                find($gameIds, ['id','created_at', 'player1_id', 'player2_id'])->keyBy('id');
+        $cusers = User::find($userIds, ['id','name'])->keyBy('id');
+        return view('user.wcomments', [ 'data' => $data, 'cusers' => $cusers,
+                'cgames' => $cgames ]);
     }
 
     // update user form

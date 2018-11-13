@@ -13,7 +13,12 @@
 <div id='checkers_comments'>
     @foreach ($data->writtenComments->all() as $comment)
         <div class='comment_info'>@lang('main.writtenTo')
-            {{ $comment->commentable()->getResults()->name }},
+            @if ($comment->commentable_type == 'App\User')
+            {{ $cusers[$comment->commentable_id]->getName() }}
+            @else
+            {{ $cgames[$comment->commentable_id]->getName() }}
+            @endif
+            ,
             {{ $comment->created_at }}:
             @lang('main.likes'):
             <span id="checkers_comment_likes_{{ $comment->id }}">

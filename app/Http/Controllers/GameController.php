@@ -83,19 +83,22 @@ class GameController extends Controller
 
     public function getGameData(string $gameId)
     {
-        return Game::with(['moves'  => function($query) {
+        $data = Game::with(['moves'  => function($query) {
                 $query->orderBy('done_at', 'asc'); },
                 'comments' => function($query) {
-                $query->orderBy('created_at', 'desc'); },
-                'comments.writtenBy' ])->find($gameId);
+                $query->orderBy('created_at', 'desc'); } ])->find($gameId);
+        // get writers for comments
+        $writerIds = $data->comments->pluck('writer_id');
+        $writers = User::find($writerIds, ['id','name'])->keyBy('id');
+        return [ 'data' => $data, 'writers' => $writers ];
     }
 
     // play game
     public function playGame(string $gameId)
     {
-        $game = $this->getGameData($gameId);
+        $data = $this->getGameData($gameId);
         $this->authorize('play', $game);
-        return view('game.play', [ 'replay' => False,'data' => $game ]);
+        return view('game.play', array_merge($data, [ 'replay' => False ]));
     }
 
     // replay game
@@ -103,7 +106,7 @@ class GameController extends Controller
     {
         $game = $this->getGameData($gameId);
         $this->authorize('replay', $game);
-        return view('game.replay', [ 'data' => $game ]);
+        return view('game.replay', array_merge($data, [ 'replay' => True ]));
     }
 
     public function newGame()
