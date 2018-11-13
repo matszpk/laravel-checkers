@@ -141,7 +141,7 @@ class GameController extends Controller
             $game->player1_move = False;
         }
         $game->save();
-        return redirect(route('game.play', $game->id));
+        return redirect()->route('game.play', $game->id);
     }
 
     public function joinToGame(string $gameId)
@@ -166,7 +166,7 @@ class GameController extends Controller
                 throw new Exception('ERRROR');
             $game->save();
         });
-        return route('play', [ 'id' => $gameId ]);
+        return redirect()->route('play', $gameId);
     }
 
     private const GameResultNames = [NULL, 'player1', 'player2', 'draw'];
@@ -252,7 +252,7 @@ class GameController extends Controller
         });
 
         if ($error !== NULL)
-            return [ 'error' => $error ];
+            return response()->json([ 'error' => $error ], 400);
         return [ 'player1Move' => $outIsPlayer1Move ];
     }
 }

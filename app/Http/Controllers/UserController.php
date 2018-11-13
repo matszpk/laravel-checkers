@@ -118,6 +118,6 @@ class UserController extends Controller
                 $data->password = bcrypt($request->input('password'));
             $data->save();
         });
-        return redirect('/user/' . $userId);
+        return redirect()->route('user.user', $userId);
     }
 }
