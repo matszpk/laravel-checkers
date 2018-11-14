@@ -24,6 +24,9 @@ var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
 @else
     var gameLastBeat = null;
 @endif
+
+    GameBoard.init();
+    GameBoard.displayBoard(gameBoard);
 });
 @endsection
 

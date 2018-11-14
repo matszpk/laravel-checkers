@@ -13,3 +13,8 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');
+
+// If you use root URL path to this application then uncomment this line.
+// If you use not root URL path to this application then set correct
+// home URL path in this line, uncomment this line and comment previous line.
+mix.setResourceRoot('/checkers/public/');

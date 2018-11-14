@@ -511,3 +511,39 @@ GameLogic = {
         this.board[pos] = piece;
     }
 };
+
+GameBoard = {
+    cellSize: 50,
+    boardDim: GameLogic.BOARDDIM,
+    boardElem: null,
+    init: function() {
+        this.boardElem = $("#checkers_board_main");
+    },
+
+    cellClasses: {
+        'w': 'checkers_board_men_white',
+        'W': 'checkers_board_king_white',
+        'b': 'checkers_board_men_black',
+        'B': 'checkers_board_king_black'
+    },
+
+    clearBoard: function() {
+        $(".checkers_board_piece", this.boardElem).remove();
+    },
+
+    displayBoard: function(board) {
+        this.clearBoard();
+        for (var pos = 0; pos < board.length; pos++)
+        {
+            if (board[pos] == ' ')
+                continue;
+            var xi = pos % this.boardDim;
+            var yi = Math.floor(pos/this.boardDim);
+            var pieceElem = $("<div></div>").addClass(['checkers_board_piece',
+                        this.cellClasses[board[pos]]])
+                        .css({ left: (this.cellSize*xi)+'px',
+                               top: ((this.boardDim-1-yi)*this.cellSize)+'px' });
+            this.boardElem.append(pieceElem);
+        }
+    }
+};
