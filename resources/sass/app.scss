@@ -410,3 +410,26 @@ $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
     height: 30px;
     background: #eeeeee;
 };
+
+.checkers_piece {
+    position: absolute;
+    width: $boardCellSize;
+    height: $boardCellSize;
+};
+
+.checkers_men_white {
+    background: url('../png/men-white.png');
+};
+
+.checkers_men_black {
+    background: url('../png/men-black.png');
+};
+
+.checkers_king_white {
+    background: url('../png/king-white.png');
+};
+
+.checkers_king_black {
+    background: url('../png/king-black.png');
+};
+
