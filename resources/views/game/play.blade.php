@@ -8,10 +8,25 @@
     @endif
 @endsection
 
+@php($boardDim = \App\Logic\GameLogic::BOARDDIM)
+
 @section('script')
+$(function() {
+var gameBoard = [
+    @for ($i = 0; $i < $boardDim*$boardDim-1; $i++)
+        '{{ $data->board[$i] }}',
+    @endfor
+    '{{ $data->board[$boardDim*$boardDim-1] }}'
+];
+var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
+@if ($data->last_beat !== NULL)
+    var gameLastBeat = [ {{ $data->last_start }}, {{ $data->last_beat }} ];
+@else
+    var gameLastBeat = null;
+@endif
+});
 @endsection
 
-@php($boardDim = \App\Logic\GameLogic::BOARDDIM)
 
 @section('main')
     <div id='checkers_board'>

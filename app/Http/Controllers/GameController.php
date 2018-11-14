@@ -132,14 +132,13 @@ class GameController extends Controller
         {
             $game->player1()->associate($user);
             $game->begin1_at = $currentTime;
-            $game->player1_move = True;
         }
         else
         {
             $game->player2()->associate($user);
             $game->begin2_at = $currentTime;
-            $game->player1_move = False;
         }
+        $game->player1_move = True;
         $game->save();
         return redirect()->route('game.play', $game->id);
     }
@@ -166,7 +165,7 @@ class GameController extends Controller
                 throw new Exception('ERRROR');
             $game->save();
         });
-        return redirect()->route('play', $gameId);
+        return redirect()->route('game.play', $gameId);
     }
 
     private const GameResultNames = [NULL, 'player1', 'player2', 'draw'];
