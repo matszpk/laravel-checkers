@@ -290,6 +290,7 @@
 };
 
 .checkers_yaxis_ypos {
+    padding-top: 10px;
     position: absolute;
     width: 40px;
     height: 40px;
@@ -299,6 +300,7 @@
 };
 
 .checkers_xaxis_xpos {
+    padding-top: 10px;
     position: absolute;
     width: 40px;
     height: 40px;
@@ -309,6 +311,9 @@
 
 #checkers_movelist {
     position: absolute;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: left;
     top: 20px;
     left: 600px;
     width: 200px;
@@ -318,6 +323,9 @@
 
 #checkers_gamestatus {
     position: absolute;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: left;
     top: 540px;
     left: 100px;
     width: 700px;

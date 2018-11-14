@@ -54,8 +54,10 @@
         </div>
     </div>
     <div id='checkers_movelist'>
+    bla bla bla<br/>blebleble
     </div>
     <div id='checkers_gamestatus'>
+    bla bla bla blebleble
     </div>
 
     @include('components.comments')
