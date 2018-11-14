@@ -5,6 +5,11 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+$boardDim: 10;
+$boardCellSize: 50px;
+$boardBorderSize: 40px;
+$boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
+
 #checkers_main {
     margin: 0 auto;
     width: 1000px;
@@ -218,19 +223,18 @@
     position: absolute;
     left: 100px;
     top: 20px;
-    width: 480px;
-    height: 480px;
+    width: $boardSize;
+    height: $boardSize;
     background: orange;
 };
 
 #checkers_board_main {
     position: absolute;
-    left: 100px;
-    width: 400px;
-    height: 400px;
+    width: $boardDim*$boardCellSize;
+    height: $boardDim*$boardCellSize;
     background: yellow;
-    left: 40px;
-    top: 40px;
+    left: $boardBorderSize;
+    top: $boardBorderSize;
 };
 
 .checkers_axis {
@@ -239,45 +243,45 @@
 };
 
 #checkers_yaxis_left {
-    top: 40px;
+    top: $boardBorderSize;
     left: 0px;
-    width: 40px;
-    height: 400px;
+    width: $boardBorderSize;
+    height: $boardCellSize*$boardDim;
 };
 
 #checkers_yaxis_right {
-    top: 40px;
-    left: 440px;
-    width: 40px;
-    height: 400px;
+    top: $boardBorderSize;
+    left: $boardBorderSize + $boardCellSize*$boardDim;
+    width: $boardBorderSize;
+    height: $boardCellSize*$boardDim;
 };
 
 #checkers_xaxis_top {
     top: 0px;
-    left: 40px;
-    width: 400px;
-    height: 40px;
+    left: $boardBorderSize;
+    width: $boardCellSize*$boardDim;
+    height: $boardBorderSize;
 };
 
 #checkers_xaxis_bottom {
-    top: 440px;
-    left: 40px;
-    width: 400px;
-    height: 40px;
+    top: $boardBorderSize + $boardCellSize*$boardDim;
+    left: $boardBorderSize;
+    width: $boardCellSize*$boardDim;
+    height: $boardBorderSize;
 };
 
 .checkers_board_row {
     position: absolute;
-    width: 400px;
-    height: 40px;
+    width: $boardCellSize*$boardDim;
+    height: $boardCellSize;
     margin: 0px;
     padding: 0px;
 };
 
 .checkers_board_cell {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: $boardCellSize;
+    height: $boardCellSize;
     margin: 0px;
     padding: 0px;
 };
@@ -292,8 +296,8 @@
 .checkers_yaxis_ypos {
     padding-top: 10px;
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: $boardBorderSize;
+    height: $boardCellSize;
     left: 0px;
     text-align: center;
     vertical-align: middle;
@@ -302,11 +306,85 @@
 .checkers_xaxis_xpos {
     padding-top: 10px;
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: $boardCellSize;
+    height: $boardBorderSize;
     top: 0px;
     text-align: center;
     vertical-align: middle;
+};
+
+.checkers_board_cell0_in_row, .checkers_xaxis_xpos0 {
+    left: $boardCellSize*0;
+};
+.checkers_board_cell1_in_row, .checkers_xaxis_xpos1 {
+    left: $boardCellSize*1;
+};
+.checkers_board_cell2_in_row, .checkers_xaxis_xpos2 {
+    left: $boardCellSize*2;
+};
+.checkers_board_cell3_in_row, .checkers_xaxis_xpos3 {
+    left: $boardCellSize*3;
+};
+.checkers_board_cell4_in_row, .checkers_xaxis_xpos4 {
+    left: $boardCellSize*4;
+};
+.checkers_board_cell5_in_row, .checkers_xaxis_xpos5 {
+    left: $boardCellSize*5;
+};
+.checkers_board_cell6_in_row, .checkers_xaxis_xpos6 {
+    left: $boardCellSize*6;
+};
+.checkers_board_cell7_in_row, .checkers_xaxis_xpos7 {
+    left: $boardCellSize*7;
+};
+.checkers_board_cell8_in_row, .checkers_xaxis_xpos8 {
+    left: $boardCellSize*8;
+};
+.checkers_board_cell9_in_row, .checkers_xaxis_xpos9 {
+    left: $boardCellSize*9;
+};
+.checkers_board_cell10_in_row, .checkers_xaxis_xpos10 {
+    left: $boardCellSize*10;
+};
+.checkers_board_cell10_in_row, .checkers_xaxis_xpos11 {
+    left: $boardCellSize*11;
+};
+
+#checkers_board_row0, .checkers_yaxis_ypos0 {
+    top: $boardCellSize*($boardDim - 1);
+};
+#checkers_board_row1, .checkers_yaxis_ypos1 {
+    top: $boardCellSize*($boardDim - 2);
+};
+#checkers_board_row2, .checkers_yaxis_ypos2 {
+    top: $boardCellSize*($boardDim - 3);
+};
+#checkers_board_row3, .checkers_yaxis_ypos3 {
+    top: $boardCellSize*($boardDim - 4);
+};
+#checkers_board_row4, .checkers_yaxis_ypos4 {
+    top: $boardCellSize*($boardDim - 5);
+};
+#checkers_board_row5, .checkers_yaxis_ypos5 {
+    top: $boardCellSize*($boardDim - 6);
+};
+#checkers_board_row6, .checkers_yaxis_ypos6 {
+    top: $boardCellSize*($boardDim - 7);
+};
+#checkers_board_row7, .checkers_yaxis_ypos7 {
+    top: $boardCellSize*($boardDim - 8);
+};
+#checkers_board_row8, .checkers_yaxis_ypos8 {
+    top: $boardCellSize*($boardDim - 9);
+};
+#checkers_board_row9, .checkers_yaxis_ypos9 {
+    top: $boardCellSize*($boardDim - 10);
+};
+#checkers_board_row10, .checkers_yaxis_ypos10 {
+    top: $boardCellSize*($boardDim - 11);
+};
+#checkers_board_row11, .checkers_yaxis_ypos11 {
+    top: $boardCellSize*($boardDim - 2);
 };
 
 #checkers_movelist {
@@ -315,9 +393,9 @@
     padding-right: 3px;
     text-align: left;
     top: 20px;
-    left: 600px;
+    left: 100px + 10px + $boardSize;
     width: 200px;
-    height: 500px;
+    height: $boardSize;
     background: #eeeeee;
 };
 
@@ -326,9 +404,9 @@
     padding-left: 3px;
     padding-right: 3px;
     text-align: left;
-    top: 540px;
+    top: 20px + 20px + $boardSize;
     left: 100px;
-    width: 700px;
+    width: $boardSize + 10px + 200px;
     height: 30px;
     background: #eeeeee;
 };
