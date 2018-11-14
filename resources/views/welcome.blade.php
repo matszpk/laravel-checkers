@@ -17,6 +17,7 @@
             @lang('main.welcomeIfNotRegistered')<br/>
         @endauth
     </div>
+    <div class='checkers_centered'>
     @auth
         @if (!$emailVerified)
             <div class='checkers_mainbutton'>
@@ -53,4 +54,5 @@
             <a href="{{ route('password.request') }}">@lang('main.resetPassword')</a>
         </div>
     @endauth
+    </div>
 @endsection

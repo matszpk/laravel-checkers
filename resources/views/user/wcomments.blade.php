@@ -9,7 +9,8 @@
 @endsection
 
 @section('main')
-<p>@lang('main.writtenComments', [ 'user' => $data->getName() ])</p>
+<div class='checkers_centered'>
+@lang('main.writtenComments', [ 'user' => $data->getName() ])</div>
 <div id='checkers_comments'>
     @foreach ($data->writtenComments->all() as $comment)
         <div class='comment_info'>@lang('main.writtenTo')

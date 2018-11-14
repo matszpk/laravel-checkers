@@ -63,6 +63,7 @@ $(function() {
         @endcan
     </table>
 </div>
+<div class='checkers_centered'>
     @can('update', $data)
     <div class='checkers_buttons'>
         <div class='checkers_mainbutton'>
@@ -75,6 +76,7 @@ $(function() {
         </div>
     </div>
     @endcan
+</div>
 
     @include('components.comments')
 @endsection

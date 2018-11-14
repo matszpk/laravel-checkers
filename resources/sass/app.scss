@@ -9,6 +9,8 @@ $boardDim: 10;
 $boardCellSize: 50px;
 $boardBorderSize: 40px;
 $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
+$topTitleHeight: 160px;
+$footerHeight: 30px;
 
 #checkers_main {
     margin: 0 auto;
@@ -22,7 +24,7 @@ $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
 };
 
 #checkers_top {
-    height: 160px;
+    height: $topTitleHeight;
     background-color: SaddleBrown;
 };
 
@@ -55,14 +57,17 @@ $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
     position: absolute;
     left: 0px;
     right: 0px;
-    top: 160px;
-    bottom: 30px;
-    text-align: center;
+    top: $topTitleHeight;
+    bottom: $footerHeight;
     overflow-y: auto;
 };
 
+.checkers_centered {
+    text-align: center;
+};
+
 #checkers_footer {
-    height: 30px;
+    height: $footerHeight;
     background-color: SaddleBrown;
     color: yellow;
     position: absolute;
@@ -156,6 +161,7 @@ $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
 };
 
 .checkers_form_errors {
+    text-align: center;
     color: red;
     font-size: 15px;
     font-weight: bold;
