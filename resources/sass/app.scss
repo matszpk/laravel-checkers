@@ -291,6 +291,7 @@ $footerHeight: 30px;
     margin: 0px;
     padding: 0px;
 };
+
 .checkers_board_cell_black {
     background: brown;
 };
@@ -439,3 +440,7 @@ $footerHeight: 30px;
     background: url('../png/king-black.png');
 };
 
+.checkers_board_choosable:hover {
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+};

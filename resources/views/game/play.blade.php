@@ -25,8 +25,9 @@ var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
     var gameLastBeat = null;
 @endif
 
+    GameLogic.fromData(gameBoard, gamePlayer1Move, gameLastBeat);
     GameBoard.init();
-    GameBoard.displayBoard(gameBoard);
+    GameBoard.displayBoard();
 });
 @endsection
 

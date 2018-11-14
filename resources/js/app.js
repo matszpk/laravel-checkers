@@ -18,6 +18,19 @@ setArraySingle = function(arr, v)
     arr.splice(0, arr.length, v);
 };
 
+uniqueArray = function(arr)
+{
+    var out = [];
+    var prev = null;
+    for (var i = 0; i < arr.length; i++)
+        if (prev !== arr[i])
+        {
+            out.push(arr[i]);
+            prev = arr[i];
+        }
+    return out;
+}
+
 GameLogic = {
     MOVENE: 0,
     MOVESE: 1,
@@ -69,6 +82,129 @@ GameLogic = {
             s += '\n--------------------\n';
         };
         console.log(s + "Player1:" + this.player1Move+"\n");
+    },
+
+    getChoosable: function()
+    {
+        var choosablePieces = { };
+        var mandatoryBeatStarts = [];
+        var mandatoryBeats = [];
+        if (this.lastBeat === null)
+            for (var pos = 0; pos < this.BOARDDIM*this.BOARDDIM; pos++)
+            {
+                if (this.isPlayerPiece(pos))
+                    this.findBestBeatsSeqs(pos, mandatoryBeatStarts, mandatoryBeats);
+            }
+        else
+        {
+            if (this.lastBeat[1] != startPos)
+                throw 'Move is not a mandatory beat';
+            // only for after last beat move
+            this.findBestBeatsSeqs(this.lastBeat[1], mandatoryBeatStarts, mandatoryBeats);
+        }
+
+        // if we have mandatary beats
+        if (mandatoryBeats.length != 0)
+        {
+            for (var i = 0; i < mandatoryBeatStarts.length; i++)
+            {
+                // get possible moves while beating
+                var mandBeatStart = mandatoryBeatStarts[i];
+                var mandBeat = mandatoryBeats[i]; // end positions
+                // get possible move ends for mandatory beat sequence
+                var moveEnds = this.getPossibleMovesAtBeat(mandBeatStart, mandBeat);
+                if (choosablePieces[mandBeatStart[0]] != null)
+                    // just add to list
+                    choosablePieces[mandBeatStart[0]] =
+                        choosablePieces[mandBeatStart[0]].concat(moveEnds);
+                else
+                    choosablePieces[mandBeatStart[0]] = moveEnds;
+            }
+        }
+        else
+        {
+            // no mandatory pieces
+            for (var pos = 0; pos < this.BOARDDIM*this.BOARDDIM; pos++)
+                if (this.isPlayerPiece(pos) && this.canMove(pos, this.player1Move))
+                    choosablePieces[pos] = this.getPossibleSameMoves(pos);
+        }
+
+        // remove duplicates
+        for (var i = 0; i < choosablePieces.length; i++)
+        {
+            choosablePieces[i].sort();
+            choosablePieces[i] = uniqueArray(choosablePieces[i]);
+        }
+        return choosablePieces;
+    },
+
+    // input:
+    // mandBeatStart - start position in beat sequence
+    // mandBeatStart - beaten piece position in beat sequence
+    getPossibleMovesAtBeat: function(mandBeatStart, mandBeat)
+    {
+        var moveEnds = [];
+        if (this.isKing(startPos) && mandBeat.length >= 2)
+        {
+            // if king and next beat is present then
+            // check endPos with start pos from next beating
+            if (mandBeatStart[1] == endPos)
+                moveEnds = [mandBeatStart[1]];
+        }
+        else
+        {
+            // next position
+            var dir = 0;
+            // determine direction
+            if (startPos < beatPos)
+                dir = (startPos + this.BOARDDIM-1 == beatPos) ?
+                    this.MOVENW : this.MOVENE;
+            else
+                dir = (startPos - (this.BOARDDIM-1) == beatPos) ?
+                    this.MOVESE : this.MOVESW;
+            // calculate position after beat
+            afterPiece = this.goNext(beatPos, dir);
+            moveEnds.push(afterPiece);
+            if (this.isKing(startPos))
+            {
+                // check all position in cross line in this direction
+                var nextp = this.goNext(afterPiece);
+                while (nextp >= 0 && this.board[nextp] == ' ')
+                {
+                    moveEnds.push(nextp);
+                    nextp = this.goNext(nextp, dir);
+                }
+            }
+        }
+        return moveEnds;
+    },
+
+    // but not beats
+    getPossibleSameMoves: function(pos)
+    {
+        var moveEnds = [];
+        // for directions king
+        var dirs = [this.MOVENE, this.MOVENW, this.MOVESE, this.MOVESW];
+        if (!this.isKing(pos))
+            dirs = this.player1Move ? [this.MOVENE, this.MOVENW] : [this.MOVESE, this.MOVESW];
+        // check we can any move in these directions
+        for(var i = 0; i < dirs.length; i++)
+        {
+            var dir = dirs[i];
+            var nextp = this.goNext(pos, dir);
+            if (nextp >= 0 && this.board[nextp] == ' ')
+            {
+                moveEnds.push(nextp);
+                if (this.isKing(pos))
+                {
+                    // for king all possible moves
+                    nextp = this.goNext(nextp, dir);
+                    while (nextp >= 0 && this.board[nextp] == ' ')
+                        moveEnds.push(nextp);
+                }
+            }
+        }
+        return moveEnds;
     },
 
     makeMove: function(startPos, endPos)
@@ -519,6 +655,8 @@ GameBoard = {
     init: function() {
         this.boardElem = $("#checkers_board_main");
     },
+    pieceElems: [],
+    choosable: null,
 
     cellClasses: {
         'w': 'checkers_board_men_white',
@@ -529,9 +667,12 @@ GameBoard = {
 
     clearBoard: function() {
         $(".checkers_board_piece", this.boardElem).remove();
+        this.pieceElems = {};
     },
 
-    displayBoard: function(board) {
+    displayBoard: function() {
+        var board = GameLogic.board;
+        this.choosable = GameLogic.getChoosable();
         this.clearBoard();
         for (var pos = 0; pos < board.length; pos++)
         {
@@ -543,7 +684,10 @@ GameBoard = {
                         this.cellClasses[board[pos]]])
                         .css({ left: (this.cellSize*xi)+'px',
                                top: ((this.boardDim-1-yi)*this.cellSize)+'px' });
+            if (pos in this.choosable)
+                pieceElem.addClass('checkers_board_choosable');
             this.boardElem.append(pieceElem);
+            this.pieceElems[pos] = pieceElem;
         }
     }
 };
