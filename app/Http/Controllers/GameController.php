@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use \Exception;
 use App\User;
 use App\Game;
 use App\Logic\GameLogic;
