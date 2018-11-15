@@ -8,7 +8,6 @@ use App\Game;
 use App\Logic\GameLogic;
 use App\Logic\GameException;
 use App\Move;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -162,6 +161,8 @@ class GameController extends Controller
                 $game->player2()->associate($user);
                 $game->begin2_at = $currentTime;
             }
+            else if ($game->player1_id == $user->id || $game->player2_id == $user->id)
+                redirect()->route('game.play', $gameId);
             else
                 throw new Exception('ERRROR');
             $game->save();

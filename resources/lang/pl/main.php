@@ -19,6 +19,7 @@ EOT
         'Twój email nie został zweryfikowany. Powinieneś zweryfikować email.',
     'beginGame' => 'Rozpocznij nową grę',
     'contGame' => 'Kontynuuj grę',
+    'joinToGame' => 'Dołącz do gry',
     'yourGames' => 'Twoje gry',
     'yourComments' => 'Twoje komentarze',
     'yourAccount' => 'Twoje konto',

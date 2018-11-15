@@ -19,6 +19,7 @@ EOT
     'welcomeIfNotVerified' => 'Your email was not verified. You should to verify email.',
     'beginGame' => 'Begin new game',
     'contGame' => 'Continue game',
+    'joinToGame' => 'Join to game',
     'yourGames' => 'Your games',
     'yourComments' => 'Your comments',
     'yourAccount' => 'Your account',

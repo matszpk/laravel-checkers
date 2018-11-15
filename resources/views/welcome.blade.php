@@ -31,6 +31,9 @@
                 <a href="{{ route('game.listToContinue') }}">@lang('main.contGame')</a>
             </div>
             <div class='checkers_mainbutton'>
+                <a href="{{ route('game.listToJoin') }}">@lang('main.joinToGame')</a>
+            </div>
+            <div class='checkers_mainbutton'>
                 <a href='yourGames'>@lang('main.yourGames')</a>
             </div>
             <div class='checkers_mainbutton'>
