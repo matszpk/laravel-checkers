@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\User;
+use App\Game;
+use App\Comment;
+use App\Policies\UserPolicy;
+use App\Policies\GamePolicy;
+use App\Policies\CommentPolicy;
+
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,9 +20,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\User' => 'App\Policies\UserPolicy',
-        'App\Game' => 'App\Policies\GamePolicy',
-        'App\Comment' => 'App\Policies\CommentPolicy',
+        User::class => UserPolicy::class,
+        Game::class => GamePolicy::class,
+        Comment::class => CommentPolicy::class,
     ];
 
     /**

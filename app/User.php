@@ -31,21 +31,21 @@ class User extends Authenticatable
 
     public function gamesAsPlayer1()
     {
-        return $this->hasMany('App\Game', 'player1_id');
+        return $this->hasMany(Game::class, 'player1_id');
     }
 
     public function gamesAsPlayer2()
     {
-        return $this->hasMany('App\Game', 'player2_id');
+        return $this->hasMany(Game::class, 'player2_id');
     }
     public function comments()
     {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function writtenComments()
     {
-        return $this->hasMany('App\Comment', 'writer_id');
+        return $this->hasMany(Comment::class, 'writer_id');
     }
 
     public function getName()
