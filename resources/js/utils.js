@@ -5,7 +5,15 @@
 setArraySingle = function(arr, v)
 {
     arr.splice(0, arr.length, v);
-};
+}
+
+arrayToSetObject = function(arr)
+{
+    var out={};
+    for(v in arr)
+        out[arr[v]] = true;
+    return out;
+}
 
 uniqueArray = function(arr)
 {
