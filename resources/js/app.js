@@ -24,6 +24,7 @@ Game = {
     choosenMove: null,
     choosenByKeyboard: false,
     doingMove: false,
+    timerHandle: null,
     // prevent condition races between calls
     lock: false,
     
@@ -31,10 +32,40 @@ Game = {
         this.boardElem = $("#checkers_board_main");
         GameLogic.fromData(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays);
         this.initEvents();
+        this.initTimer();
     },
+    
+    initTimer: function() {
+        this.timerHandle = setInterval(function() {
+            Game.handleTimer();
+        }, 1000);
+    },
+    
     pieceElems: [],
     choosableMoveSet: null, // initial choosable start position with further moves
     choosable: null,    // current choosable
+    
+    // for update state
+    handleTimer: function() {
+        if (this.lock)
+            return;
+        this.lock = true; 
+        axios.get(GameStateURL).then(function(response) {
+            //console.log("state:",response);
+            var data = response.data;
+            if (arrayEqual(GameLogic.board, data.board) &&
+                    arrayEqual(GameLogic.lastBeat, data.lastBeat) &&
+                    GameLogic.player1Move == data.player1Move)
+                return; // no change
+            console.log("change state");
+            GameLogic.fromData(data.board, data.player1Move, data.lastBeat,
+                    GameLogic.player1Plays);
+            Game.displayBoard();
+        }).catch(function(error) {
+            //console.log("error:",error.response.data.error);
+        });
+        this.lock = false;
+    },
 
     cellClasses: {
         'w': 'checkers_board_men_white',
@@ -73,7 +104,6 @@ Game = {
     },
     
     movePiece: function(startPos, endPos, callback) {
-        console.log('make move:'+startPos+","+endPos);
         GameLogic.makeMove(startPos, endPos);
         var xi = endPos % this.boardDim;
         var yi = Math.floor(endPos/this.boardDim);
@@ -137,6 +167,8 @@ Game = {
             this.selectPieceOrMove();
             break;
         }
+        if (event.which == 32) // key space
+            this.selectPieceOrMove();
         this.lock = false;
     },
     
@@ -354,7 +386,6 @@ Game = {
 
     handleState: function() {
         this.lock = true;
-        console.log('handle state int');
         if (this.choosenMove != null) {
             this.choosenMove = null;
         }
