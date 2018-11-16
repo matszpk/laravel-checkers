@@ -38,6 +38,7 @@ GameLogic = {
     player1Move: false,
     lastBeat: null,
     player1Plays: false,
+    lastBeatenPiece: null,
 
     fromData: function(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays)
     {
@@ -305,6 +306,8 @@ GameLogic = {
             else
                 // this is not end of beating
                 this.lastBeat = [beatPos, endPos];
+            // set last beaten piece
+            this.lastBeatenPiece = beatPos;
         }
         else
         {
@@ -357,6 +360,7 @@ GameLogic = {
             this.board[startPos] = ' ';
             this.board[endPos] = piece;
             this.handlePromotion(endPos);
+            this.lastBeatenPiece = null; // unset lastBeatenPiece
             // reverse player
             this.player1Move = !this.player1Move;
         }

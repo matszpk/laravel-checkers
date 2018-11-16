@@ -73,15 +73,26 @@ Game = {
     },
     
     movePiece: function(startPos, endPos, callback) {
+        console.log('make move:'+startPos+","+endPos);
+        GameLogic.makeMove(startPos, endPos);
         var xi = endPos % this.boardDim;
         var yi = Math.floor(endPos/this.boardDim);
-        this.getBoardPiece(startPos).animate({
+        var piece = this.pieceElems[startPos];
+        this.pieceElems[endPos] = this.pieceElems[startPos];
+        var beatPos = GameLogic.lastBeatenPiece;
+        var beatenPiece = null;
+        if (beatPos != null) {
+            beatenPiece = this.pieceElems[beatPos];
+            delete this.pieceElems[beatPos];
+        }
+        delete this.pieceElems[startPos];
+        // handle animations
+        piece.animate({
             left: (this.cellSize*xi),
             top: ((this.boardDim-1-yi)*this.cellSize)
         }, 500, 'swing', callback);
-    },
-    
-    beatPiece: function(startPos, beatenPos, endPos, callback) {
+        if (beatPos != null)
+            beatenPiece.fadeOut(450);
     },
     
     isChoosableStartPos: function(pos) {
@@ -108,6 +119,7 @@ Game = {
         if (!this.canHandleEvent())
             return;
         
+        this.lock = true;
         switch (event.keyCode) {
         case 37:    // left
             this.chooseLeftFocusedPos(); 
@@ -125,6 +137,7 @@ Game = {
             this.selectPieceOrMove();
             break;
         }
+        this.lock = false;
     },
     
     chooseLeftFocusedPos: function() {
@@ -133,7 +146,8 @@ Game = {
             this.focusedPos = this.boardDim*this.boardDim;
         var bestPos = null;
         var bestDist = 1000000;
-        for (xpos in this.choosable) {
+        for (xxpos in this.choosable) {
+            var xpos = parseInt(xxpos);
             if (this.focusedPos == xpos)
                 continue;
             var xxi = xpos % this.boardDim;
@@ -162,7 +176,8 @@ Game = {
             this.focusedPos = -1;
         var bestPos = null;
         var bestDist = 1000000;
-        for (xpos in this.choosable) {
+        for (var xxpos in this.choosable) {
+            var xpos = parseInt(xxpos);
             if (this.focusedPos == xpos)
                 continue;
             var xxi = xpos % this.boardDim;
@@ -189,7 +204,8 @@ Game = {
             this.focusedPos = this.boardDim*this.boardDim;
         var bestPos = null;
         var bestDist = 1000000;
-        for (xpos in this.choosable) {
+        for (xxpos in this.choosable) {
+            var xpos = parseInt(xxpos);
             if (this.focusedPos == xpos)
                 continue;
             var xxi = xpos % this.boardDim;
@@ -216,7 +232,8 @@ Game = {
             this.focusedPos = -1;
         var bestPos = null;
         var bestDist = 1000000;
-        for (xpos in this.choosable) {
+        for (xxpos in this.choosable) {
+            var xpos = parseInt(xxpos);
             if (this.focusedPos == xpos)
                 continue;
             var xxi = xpos % this.boardDim;
@@ -256,13 +273,6 @@ Game = {
         return $("#"+id, this.boardCell);
     },
     
-    getBoardPiece: function(pos) {
-        var xi = pos % this.boardDim;
-        var yi = Math.floor(pos/this.boardDim);
-        var id = "checkers_board_piece" + yi + xi;
-        return $("#"+id, this.boardCell);
-    },
-    
     getPosFromDOMElem: function(elem) {
         var id = $(elem).attr('id');
         return parseInt(id.substring(id.length-2));
@@ -271,34 +281,44 @@ Game = {
     handleCellEnter: function(event) {
         if (!this.canHandleEvent())
             return;
+        this.lock = true;
         var pos = this.getPosFromDOMElem(event.target);
         if (this.isChoosableStartPos(pos))
             this.updateFocusedPos(pos, false);
+        this.lock = false;
     },
     
     handleCellLeave: function(event) {
         if (!this.canHandleEvent())
             return;
+        this.lock = true;
         var pos = this.getPosFromDOMElem(event.target);
         this.updateFocusedPos(null, false);
+        this.lock = false;
     },
     
     handleCellClick: function(event) {
         if (!this.canHandleEvent())
             return;
+        this.lock = true;
         var pos = this.getPosFromDOMElem(event.target);
         if (this.choosenPos != null && pos in this.choosable)
             this.selectPieceOrMove();
+        else
+            this.lock = false;
     },
     
     handlePieceClick: function(event) {
         if (!this.canHandleEvent())
             return;
+        this.lock = true;
         var pos = this.getPosFromDOMElem(event.target);
         if (this.choosenPos != null || this.isChoosableStartPos(pos)) {
             this.updateFocusedPos(pos, false);
             this.selectPieceOrMove();
         }
+        else
+            this.lock = false;
     },
     
     // select piece or move
@@ -332,11 +352,10 @@ Game = {
         }
     },
 
-    __handleStateInt: function() {
+    handleState: function() {
+        this.lock = true;
         console.log('handle state int');
         if (this.choosenMove != null) {
-            // make move.
-            GameLogic.makeMove(this.choosenMove[0], this.choosenMove[1]);
             this.choosenMove = null;
         }
         if (GameLogic.isPlayerMove()) {
@@ -346,15 +365,6 @@ Game = {
             // otherwise player doing move
             
         }
-    },
-    
-    // handle state of the game
-    handleState: function() {
-        if (this.lock)
-            return false;
-        this.lock = true;
-        this.__handleStateInt();
         this.lock = false;
-        return true;
     }
 }
