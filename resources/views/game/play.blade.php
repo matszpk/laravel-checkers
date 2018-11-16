@@ -24,10 +24,10 @@ var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
 @else
     var gameLastBeat = null;
 @endif
-
-    GameLogic.fromData(gameBoard, gamePlayer1Move, gameLastBeat);
-    GameBoard.init();
-    GameBoard.displayBoard();
+    var replay = {{ $replay ? 'true' : 'false' }};
+    var player1Plays = {{ $data->player1_id === $userid ? 'true' : 'false' }};
+    Game.init(gameBoard, gamePlayer1Move, gameLastBeat, player1Plays);
+    Game.displayBoard();
 });
 @endsection
 

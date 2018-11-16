@@ -238,7 +238,7 @@ $footerHeight: 30px;
     position: absolute;
     width: $boardDim*$boardCellSize;
     height: $boardDim*$boardCellSize;
-    background: yellow;
+    background: white;
     left: $boardBorderSize;
     top: $boardBorderSize;
 };
@@ -440,7 +440,7 @@ $footerHeight: 30px;
     background: url('../png/king-black.png');
 };
 
-.checkers_board_choosable:hover {
+.checkers_board_choosen {
     filter: alpha(opacity=50);
     opacity: 0.5;
 };

@@ -37,12 +37,14 @@ GameLogic = {
     board: null,
     player1Move: false,
     lastBeat: null,
+    player1Plays: false,
 
-    fromData: function(newBoard, newPlayer1Move, newLastBeat)
+    fromData: function(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays)
     {
         this.board = newBoard;
         this.player1Move = newPlayer1Move;
         this.newLastBeat = newLastBeat;
+        this.player1Plays = newPlayer1Plays!=null ? newPlayer1Plays : true; 
     },
 
     startState: function()
@@ -61,6 +63,10 @@ GameLogic = {
            'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
            ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ];
+    },
+    
+    isPlayerMove: function() {
+        return this.player1Plays == this.player1Move;
     },
 
     toConsoleLog: function()
