@@ -35,6 +35,15 @@ Game = {
         this.initTimer();
     },
     
+    // initialize events
+    initEvents: function() {
+        $(document).keypress(function(e) { return Game.handleKey(e); });
+        var cells = $(".checkers_board_cell", this.boardElem);
+        cells.mouseenter(function(e) { return Game.handleCellEnter(e); })
+            .mouseleave(function(e) { return Game.handleCellLeave(e); })
+            .click(function(e) { return Game.handleCellClick(e); });
+    },
+    
     initTimer: function() {
         this.timerHandle = setInterval(function() {
             Game.handleTimer();
@@ -49,22 +58,35 @@ Game = {
     handleTimer: function() {
         if (this.lock)
             return;
-        this.lock = true; 
         axios.get(GameStateURL).then(function(response) {
-            //console.log("state:",response);
+            if (Game.lock)
+                return;
+            Game.lock = true;
             var data = response.data;
             if (arrayEqual(GameLogic.board, data.board) &&
                     arrayEqual(GameLogic.lastBeat, data.lastBeat) &&
-                    GameLogic.player1Move == data.player1Move)
+                    GameLogic.player1Move == data.player1Move) {
+                Game.lock = false;
                 return; // no change
+            }
             console.log("change state");
             GameLogic.fromData(data.board, data.player1Move, data.lastBeat,
                     GameLogic.player1Plays);
+            Game.resetSelection();
             Game.displayBoard();
+            Game.lock = false;
         }).catch(function(error) {
-            //console.log("error:",error.response.data.error);
+            Game.lock = false;
+            console.log("error:",error);
         });
-        this.lock = false;
+    },
+    
+    resetSelection: function() {
+        this.choosable  = this.choosableMoveSet = null;
+        this.focusedPos = this.choosenPos = this.choosenMove = null;
+        $(".checkers_board_cell", this.boardElem).removeClass("checkers_board_choosen");
+        $.each(this.pieceElems,
+                function(i,elem) { elem.removeClass("checkers_board_choosen"); });
     },
 
     cellClasses: {
@@ -81,7 +103,9 @@ Game = {
 
     displayBoard: function() {
         var board = GameLogic.board;
-        this.choosable  = this.choosableMoveSet = GameLogic.getChoosable();
+        this.choosable  = this.choosableMoveSet = null;
+        if (GameLogic.isPlayerMove())
+            this.choosable  = this.choosableMoveSet = GameLogic.getChoosable();
         this.clearBoard();
         for (var pos = 0; pos < board.length; pos++)
         {
@@ -104,6 +128,7 @@ Game = {
     },
     
     movePiece: function(startPos, endPos, callback) {
+        this.doingMove = true;
         GameLogic.makeMove(startPos, endPos);
         var xi = endPos % this.boardDim;
         var yi = Math.floor(endPos/this.boardDim);
@@ -125,21 +150,12 @@ Game = {
             beatenPiece.fadeOut(450);
     },
     
-    isChoosableStartPos: function(pos) {
+    isChoosablePos: function(pos) {
         return this.choosable != null && (pos in this.choosable);
     },
     
-    // initialize events
-    initEvents: function() {
-        $(document).keypress(function(e) { return Game.handleKey(e); });
-        var cells = $(".checkers_board_cell", this.boardElem);
-        cells.mouseenter(function(e) { return Game.handleCellEnter(e); })
-            .mouseleave(function(e) { return Game.handleCellLeave(e); })
-            .click(function(e) { return Game.handleCellClick(e); });
-    },
-    
     canHandleEvent: function() {
-        if (!this.lock && (this.doingMove || !GameLogic.isPlayerMove()))
+        if (this.lock || this.doingMove || !GameLogic.isPlayerMove())
             return false;
         return true;
     },
@@ -165,11 +181,12 @@ Game = {
             break;
         case 13:   // enter
             this.selectPieceOrMove();
-            break;
+            return;
         }
         if (event.which == 32) // key space
             this.selectPieceOrMove();
-        this.lock = false;
+        else
+            this.lock = false;
     },
     
     chooseLeftFocusedPos: function() {
@@ -315,7 +332,7 @@ Game = {
             return;
         this.lock = true;
         var pos = this.getPosFromDOMElem(event.target);
-        if (this.isChoosableStartPos(pos))
+        if (this.isChoosablePos(pos))
             this.updateFocusedPos(pos, false);
         this.lock = false;
     },
@@ -334,7 +351,7 @@ Game = {
             return;
         this.lock = true;
         var pos = this.getPosFromDOMElem(event.target);
-        if (this.choosenPos != null && pos in this.choosable)
+        if (this.choosenPos != null && this.isChoosablePos(pos))
             this.selectPieceOrMove();
         else
             this.lock = false;
@@ -345,7 +362,7 @@ Game = {
             return;
         this.lock = true;
         var pos = this.getPosFromDOMElem(event.target);
-        if (this.choosenPos != null || this.isChoosableStartPos(pos)) {
+        if (this.isChoosablePos(pos)) {
             this.updateFocusedPos(pos, false);
             this.selectPieceOrMove();
         }
@@ -365,6 +382,7 @@ Game = {
             this.pieceElems[this.choosenPos].addClass("checkers_board_choosen");
             this.focusedPos = null;
             this.choosable = arrayToSetObject(this.choosableMoveSet[fpos]);
+            this.lock = false;
         } else {
             // if piece choosen, then move will be choosen
             this.focusedPos = null;
@@ -378,6 +396,8 @@ Game = {
             this.pieceElems[this.choosenMove[0]].removeClass("checkers_board_choosen");
             
             this.movePiece(this.choosenMove[0], this.choosenMove[1], function() {
+                // if end of move
+                Game.doingMove = false;
                 // handle state again
                 Game.handleState();
             });
