@@ -20,12 +20,8 @@ var gamePlayer1Move = @json($data->player1_move!=0);
     var gameLastBeat = null;
 @endif
     var replay = @json($replay==1);
-    var player1Plays =
-    @if ($data->player1_id == $userid && $data->player2_id == $userid)
-        {{-- if we have two same players --}}
-        @json($player==0);
-    @else
-        @json($data->player1_id === $userid);
+    @if (!$replay)
+        var player1Plays = @json($player1Plays);
     @endif
     
     var gameMoves = @json($moves);
@@ -41,6 +37,10 @@ var gamePlayer1Move = @json($data->player1_move!=0);
 
 @section('main')
     <div id='checkers_game_title'>{{ $data->getName() }}</div>
+    @if (!$replay)
+    <div id='checkers_game_side'>
+        @lang($player1Plays ? 'game.youPlayWhites' : 'game.youPlayBlacks')</div>
+    @endif
     <div id='checkers_board'>
         <div id='checkers_board_main'>
         @for ($i = 0; $i < $boardDim; $i++)

@@ -87,6 +87,7 @@ Game = {
                     GameLogic.player1Plays);
             Game.resetSelection();
             Game.displayBoard();
+            Game.displayMoves();
             Game.lock = false;
         }).catch(function(error) {
             Game.lock = false;

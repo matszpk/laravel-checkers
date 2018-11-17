@@ -24,4 +24,7 @@ return [
 
     'playWhites' => 'Play whites',
     'playBlacks' => 'Play blacks',
+    
+    'youPlayWhites' => 'You play whites',
+    'youPlayBlacks' => 'You play blacks',
 ];

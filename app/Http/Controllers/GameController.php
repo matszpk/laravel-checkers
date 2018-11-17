@@ -130,8 +130,15 @@ class GameController extends Controller
         // validate input
         $this->validate($request, ['player' => 'nullable|integer|min:0|max:1' ]);
         
+        $player1Plays = true;
+        if ($game->player1_id == $user->id && $game->player2_id == $user->id)
+            // same two players, get from input 'player'
+            $player1Plays = $request->input('player')==0;
+        else
+            $player1Plays = ($game->player1_id == $user->id);
+        
         return view('game.play', array_merge($data, [ 'replay' => False,
-                'player' => $request->input('player') ]));
+                'player1Plays' => $player1Plays ]));
     }
 
     // replay game
