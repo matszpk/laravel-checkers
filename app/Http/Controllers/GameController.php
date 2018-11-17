@@ -69,6 +69,14 @@ class GameController extends Controller
             })->
             whereNotNull('result')->withCount('comments')->paginate(15) ]);
     }
+    
+    // get game moves as list accepted in response output
+    // in format: [ (start0, end0, player1_0), ... ]
+    private static function getMovesAsOutList($moves)
+    {
+        return $moves->map(function($m) {
+            return [ $m->startpos, $m->endpos, $m->done_by_player1 ]; });
+    }
 
     public function getGameState(string $gameId)
     {
@@ -77,18 +85,14 @@ class GameController extends Controller
         // authorizatrion
         $this->authorize('play', $game);
 
-        $board = [];
-        for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
-            $board[$i] = $game->board[$i];
+        $board = str_split($game->board);
         $lastBeat = NULL;
         if ($game->last_start!==NULL && $game->last_beat!==NULL)
             $lastBeat = [ $game->last_start, $game->last_beat ];
         
-        $moves = $game->moves->map(function($m) {
-            return [ $m->startpos, $m->endpos, $m->done_by_player1 ]; });
-            
         return [ 'board' => $board, 'player1Move' => $game->player1_move,
-                    'lastBeat' => $lastBeat, 'moves' => $moves,
+                    'lastBeat' => $lastBeat,
+                    'moves' => Self::getMovesAsOutList($game->moves),
                     'gameName' => $game->getName() ];
     }
 
@@ -101,7 +105,8 @@ class GameController extends Controller
         // get writers for comments
         $writerIds = $data->comments->pluck('writer_id');
         $writers = User::find($writerIds, ['id','name'])->keyBy('id');
-        return [ 'data' => $data, 'writers' => $writers ];
+        return [ 'data' => $data, 'writers' => $writers,
+                'moves' => Self::getMovesAsOutList($data->moves) ];
     }
     
     // choose game side (white or black)
@@ -150,12 +155,9 @@ class GameController extends Controller
         $gameLogic = new GameLogic();
 
         $game = new Game([]);
-        $outBoard = '';
-        for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
-            $outBoard .= $gameLogic->getBoard()[$i];
         $currentTime = now();
         $game = new Game([]);
-        $game->board = $outBoard;
+        $game->board = implode('', $gameLogic->getBoard());
         if ($asPlayer1)
         {
             $game->player1()->associate($user);
@@ -208,30 +210,26 @@ class GameController extends Controller
         DB::transaction(function() use ($gameId, $startPos, $endPos, &$error,
                 &$outIsPlayer1Move) {
             $game = Game::find($gameId);
-
+            
             $currentTime = now();
             // authorizatrion
             $this->authorize('makeMove', $game);
             $lastBeat = NULL;
             if ($game->last_beat !== NULL)
                 $lastBeat = [$game->last_start, $game->last_beat];
-
-            $board = [];
-            for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
-                $board[$i] = $game->board[$i];
-
+            
             // initialize Game logic
-            $gameLogic = GameLogic::fromData($game->board, $game->player1_move,
-                    $last_beat);
+            $gameLogic = GameLogic::fromData(str_split($game->board),
+                    $game->player1_move, $lastBeat);
             $doneByPlayer1 = $gameLogic->isPlayer1MakeMove();
-
+            
             if ($gameLogic->checkGameEnd() != GameLogic::NOTEND)
             {
                 // if end of game
                 $error = $ex->getMessage();
                 return;
             }
-
+            
             // try to make move
             try
             {
@@ -246,13 +244,10 @@ class GameController extends Controller
             $move = new Move([ 'startpos' => $startPos, 'endPos' => $endPos,
                     'done_at' => $currentTime, 'done_by_player1' => $doneByPlayer1 ]);
             $lastBeat = $gameLogic->getLastBeat();
-
+            
             // update board
-            $outBoard = '';
-            for ($i = 0; $i < GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
-                $outBoard .= $gameLogic->getBoard()[$i];
-            $game->board = $outBoard;
-
+            $game->board = implode('', $gameLogic->getBoard());
+            
             // update last beat
             if ($lastBeat !== NULL)
             {
@@ -267,7 +262,7 @@ class GameController extends Controller
             }
             // update current isplayer1move
             $game->player1_move = $gameLogic->isPlayer1MakeMove();
-
+            
             // check game end
             $gameResult = $gameLogic->checkGameEnd();
             if ($gameResult != GameLogic::NOTEND)
@@ -278,6 +273,8 @@ class GameController extends Controller
             }
             $game->moves()->save($move);
             $game->save();
+            
+            $outIsPlayer1Move = $gameLogic->isPlayer1MakeMove();
         });
 
         if ($error !== NULL)

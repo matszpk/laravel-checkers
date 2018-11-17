@@ -12,35 +12,23 @@
 
 @section('script')
 $(function() {
-var gameBoard = [
-    @for ($i = 0; $i < $boardDim*$boardDim-1; $i++)
-        '{{ $data->board[$i] }}',
-    @endfor
-    '{{ $data->board[$boardDim*$boardDim-1] }}'
-];
-var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
+var gameBoard = @json(str_split($data->board));
+var gamePlayer1Move = @json($data->player1_move!=0);
 @if ($data->last_beat !== NULL)
     var gameLastBeat = [ {{ $data->last_start }}, {{ $data->last_beat }} ];
 @else
     var gameLastBeat = null;
 @endif
-    var replay = {{ $replay ? 'true' : 'false' }};
+    var replay = @json($replay==1);
     var player1Plays =
     @if ($data->player1_id == $userid && $data->player2_id == $userid)
         {{-- if we have two same players --}}
-        {{ $player==0 ? 'true' : 'false' }};
+        @json($player==0);
     @else
-        {{ $data->player1_id === $userid ? 'true' : 'false' }};
+        @json($data->player1_id === $userid);
     @endif
     
-    var gameMoves = [
-    @for ($i = 0; $i < count($data->moves)-1; $i++)
-        [ {{ $data->moves[$i][0] }}, {{ $data->moves[$i][1] }} ], 
-    @endfor
-    @if (count($data->moves)!=0)
-        [ {{ end($data->moves)[0] }}, {{ end($data->moves)[1] }} ]
-    @endif
-    ];
+    var gameMoves = @json($moves);
     
     GameStateURL = "{{ route('game.state', $data->id) }}";
     
