@@ -73,7 +73,7 @@ class GameController extends Controller
     public function getGameState(string $gameId)
     {
         $game = Game::with([ 'moves' => function($query) {
-            $query->orderBy('done_at', 'asc'); }])->find($gameId);
+            $query->orderBy('done_at', 'asc'); }, 'player1', 'player2' ])->find($gameId);
         // authorizatrion
         $this->authorize('play', $game);
 
@@ -83,9 +83,11 @@ class GameController extends Controller
         $lastBeat = NULL;
         if ($game->last_start!==NULL && $game->last_beat!==NULL)
             $lastBeat = [ $game->last_start, $game->last_beat ];
+        
         return [ 'board' => $board, 'player1Move' => $game->player1_move,
                     'lastBeat' => $lastBeat,
-                     'moves' => $game->moves ];
+                    'moves' => $game->moves,
+                    'gameName' => $game->getName() ];
     }
 
     private function getGameData(string $gameId)

@@ -33,15 +33,26 @@ var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
         {{ $data->player1_id === $userid ? 'true' : 'false' }};
     @endif
     
+    var gameMoves = [
+    @for ($i = 0; $i < count($data->moves)-1; $i++)
+        [ {{ $data->moves[$i][0] }}, {{ $data->moves[$i][1] }} ], 
+    @endfor
+    @if (count($data->moves)!=0)
+        [ {{ end($data->moves)[0] }}, {{ end($data->moves)[1] }} ]
+    @endif
+    ];
+    
     GameStateURL = "{{ route('game.state', $data->id) }}";
     
     Game.init(gameBoard, gamePlayer1Move, gameLastBeat, player1Plays);
+    Game.initMoves(gameMoves);
     Game.displayBoard();
+    Game.displayMoves();
 });
 @endsection
 
-
 @section('main')
+    <div id='checkers_game_title'>{{ $data->getName() }}</div>
     <div id='checkers_board'>
         <div id='checkers_board_main'>
         @for ($i = 0; $i < $boardDim; $i++)
@@ -79,10 +90,8 @@ var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
         </div>
     </div>
     <div id='checkers_movelist'>
-    bla bla bla<br/>blebleble
     </div>
     <div id='checkers_gamestatus'>
-    bla bla bla blebleble
     </div>
 
     @include('components.comments')

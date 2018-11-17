@@ -30,8 +30,9 @@ class Game extends Model
 
     public function getName()
     {
+        $player1Name = $this->player1!=NULL ? $this->player1->name : '-';
+        $player2Name = $this->player2!=NULL ? $this->player2->name : '-';
         return trans('game.beginAt') .' '. $this->created_at .' '. trans('game.by') .' '.
-                $this->player1->name .' '. trans('game.andBy') .' '.
-                $this->player2->name;
+                $player1Name .' '. trans('game.andBy') .' '. $player2Name;
     }
 }

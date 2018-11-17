@@ -9,7 +9,7 @@ $boardDim: 10;
 $boardCellSize: 50px;
 $boardBorderSize: 40px;
 $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
-$topTitleHeight: 160px;
+$topTitleHeight: 140px;
 $footerHeight: 30px;
 
 #checkers_main {
@@ -30,7 +30,7 @@ $footerHeight: 30px;
 
 #checkers_title {
     color: yellow;
-    font-size: 70px;
+    font-size: 60px;
     text-align: center;
     a {
         color: yellow;
@@ -230,10 +230,18 @@ $footerHeight: 30px;
     cursor: pointer;
 };
 
+#checkers_game_title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+};
+
 #checkers_board {
     position: absolute;
     left: 100px;
-    top: 20px;
+    top: 50px;
     width: $boardSize;
     height: $boardSize;
     background: orange;
@@ -404,7 +412,7 @@ $footerHeight: 30px;
     padding-left: 3px;
     padding-right: 3px;
     text-align: left;
-    top: 20px;
+    top: 50px;
     left: 100px + 10px + $boardSize;
     width: 200px;
     height: $boardSize;
@@ -417,7 +425,7 @@ $footerHeight: 30px;
     padding-left: 3px;
     padding-right: 3px;
     text-align: left;
-    top: 20px + 20px + $boardSize;
+    top: 50px + 20px + $boardSize;
     left: 100px;
     width: $boardSize + 10px + 200px;
     height: 30px;

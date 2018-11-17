@@ -20,6 +20,7 @@ Game = {
     boardDim: GameLogic.BOARDDIM,
     boardElem: null,
     movesElem: null,
+    titleElem: null,
     focusedPos: null,
     choosenPos: null,
     choosenMove: null,
@@ -27,15 +28,21 @@ Game = {
     doingMove: false,
     timerHandle: null,
     moves: null, // array of moves -> [ start, end ]
+    doneMoves: 0,    // number of done moves
     // prevent condition races between calls
     lock: false,
     
     init: function(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays) {
         this.boardElem = $("#checkers_board_main");
         this.movesElem = $("#checkers_movelist");
+        this.titleElem = $("#checkers_game_title");
         GameLogic.fromData(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays);
         this.initEvents();
         this.initTimer();
+    },
+    initMoves: function(moves) {
+        this.moves = moves;
+        this.doneMoves = this.moves.length; 
     },
     
     // initialize events
@@ -66,6 +73,9 @@ Game = {
                 return;
             Game.lock = true;
             var data = response.data;
+            // update game title
+            Game.titleElem.text(data.gameName);
+            
             if (arrayEqual(GameLogic.board, data.board) &&
                     arrayEqual(GameLogic.lastBeat, data.lastBeat) &&
                     GameLogic.player1Move == data.player1Move) {
