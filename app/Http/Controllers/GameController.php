@@ -84,9 +84,11 @@ class GameController extends Controller
         if ($game->last_start!==NULL && $game->last_beat!==NULL)
             $lastBeat = [ $game->last_start, $game->last_beat ];
         
+        $moves = $game->moves->map(function($m) {
+            return [ $m->startpos, $m->endpos, $m->done_by_player1 ]; });
+            
         return [ 'board' => $board, 'player1Move' => $game->player1_move,
-                    'lastBeat' => $lastBeat,
-                    'moves' => $game->moves,
+                    'lastBeat' => $lastBeat, 'moves' => $moves,
                     'gameName' => $game->getName() ];
     }
 

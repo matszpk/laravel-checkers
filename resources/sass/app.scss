@@ -420,6 +420,13 @@ $footerHeight: 30px;
     overflow-y: auto;
 };
 
+.checkers_move_white {
+    color: gray;
+};
+.checkers_move_black {
+    color: black;
+};
+
 #checkers_gamestatus {
     position: absolute;
     padding-left: 3px;

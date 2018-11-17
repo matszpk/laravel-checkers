@@ -27,7 +27,7 @@ Game = {
     choosenByKeyboard: false,
     doingMove: false,
     timerHandle: null,
-    moves: null, // array of moves -> [ start, end ]
+    moves: null, // array of moves -> [ start, end, done_by_player1 ]
     doneMoves: 0,    // number of done moves
     // prevent condition races between calls
     lock: false,
@@ -76,7 +76,7 @@ Game = {
             // update game title
             Game.titleElem.text(data.gameName);
             
-            if (arrayEqual(GameLogic.board, data.board) &&
+            if (Game.moves.length==data.moves.length &&
                     arrayEqual(GameLogic.lastBeat, data.lastBeat) &&
                     GameLogic.player1Move == data.player1Move) {
                 Game.lock = false;
@@ -148,9 +148,12 @@ Game = {
             var syi = Math.floor(move[0]/this.boardDim);
             var exi = move[1] % this.boardDim;
             var eyi = Math.floor(move[1]/this.boardDim);
-            this.movesElem.append((i+1)+". "+
+            var moveElem = $("<div></div>").addClass(
+                       "checkers_move_"+(move[2] ? 'white' : 'black'));
+            moveElem.text((i+1)+". "+
                     String.fromCharCode(97+syi)+sxi+" "+
-                    String.fromCharCode(97+eyi)+exi+"<br/>");
+                    String.fromCharCode(97+eyi)+exi);
+            this.movesElem.append(moveElem);
         }
         // scroll to down
         this.movesElem.scrollTop(this.movesElem[0].scrollHeight);
