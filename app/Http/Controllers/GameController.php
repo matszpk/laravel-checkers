@@ -8,8 +8,10 @@ use App\Game;
 use App\Logic\GameLogic;
 use App\Logic\GameException;
 use App\Move;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class GameController extends Controller
 {
@@ -47,7 +49,6 @@ class GameController extends Controller
 
     public function listGamesToJoin()
     {
-        $user = Auth::user();
         return view('game.games', [ 'viewPurpose' => 'toJoin',
             'pag' => Game::orderBy('created_at', 'desc')->
             where(function ($query) {
@@ -86,7 +87,7 @@ class GameController extends Controller
                      'moves' => $game->moves ];
     }
 
-    public function getGameData(string $gameId)
+    private function getGameData(string $gameId)
     {
         $data = Game::with(['moves'  => function($query) {
                 $query->orderBy('done_at', 'asc'); },
@@ -97,13 +98,29 @@ class GameController extends Controller
         $writers = User::find($writerIds, ['id','name'])->keyBy('id');
         return [ 'data' => $data, 'writers' => $writers ];
     }
-
+    
+    public function chooseSide(string $gameId)
+    {
+        $data = Game::find($gameId);
+        $this->authorize('play', $data);
+        return view('game.chooseSide', [ 'gameId' => $gameId ]);
+    }
+    
     // play game
-    public function playGame(string $gameId)
+    public function playGame(Request $request, string $gameId)
     {
         $data = $this->getGameData($gameId);
         $this->authorize('play', $data['data']);
-        return view('game.play', array_merge($data, [ 'replay' => False ]));
+        $user = Auth::user();
+        $game = $data['data'];
+        if ($game->player1_id == $user->id && $game->player2_id == $user->id &&
+                !$request->exists('player')) 
+            return redirect()->route('game.chooseSide', $gameId);
+        // validate input
+        $this->validate($request, ['player' => 'nullable|integer|min:0|max:1' ]);
+        
+        return view('game.play', array_merge($data, [ 'replay' => False,
+                'player' => $request->input('player') ]));
     }
 
     // replay game

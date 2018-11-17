@@ -25,10 +25,18 @@ var gamePlayer1Move = {{ $data->player1_move ? 'true' : 'false' }};
     var gameLastBeat = null;
 @endif
     var replay = {{ $replay ? 'true' : 'false' }};
-    var player1Plays = {{ $data->player1_id === $userid ? 'true' : 'false' }};
+    var player1Plays =
+    @if ($data->player1_id == $userid && $data->player2_id == $userid)
+        {{-- if we have two same players --}}
+        {{ $player==0 ? 'true' : 'false' }};
+    @else
+        {{ $data->player1_id === $userid ? 'true' : 'false' }};
+    @endif
+    
+    GameStateURL = "{{ route('game.state', $data->id) }}";
+    
     Game.init(gameBoard, gamePlayer1Move, gameLastBeat, player1Plays);
     Game.displayBoard();
-    GameStateURL = "{{ route('game.state', $data->id) }}";
 });
 @endsection
 

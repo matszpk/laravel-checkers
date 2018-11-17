@@ -49,6 +49,7 @@ EOT
     'gamesToPlayTitle' => 'Games to play',
     'gamesToJoinTitle' => 'Games to join',
     'gamesToReplayTitle' => 'Games to replay',
+    'chooseSideTitle' => 'Choose a side to play',
 
     'likes' => 'Likes',
 ];

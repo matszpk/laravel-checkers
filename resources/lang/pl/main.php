@@ -49,6 +49,7 @@ EOT
     'gamesToPlayTitle' => 'Gry do rozegrania',
     'gamesToJoinTitle' => 'Gry do dołączenia',
     'gamesToReplayTitle' => 'Gry do odtworzenia',
+    'chooseSideTitle' => 'Wybierz stronę do grania',
 
     'likes' => 'Polubienia',
 ];

@@ -32,6 +32,12 @@
             @foreach ($pag->items() as $g)
             <tr>
                 <td>{{ $pag->firstItem() + $loop->index }}</td>
+                @if ($viewPurpose == 'toJoin')
+                    @can('join', $g)
+                    <td><a href="{{ route('game.join', $g->id) }}">
+                            {{ $g->created_at }}</a></td>
+                    @endcan
+                @else
                 @can('play', $g)
                     <td><a href="{{ route(($g->result!==NULL || $viewPurpose=='toReplay') ?
                                 'game.replay' : 'game.play', $g->id) }}">
@@ -43,6 +49,7 @@
                     <td><a href="{{ route('game.replay', $g->id) }}">
                             {{ $g->created_at }}</a></td>
                 @endcan
+                @endif
                 <td>{{ $g->end_at }}</td>
                 <td>{{ $g->comments_count }}</td>
                 <td>{{ $g->likes }}</td>

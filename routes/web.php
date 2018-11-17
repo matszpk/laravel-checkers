@@ -55,3 +55,6 @@ Route::get('/game/{gameId}/replay', 'GameController@replayGame')
 Route::get('/game/{gameId}/move', 'GameController@makeMove')
         ->name('game.move');
 Route::get('/game/{gameId}/state', 'GameController@getGameState')->name('game.state');
+
+Route::get('/game/{gameId}/choose', 'GameController@chooseSide')
+        ->name('game.chooseSide');
