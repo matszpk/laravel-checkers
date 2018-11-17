@@ -5,6 +5,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>@lang('layout.webTitle')</title>
         <link rel="stylesheet" type="text/css" href="{{ url('/') }}/css/app.css"/>
+        <link rel="shortcut icon" href="{{ url('/') }}/favicon.ico" />
         <script type="text/javascript" src="{{ url('/') }}/js/app.js"></script>
         <script type="text/javascript">
             @yield('script')
