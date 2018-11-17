@@ -409,6 +409,7 @@ $footerHeight: 30px;
     width: 200px;
     height: $boardSize;
     background: #eeeeee;
+    overflow-y: auto;
 };
 
 #checkers_gamestatus {

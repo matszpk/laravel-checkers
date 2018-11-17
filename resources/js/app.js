@@ -19,17 +19,20 @@ Game = {
     cellSize: 50,
     boardDim: GameLogic.BOARDDIM,
     boardElem: null,
+    movesElem: null,
     focusedPos: null,
     choosenPos: null,
     choosenMove: null,
     choosenByKeyboard: false,
     doingMove: false,
     timerHandle: null,
+    moves: null, // array of moves -> [ start, end ]
     // prevent condition races between calls
     lock: false,
     
     init: function(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays) {
         this.boardElem = $("#checkers_board_main");
+        this.movesElem = $("#checkers_movelist");
         GameLogic.fromData(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays);
         this.initEvents();
         this.initTimer();
@@ -125,6 +128,22 @@ Game = {
             this.boardElem.append(pieceElem);
             this.pieceElems[pos] = pieceElem;
         }
+    },
+    
+    displayMoves: function() {
+        this.movesElem.empty();
+        for (var i = 0; i < this.moves.length; i++) {
+            var move = this.moves[i];
+            var sxi = move[0] % this.boardDim;
+            var syi = Math.floor(move[0]/this.boardDim);
+            var exi = move[1] % this.boardDim;
+            var eyi = Math.floor(move[1]/this.boardDim);
+            this.movesElem.append((i+1)+". "+
+                    String.fromCharCode(97+syi)+sxi+" "+
+                    String.fromCharCode(97+eyi)+exi+"<br/>");
+        }
+        // scroll to down
+        this.movesElem.scrollTop(this.movesElem[0].scrollHeight);
     },
     
     movePiece: function(startPos, endPos, callback) {
