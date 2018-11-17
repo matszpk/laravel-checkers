@@ -11,7 +11,6 @@ use App\Move;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class GameController extends Controller
 {
@@ -35,6 +34,7 @@ class GameController extends Controller
             'pag' => $temp->withCount('comments')->paginate(15) ]);
     }
 
+    /// list games to continue (just play)
     public function listGamesToContinue()
     {
         $user = Auth::user();
@@ -47,6 +47,7 @@ class GameController extends Controller
             whereNull('result')->withCount('comments')->paginate(15) ]);
     }
 
+    // list game to join (games which you can join)
     public function listGamesToJoin()
     {
         return view('game.games', [ 'viewPurpose' => 'toJoin',
@@ -99,6 +100,7 @@ class GameController extends Controller
         return [ 'data' => $data, 'writers' => $writers ];
     }
     
+    // choose game side (white or black)
     public function chooseSide(string $gameId)
     {
         $data = Game::find($gameId);

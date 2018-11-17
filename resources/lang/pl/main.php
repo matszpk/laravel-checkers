@@ -50,6 +50,7 @@ EOT
     'gamesToJoinTitle' => 'Gry do dołączenia',
     'gamesToReplayTitle' => 'Gry do odtworzenia',
     'chooseSideTitle' => 'Wybierz stronę do grania',
+    'pageErrorTitle' => 'Błąd strony',
 
     'likes' => 'Polubienia',
 ];

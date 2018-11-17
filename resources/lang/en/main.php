@@ -50,6 +50,7 @@ EOT
     'gamesToJoinTitle' => 'Games to join',
     'gamesToReplayTitle' => 'Games to replay',
     'chooseSideTitle' => 'Choose a side to play',
+    'pageErrorTitle' => 'Page error',
 
     'likes' => 'Likes',
 ];
