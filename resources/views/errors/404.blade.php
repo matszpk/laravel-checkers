@@ -5,7 +5,7 @@
 @endsection
 
 @section('main')
-    <div class='checkers_mainpage'>
+    <div class='checkers_mainpage checkers_error'>
     @lang('error.errorCode', ['code' => '404'])<br/>
     @lang('error.pageNotFound')
     </div>

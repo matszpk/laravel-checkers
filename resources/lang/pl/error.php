@@ -9,4 +9,5 @@ return [
     'badRequest' => 'Złe odwołanie do serwisu',
     'pageNotFound' => 'Strona nie znaleziona',
     'unauthorizedAccess' => 'Nieupoważniony dostęp',
+    'serviceUnavailable' => 'Serwis niedostępny',
 ];

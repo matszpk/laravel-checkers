@@ -9,4 +9,5 @@ return [
     'badRequest' => 'Wrong call to service',
     'pageNotFound' => 'Page not found',
     'unauthorizedAccess' => 'Unauthorized access',
+    'serviceUnavailable' => 'Service unavailable',
 ];
