@@ -191,9 +191,7 @@ class GameController extends Controller
                 $game->player2()->associate($user);
                 $game->begin2_at = $currentTime;
             }
-            else if ($game->player1_id == $user->id || $game->player2_id == $user->id)
-                redirect()->route('game.play', $gameId);
-            else
+            else if ($game->player1_id != $user->id && $game->player2_id != $user->id)
                 throw new Exception('ERRROR');
             $game->save();
         });
