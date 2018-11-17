@@ -224,7 +224,7 @@ class GameController extends Controller
             if ($gameLogic->checkGameEnd() != GameLogic::NOTEND)
             {
                 // if end of game
-                $error = $ex->getMessage();
+                $error = 'Game is not finished';
                 return;
             }
             
