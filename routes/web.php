@@ -20,41 +20,48 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/users', 'UserController@index')->name('user.list');
 
-Route::get('/user/{userId}', 'UserController@getUser')->name('user.user');
-Route::post('/user/{userId}', 'UserController@addComment');
-
-Route::get('/user/{userId}/edit', 'UserController@editUser')->name('user.edit');
-Route::post('/user/{userId}/edit', 'UserController@updateUser')->name('user.update');
-
-Route::post('/user/{userId}/like', 'UserController@likeUser')->name('user.like');
-
-Route::get('/user/{userId}/wcomments', 'UserController@writtenComments')
-        ->name('user.wcomments');
+Route::prefix('/user')->group(function() {
+    Route::get('{userId}', 'UserController@getUser')->name('user.user');
+    Route::post('{userId}', 'UserController@addComment');
+    
+    Route::get('{userId}/edit', 'UserController@editUser')->name('user.edit');
+    Route::post('{userId}/edit', 'UserController@updateUser')->name('user.update');
+    
+    Route::post('{userId}/like', 'UserController@likeUser')->name('user.like');
+    
+    Route::get('{userId}/wcomments', 'UserController@writtenComments')
+            ->name('user.wcomments');
+});
 
 Route::post('/comment/{commentId}/like', 'CommentController@likeComment')
         ->name('comment.like');
 
-Route::get('/games/list/{userId?}', 'GameController@index')->name('game.list');
-Route::get('/games/tocont', 'GameController@listGamesToContinue')
-        ->name('game.listToContinue');
-Route::get('/games/tojoin', 'GameController@listGamesToJoin')
-        ->name('game.listToJoin');
-Route::get('/games/toreplay', 'GameController@listGamesToReplay')
-        ->name('game.listToReplay');
+Route::prefix('/games')->group(function() {
+    Route::get('list/{userId?}', 'GameController@index')->name('game.list');
+    Route::get('tocont', 'GameController@listGamesToContinue')
+            ->name('game.listToContinue');
+    Route::get('tojoin', 'GameController@listGamesToJoin')
+            ->name('game.listToJoin');
+    Route::get('toreplay', 'GameController@listGamesToReplay')
+            ->name('game.listToReplay');
+});
 
-Route::get('/game/newgame', 'GameController@newGame')->name('game.new');
-Route::get('/game/create/{asPlayer1}', 'GameController@createGame')
-        ->name('game.create');
-Route::get('/game/{gameId}/join', 'GameController@joinToGame')
-        ->name('game.join');
+Route::prefix('/game')->group(function() {
+    Route::get('newgame', 'GameController@newGame')->name('game.new');
+    Route::get('create/{asPlayer1}', 'GameController@createGame')
+            ->name('game.create');
+    Route::get('{gameId}/join', 'GameController@joinToGame')
+            ->name('game.join');
+    
+    Route::get('{gameId}/play', 'GameController@playGame')
+            ->name('game.play');
+    Route::get('{gameId}/replay', 'GameController@replayGame')
+            ->name('game.replay');
+    Route::get('{gameId}/move', 'GameController@makeMove')
+            ->name('game.move');
+    Route::get('{gameId}/state', 'GameController@getGameState')->name('game.state');
+    
+    Route::get('{gameId}/choose', 'GameController@chooseSide')
+            ->name('game.chooseSide');
+});
 
-Route::get('/game/{gameId}/play', 'GameController@playGame')
-        ->name('game.play');
-Route::get('/game/{gameId}/replay', 'GameController@replayGame')
-        ->name('game.replay');
-Route::get('/game/{gameId}/move', 'GameController@makeMove')
-        ->name('game.move');
-Route::get('/game/{gameId}/state', 'GameController@getGameState')->name('game.state');
-
-Route::get('/game/{gameId}/choose', 'GameController@chooseSide')
-        ->name('game.chooseSide');

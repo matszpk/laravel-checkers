@@ -5,7 +5,7 @@
 @endsection
 
 @section('main')
-    <p>@lang('user.userEdit', ['user' => $data->getName()])</p>
+    <p class='checkers_centered'>@lang('user.userEdit', ['user' => $data->getName()])</p>
     <form method='POST' action="{{ route('user.update', $data->id) }}"
             class='checkers_form' name='userAccountForm'>
         @csrf
