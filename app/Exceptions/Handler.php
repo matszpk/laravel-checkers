@@ -46,6 +46,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if (!env('APP_DEBUG'))
+        {
+            if ($request->expectsJson())
+                return response()->json([ 'error' => 'Internal error' ], 500);
+            return response()->view('errors.500', [], 500);
+        }
+        else
+            return parent::render($request, $exception);
     }
 }

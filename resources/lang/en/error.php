@@ -10,4 +10,5 @@ return [
     'pageNotFound' => 'Page not found',
     'unauthorizedAccess' => 'Unauthorized access',
     'serviceUnavailable' => 'Service unavailable',
+    'internalError' => 'Internal error',
 ];

@@ -10,4 +10,5 @@ return [
     'pageNotFound' => 'Strona nie znaleziona',
     'unauthorizedAccess' => 'Nieupoważniony dostęp',
     'serviceUnavailable' => 'Serwis niedostępny',
+    'internalError' => 'Błąd wewnętrzny',
 ];
