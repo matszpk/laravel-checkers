@@ -28,11 +28,13 @@ var gamePlayer1Move = @json($data->player1_move!=0);
     
     GameStateURL = @json(route('game.state', $data->id));
     GameMakeMoveURL = @json(route('game.move', $data->id));
+    GameTrans = @json($gameTrans);
     
     Game.init(gameBoard, gamePlayer1Move, gameLastBeat, player1Plays);
     Game.initMoves(gameMoves);
     Game.displayBoard();
     Game.displayMoves();
+    Game.handleState();
 });
 @endsection
 

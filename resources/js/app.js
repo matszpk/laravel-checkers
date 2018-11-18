@@ -91,14 +91,14 @@ Game = {
     
     doingMoves: function() {
         if (this.doneMoves < this.moves.length)
-            Game.movePiece(Game.moves[Game.doneMoves][0],
-                Game.moves[Game.doneMoves][1], function() {
+            this.movePiece(this.moves[this.doneMoves][0],
+                this.moves[this.doneMoves][1], function() {
                 Game.doneMoves++;
                 Game.doingMoves(); 
             });
         else
-            // unlock if last move
-            this.lock = false;
+            // if finish, then handle state of game
+            this.handleState();
     },
 
     resetSelection : function() {

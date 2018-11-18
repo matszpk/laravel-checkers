@@ -28,6 +28,10 @@ return [
     'youPlayWhites' => 'You play whites',
     'youPlayBlacks' => 'You play blacks',
     
+    'youDoMove' => 'You do move',
+    'oponentDoMove' => 'Oponent do move',
+    'youOponentWillBe' => 'Your oponent will be',
+    
     'movePosOutOfRange' => 'Move positions out of range',
     'noPlayerPieceInStart' => 'No player piece in start position',
     'moveIsNotMandBeat' => 'Move is not a mandatory beat',

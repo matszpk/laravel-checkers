@@ -113,6 +113,17 @@ class GameController extends Controller
             'gameName' => $data->getName() ]);
     }
     
+    private static function getGameTrans()
+    {
+        return [
+            'youDoMove' => __('game.youDoMove'),
+            'oponentDoMove' => __('game.oponentDoMove'),
+            'youOponentWillBe' => __('game.youOponentWillBe'),
+            'result_draw' => __('game.result_draw'),
+            'result_player1' => __('game.result_player1'),
+            'result_player2' => __('game.result_player2') ];
+    }
+    
     // play game
     public function playGame(Request $request, string $gameId)
     {
@@ -134,7 +145,8 @@ class GameController extends Controller
             $player1Plays = ($game->player1_id == $user->id);
         
         return view('game.play', array_merge($data, [ 'replay' => False,
-                'player1Plays' => $player1Plays ]));
+                'player1Plays' => $player1Plays,
+                'gameTrans' => Self::getGameTrans() ]));
     }
 
     // replay game
@@ -142,7 +154,9 @@ class GameController extends Controller
     {
         $data = $this->getGameData($gameId);
         $this->authorize('replay', $data['data']);
-        return view('game.replay', array_merge($data, [ 'replay' => True ]));
+        return view('game.replay', array_merge($data, [ 'replay' => True,
+                'gameTrans' => Self::getGameTrans()
+        ]));
     }
 
     public function newGame()

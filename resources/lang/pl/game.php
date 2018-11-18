@@ -28,6 +28,10 @@ return [
     'youPlayWhites' => 'Grasz białymi',
     'youPlayBlacks' => 'Grasz czarnymi',
     
+    'youDoMove' => 'Ty robisz ruch',
+    'oponentDoMove' => 'Przeciwnik robi ruch',
+    'youOponentWillBe' => 'Twoim przeciwnikiem będzie',
+    
     'movePosOutOfRange' => 'Pozycje ruchu poza zakresem',
     'noPlayerPieceInStart' => 'Nie ma bierki gracza na startowej pozycji',
     'moveIsNotMandBeat' => 'Ruch nie jest obowiązkowym biciem',
