@@ -24,6 +24,13 @@ return [
 
     'playWhites' => 'Graj białymi',
     'playBlacks' => 'Graj czarnymi',
+    
     'youPlayWhites' => 'Grasz białymi',
     'youPlayBlacks' => 'Grasz czarnymi',
+    
+    'movePosOutOfRange' => 'Pozycje ruchu poza zakresem',
+    'noPlayerPieceInStart' => 'Nie ma bierki gracza na startowej pozycji',
+    'moveIsNotMandBeat' => 'Ruch nie jest obowiązkowym biciem',
+    'wrongEndPos' => 'Zła pozycja końcowa',
+    'nofreeFieldInEnd' => 'Nie ma wolnego pola na końcowej pozycji',
 ];

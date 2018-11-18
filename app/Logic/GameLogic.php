@@ -78,11 +78,11 @@ class GameLogic
         // check startPos and endPos
         if ($startPos < 0 || $startPos >= Self::BOARDDIM*Self::BOARDDIM ||
             $endPos < 0 || $endPos >= Self::BOARDDIM*Self::BOARDDIM)
-            throw new GameException('Move positions out of range');
+            throw new GameException(trans('game.movePosOutOfRange'));
 
         // check start position
         if (!$this->isPlayerPiece($startPos))
-            throw new GameException('No player piece in start position');
+            throw new GameException(trans('game.noPlayerPieceInStart'));
 
         // now we check whether no mandatory beats
         $mandatoryBeatStarts = [];
@@ -96,7 +96,7 @@ class GameLogic
         else
         {
             if ($this->lastBeat[1] != $startPos)
-                throw new GameException('Move is not a mandatory beat');
+                throw new GameException(trans('game.moveIsNotMandBeat'));
             // only for after last beat move
             $this->findBestBeatsSeqs($this->lastBeat[1],
                     $mandatoryBeatStarts, $mandatoryBeats);
@@ -158,7 +158,7 @@ class GameLogic
 
             // after finding, we check whether mandatory beat is found
             if (!$beatFound)
-                throw new GameException('Move is not a mandatory beat');
+                throw new GameException(trans('game.moveIsNotMandBeat'));;
             // make move
             $piece = $this->board[$startPos];
             $this->board[$startPos] = ' ';
@@ -187,16 +187,16 @@ class GameLogic
                 {
                     if ($startPos + Self::BOARDDIM-1 != $endPos &&
                         $startPos + Self::BOARDDIM+1 != $endPos)
-                        throw new GameException('Wrong end position');
+                        throw new GameException(trans('game.wrongEndPos'));
                 }
                 else
                 {
                     if ($startPos - Self::BOARDDIM-1 != $endPos &&
                         $startPos - Self::BOARDDIM+1 != $endPos)
-                        throw new GameException('Wrong end position');
+                        throw new GameException(trans('game.wrongEndPos'));
                 }
                 if ($this->board[$endPos] != ' ')
-                    throw new GameException('No free field in end position');
+                    throw new GameException(trans('game.nofreeFieldInEnd'));
             }
             else // for King
             {
@@ -220,7 +220,7 @@ class GameLogic
                     }
                 }
                 if (!$endPosFound)
-                    throw new GameException('Wrong end position');
+                    throw new GameException(trans('game.wrongEndPos'));
             }
 
             // make
