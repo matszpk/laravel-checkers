@@ -8,6 +8,7 @@ use App\Game;
 use App\Logic\GameLogic;
 use App\Logic\GameException;
 use App\Move;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -114,7 +115,8 @@ class GameController extends Controller
     {
         $data = Game::find($gameId);
         $this->authorize('play', $data);
-        return view('game.chooseSide', [ 'gameId' => $gameId ]);
+        return view('game.chooseSide', [ 'gameId' => $gameId,
+            'gameName' => $data->getName() ]);
     }
     
     // play game
@@ -207,14 +209,28 @@ class GameController extends Controller
 
     private const GameResultNames = [NULL, 'player1', 'player2', 'draw'];
 
-    public function makeMove(string $gameId, int $startPos, int $endPos)
+    public function makeMove(Request $request, string $gameId)
     {
         $error = NULL;
         $outIsPlayer1Move = False;
+        $this->validate($request, [
+            'startPos' => [ 'required', 'integer', 'min:0',
+                Rule::max(GameLogic::BOARDDIM*GameLogic::BOARDDIM-1) ],
+            'endPos' => [ 'required', 'integer', 'min:0',
+                Rule::max(GameLogic::BOARDDIM*GameLogic::BOARDDIM-1) ],
+            'countMoves' => 'required|integer|min:0' ]);
+        $startPos = $request->input('startPos');
+        $endPos = $request->input('endPos');
+        $countMoves = $request->input('countMoves');
 
         DB::transaction(function() use ($gameId, $startPos, $endPos, &$error,
-                &$outIsPlayer1Move) {
-            $game = Game::find($gameId);
+                &$outIsPlayer1Move, $countMoves) {
+            $game = Game::withCount('moves')->find($gameId);
+            if ($countMoves != $game->moves_count)
+            {
+                $error = 'Game in frontend is not this same point as in backed';
+                return;
+            }
             
             $currentTime = now();
             // authorizatrion

@@ -5,6 +5,7 @@
 @endsection
 
 @section('main')
+    <div id='checkers_game_title'>{{ $gameName }}</div>
     <div class='checkers_mainpage'>
         <div class='checkers_mainbutton'>
             <a href="{{ route('game.play', $gameId) }}?player=0">
