@@ -87,15 +87,8 @@ class GameController extends Controller
         // authorizatrion
         $this->authorize('play', $game);
 
-        $board = str_split($game->board);
-        $lastBeat = NULL;
-        if ($game->last_start!==NULL && $game->last_beat!==NULL)
-            $lastBeat = [ $game->last_start, $game->last_beat ];
-        
-        return [ 'board' => $board, 'player1Move' => $game->player1_move,
-                    'lastBeat' => $lastBeat,
-                    'moves' => Self::getMovesAsOutList($game->moves),
-                    'gameName' => $game->getName() ];
+        return [ 'moves' => Self::getMovesAsOutList($game->moves),
+                 'gameName' => $game->getName() ];
     }
 
     private function getGameData(string $gameId)

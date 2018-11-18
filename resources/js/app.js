@@ -76,9 +76,7 @@ Game = {
             // update game title
             Game.titleElem.text(data.gameName);
             
-            if (Game.moves.length==data.moves.length &&
-                    arrayEqual(GameLogic.lastBeat, data.lastBeat) &&
-                    GameLogic.player1Move == data.player1Move) {
+            if (Game.moves.length==data.moves.length) {
                 Game.lock = false;
                 return; // no change
             }
