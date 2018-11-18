@@ -4,11 +4,10 @@
 @can('giveOpinion', $data)
 $(function() {
     $('#checkers_like_button').click(function() {
-        axios.post("{{ route('user.like', $data->id) }}")
-                .then(function(response)
-        {
-            $('#checkers_userlikes').text(response.data.likes);
-        });
+        checkersAxiosPost("{{ route('user.like', $data->id) }}",
+            function(response) {
+                $('#checkers_userlikes').text(response.data.likes);
+            });
     });
 });
 @endcan

@@ -57,7 +57,8 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ModelNotFoundException)
         {
             if ($request->expectsJson())
-                return response()->json([ 'error' => 'model not found',
+                return response()->json([
+                    'error' => trans(Self::ModelTransMap[$exception->getModel()]),
                     'model' => $exception->getModel()
                 ], 500);
             return response()->view('errors.modelnotfound',

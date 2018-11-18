@@ -68,7 +68,7 @@ Game = {
     handleTimer: function() {
         if (this.lock)
             return;
-        axios.get(GameStateURL).then(function(response) {
+        checkersAxiosGet(GameStateURL, function(response) {
             if (Game.lock)
                 return;
             Game.lock = true;
@@ -89,9 +89,6 @@ Game = {
             Game.displayBoard();
             Game.displayMoves();
             Game.lock = false;
-        }).catch(function(error) {
-            Game.lock = false;
-            console.log("error:",error);
         });
     },
     

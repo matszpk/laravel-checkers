@@ -39,3 +39,55 @@ arrayEqual = function(arr1, arr2) {
             return false;
     return true;
 }
+
+displayMessageTimeout = null;
+// type - 'error', 'normal'
+displayMessage = function(text, type) {
+    if (type == null)
+        type = 'normal';
+    var msgElem = $("#checkers_message");
+    if (type == 'error')
+        msgElem.addClass("checkers_error_message");
+    else
+        msgElem.removeClass("checkers_error_message");
+    msgElem.text(text);
+    // clear previous timeout, before them
+    if (displayMessageTimeout)
+        clearTimeout(displayMessageTimeout);
+    displayMessageTimeout = null;
+    // main fade in and fade out
+    msgElem.fadeIn(500, function() {
+        displayMessageTimeout = setTimeout(function() {
+            msgElem.fadeOut(500);
+        }, 4000);
+    });
+}
+
+checkersAxiosError = function(error, errorCallback) {
+    if (error.response) {
+        if (error.response.data && error.response.data.error != null)
+            displayMessage(error.response.data.error, 'error');
+        else
+            displayMessage(errorTrans['httpError']+error.response.status+": "+
+                    error.response.statusText, 'error');
+    } else if (error.request) {
+        displayMessage(errorTrans['noResponse'], 'error');
+    } else {
+        displayMessage(errorTrans['errorInApp'], 'error');
+        console.log(error);
+    }
+    if (errorCallback!=null)
+        errorCallback(error);
+}
+
+checkersAxiosGet = function(options, callback, errorCallback) {
+    axios.get(options).then(callback).catch(function(error) {
+        checkersAxiosError(error, errorCallback);
+    });
+}
+
+checkersAxiosPost = function(options, callback, errorCallback) {
+    axios.post(options).then(callback).catch(function(error) {
+        checkersAxiosError(error, errorCallback);
+    });
+}

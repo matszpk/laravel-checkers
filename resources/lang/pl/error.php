@@ -16,4 +16,8 @@ return [
     'commentNotFound' => 'Nie znaleziono komentarza',
     'gameNotFound' => 'Nie znaleziono gry',
     'moveNotFound' => 'Nie znaleziono ruchu gry',
+    
+    'httpError' => 'Błąd Http: ',
+    'noResponse' => 'Nie ma odpowiedzi, nie ma komunikacji',
+    'errorInApp' => 'Coś złego jest w samej aplikacji',
 ];

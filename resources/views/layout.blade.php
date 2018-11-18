@@ -8,6 +8,9 @@
         <link rel="shortcut icon" href="{{ url('/') }}/favicon.ico" />
         <script type="text/javascript" src="{{ url('/') }}/js/app.js"></script>
         <script type="text/javascript">
+        errorTrans = @json([ 'httpError' => __('error.httpError'),
+          'noResponse' => __('error.noResponse'),
+          'errorInApp' => __('error.errorInApp') ]);
             @yield('script')
         </script>
     </head>
@@ -48,5 +51,6 @@
                 </div>
             @show
         </div>
+        <div id="checkers_message" style="display: none;"></div>
     </body>
 </html>
