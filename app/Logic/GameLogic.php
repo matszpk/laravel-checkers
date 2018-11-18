@@ -106,7 +106,6 @@ class GameLogic
         if (count($mandatoryBeats) != 0)
         {
             $beatFound = False;
-            $beatMove = NULL;
             $beatPos = NULL;
             $afterPiece = NULL;
             $c = count($mandatoryBeats);
