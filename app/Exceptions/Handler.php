@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
                 [ 'errorTrans' => Self::ModelTransMap[$exception->getModel()] ], 500);
         }
         
-        if (!env('APP_DEBUG'))
+        if (!config('app.debug'))
         {
             if ($request->expectsJson())
                 return response()->json([ 'error' => 'Internal error' ], 500);
