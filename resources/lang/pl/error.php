@@ -11,4 +11,9 @@ return [
     'unauthorizedAccess' => 'Nieupoważniony dostęp',
     'serviceUnavailable' => 'Serwis niedostępny',
     'internalError' => 'Błąd wewnętrzny',
+    
+    'userNotFound' => 'Nie znaleziono użytkownika',
+    'commentNotFound' => 'Nie znaleziono komentarza',
+    'gameNotFound' => 'Nie znaleziono gry',
+    'moveNotFound' => 'Nie znaleziono ruchu gry',
 ];

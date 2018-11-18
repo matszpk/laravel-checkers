@@ -82,7 +82,8 @@ class GameController extends Controller
     public function getGameState(string $gameId)
     {
         $game = Game::with([ 'moves' => function($query) {
-            $query->orderBy('done_at', 'asc'); }, 'player1', 'player2' ])->find($gameId);
+            $query->orderBy('done_at', 'asc'); }, 'player1', 'player2' ])
+            ->findOrFail($gameId);
         // authorizatrion
         $this->authorize('play', $game);
 
@@ -102,7 +103,7 @@ class GameController extends Controller
         $data = Game::with(['moves'  => function($query) {
                 $query->orderBy('done_at', 'asc'); },
                 'comments' => function($query) {
-                $query->orderBy('created_at', 'desc'); } ])->find($gameId);
+                $query->orderBy('created_at', 'desc'); } ])->findOrFail($gameId);
         // get writers for comments
         $writerIds = $data->comments->pluck('writer_id');
         $writers = User::find($writerIds, ['id','name'])->keyBy('id');
@@ -113,7 +114,7 @@ class GameController extends Controller
     // choose game side (white or black)
     public function chooseSide(string $gameId)
     {
-        $data = Game::find($gameId);
+        $data = Game::findOrFail($gameId);
         $this->authorize('play', $data);
         return view('game.chooseSide', [ 'gameId' => $gameId,
             'gameName' => $data->getName() ]);
@@ -186,7 +187,7 @@ class GameController extends Controller
     {
         $user = Auth::user();
         DB::transaction(function() use($gameId, $user) {
-            $game = Game::find($gameId);
+            $game = Game::findOrFail($gameId);
             // authorizatrion
             $this->authorize('join', $game);
             $currentTime = now();
@@ -225,7 +226,7 @@ class GameController extends Controller
 
         DB::transaction(function() use ($gameId, $startPos, $endPos, &$error,
                 &$outIsPlayer1Move, $countMoves) {
-            $game = Game::withCount('moves')->find($gameId);
+            $game = Game::withCount('moves')->findOrFail($gameId);
             if ($countMoves != $game->moves_count)
             {
                 $error = 'Game in frontend is not this same point as in backed';

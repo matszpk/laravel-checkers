@@ -19,7 +19,7 @@ class CommentController extends Controller
     {
         $out = NULL;
         DB::transaction(function () use ($commentId, &$out) {
-            $data = Comment::find($commentId);
+            $data = Comment::findOrFail($commentId);
             $this->authorize('giveOpinion', $data);
 
             $data->likes += 1;

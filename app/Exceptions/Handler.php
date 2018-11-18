@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Handler extends ExceptionHandler
 {
@@ -36,6 +37,13 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
     }
+    
+    private const ModelTransMap = [
+        \App\User::class => 'error.userNotFound',
+        \App\Comment::class => 'error.commentNotFound',
+        \App\Game::class => 'error.gameNotFound',
+        \App\Move::class => 'error.moveNotFound',
+    ];
 
     /**
      * Render an exception into an HTTP response.
@@ -46,6 +54,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ModelNotFoundException)
+        {
+            if ($request->expectsJson())
+                return response()->json([ 'error' => 'model not found',
+                    'model' => $exception->getModel()
+                ], 500);
+            return response()->view('errors.modelnotfound',
+                [ 'errorTrans' => Self::ModelTransMap[$exception->getModel()] ], 500);
+        }
+        
         if (!env('APP_DEBUG'))
         {
             if ($request->expectsJson())

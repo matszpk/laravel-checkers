@@ -27,7 +27,7 @@ class UserController extends Controller
     public function getUser(string $userId)
     {
         $data = User::with(['comments' => function($query) {
-                $query->orderBy('created_at', 'desc'); } ])->find($userId);
+                $query->orderBy('created_at', 'desc'); } ])->findOrFail($userId);
         // get writers for comments
         $writerIds = $data->comments->pluck('writer_id');
         $writers = User::find($writerIds, ['id','name'])->keyBy('id');
@@ -38,7 +38,7 @@ class UserController extends Controller
     public function writtenComments(string $userId)
     {
         $data = User::with(['writtenComments' => function($query) {
-                    $query->orderBy('created_at', 'desc'); } ])->find($userId);
+                    $query->orderBy('created_at', 'desc'); } ])->findOrFail($userId);
         // get commentable
         $userIds = $data->writtenComments->filter(
                 function($v) { return $v->commentable_type == 'App\User'; })
@@ -56,14 +56,14 @@ class UserController extends Controller
     // update user form
     public function editUser(string $userId)
     {
-        $data = User::find($userId);
+        $data = User::findOrFail($userId);
         $this->authorize('update', $data);
         return view('user.edit', [ 'data' => $data ]);
     }
 
     public function addComment(Request $request, string $userId)
     {
-        $data = User::find($userId);
+        $data = User::findOrFail($userId);
         $this->authorize('giveOpinion', $data);
         // validation
         $this->validate($request, [ 'content' => 'required|string|max:30000' ]);
@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         $out = NULL;
         DB::transaction(function () use ($userId, &$out) {
-            $data = User::find($userId);
+            $data = User::findOrFail($userId);
             $this->authorize('giveOpinion', $data);
 
             $data->likes += 1;
@@ -91,7 +91,7 @@ class UserController extends Controller
     public function updateUser(Request $request, string $userId)
     {
         DB::transaction(function () use ($userId, $request) {
-            $data = User::find($userId);
+            $data = User::findOrFail($userId);
             // authorization
             $this->authorize('update', $data);
 
