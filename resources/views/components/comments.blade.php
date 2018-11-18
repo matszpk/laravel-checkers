@@ -1,6 +1,5 @@
 @can('giveOpinion', $data)
-<form action="{{ route('user.addComment', $data->id) }}"
-        id='checkers_commentform' method='POST'>
+<form  id='checkers_commentform' method='POST'>
     @csrf
     <label for='checkers_comment'>@lang('main.comment'):</label>
     <textarea id='checkers_comment' name='content'></textarea>
