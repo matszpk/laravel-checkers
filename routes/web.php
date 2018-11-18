@@ -50,7 +50,7 @@ Route::prefix('/game')->name('game.')->group(function() {
     
     Route::get('{gameId}/play', 'GameController@playGame')->name('play');
     Route::get('{gameId}/replay', 'GameController@replayGame')->name('replay');
-    Route::get('{gameId}/move', 'GameController@makeMove')->name('move');
+    Route::post('{gameId}/move', 'GameController@makeMove')->name('move');
     Route::get('{gameId}/state', 'GameController@getGameState')->name('state');
     
     Route::get('{gameId}/choose', 'GameController@chooseSide')->name('chooseSide');

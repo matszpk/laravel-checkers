@@ -4,7 +4,7 @@
 @can('giveOpinion', $data)
 $(function() {
     $('#checkers_like_button').click(function() {
-        checkersAxiosPost("{{ route('user.like', $data->id) }}",
+        checkersAxiosPost("{{ route('user.like', $data->id) }}",null,
             function(response) {
                 $('#checkers_userlikes').text(response.data.likes);
             });

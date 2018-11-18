@@ -80,14 +80,14 @@ checkersAxiosError = function(error, errorCallback) {
         errorCallback(error);
 }
 
-checkersAxiosGet = function(options, callback, errorCallback) {
-    axios.get(options).then(callback).catch(function(error) {
+checkersAxiosGet = function(url, callback, errorCallback) {
+    axios.get(url).then(callback).catch(function(error) {
         checkersAxiosError(error, errorCallback);
     });
 }
 
-checkersAxiosPost = function(options, callback, errorCallback) {
-    axios.post(options).then(callback).catch(function(error) {
+checkersAxiosPost = function(url, input, callback, errorCallback) {
+    axios.post(url, input).then(callback).catch(function(error) {
         checkersAxiosError(error, errorCallback);
     });
 }
