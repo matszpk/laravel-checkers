@@ -2,15 +2,20 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
-
 $boardDim: 10;
 $boardCellSize: 50px;
 $boardBorderSize: 40px;
 $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
-$topTitleHeight: 140px;
-$footerHeight: 30px;
+$topTitleHeight: 110px;
+$footerHeight: 25px;
+
+body {
+    font-family: Helvetica, sans-serif;
+};
+
+a {
+    text-decoration: none;
+};
 
 #checkers_main {
     margin: 0 auto;
@@ -26,6 +31,7 @@ $footerHeight: 30px;
 #checkers_top {
     height: $topTitleHeight;
     background-color: SaddleBrown;
+    text-decoration: none;
 };
 
 #checkers_title {
