@@ -68,12 +68,12 @@ checkersAxiosError = function(error, errorCallback) {
         if (error.response.data && error.response.data.error != null)
             displayMessage(error.response.data.error, 'error');
         else
-            displayMessage(errorTrans['httpError']+error.response.status+": "+
+            displayMessage(Lang.get('error.httpError')+error.response.status+": "+
                     error.response.statusText, 'error');
     } else if (error.request) {
-        displayMessage(errorTrans['noResponse'], 'error');
+        displayMessage(Lang.get('error.noResponse'), 'error');
     } else {
-        displayMessage(errorTrans['errorInApp'], 'error');
+        displayMessage(Lang.get('error.errorInApp'), 'error');
         console.log(error);
     }
     if (errorCallback!=null)
