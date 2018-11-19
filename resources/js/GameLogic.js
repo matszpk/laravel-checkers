@@ -94,12 +94,8 @@ GameLogic = {
                     this.findBestBeatsSeqs(pos, mandatoryBeatStarts, mandatoryBeats);
             }
         else
-        {
-            if (this.lastBeat[1] != startPos)
-                throw 'Move is not a mandatory beat';
             // only for after last beat move
             this.findBestBeatsSeqs(this.lastBeat[1], mandatoryBeatStarts, mandatoryBeats);
-        }
 
         // if we have mandatary beats
         if (mandatoryBeats.length != 0)
@@ -141,13 +137,14 @@ GameLogic = {
     // mandBeatStart - beaten piece position in beat sequence
     getPossibleMovesAtBeat: function(mandBeatStart, mandBeat)
     {
+        var startPos = mandBeatStart[0];
+        var beatPos = mandBeat[0];
         var moveEnds = [];
         if (this.isKing(startPos) && mandBeat.length >= 2)
         {
             // if king and next beat is present then
             // check endPos with start pos from next beating
-            if (mandBeatStart[1] == endPos)
-                moveEnds = [mandBeatStart[1]];
+            moveEnds = [mandBeatStart[1]];
         }
         else
         {
@@ -198,7 +195,10 @@ GameLogic = {
                     // for king all possible moves
                     nextp = this.goNext(nextp, dir);
                     while (nextp >= 0 && this.board[nextp] == ' ')
+                    {
                         moveEnds.push(nextp);
+                        nextp = this.goNext(nextp, dir);
+                    }
                 }
             }
         }

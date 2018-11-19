@@ -8,7 +8,6 @@ use App\Game;
 use App\Logic\GameLogic;
 use App\Logic\GameException;
 use App\Move;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -215,17 +214,17 @@ class GameController extends Controller
         return redirect()->route('game.play', $gameId);
     }
 
-    private const GameResultNames = [NULL, 'player1', 'player2', 'draw'];
+    private const GameResultNames = [NULL, 'winner1', 'winner2', 'draw'];
 
     public function makeMove(Request $request, string $gameId)
     {
         $error = NULL;
         $outIsPlayer1Move = False;
         $this->validate($request, [
-            'startPos' => [ 'required', 'integer', 'min:0',
-                Rule::max(GameLogic::BOARDDIM*GameLogic::BOARDDIM-1) ],
-            'endPos' => [ 'required', 'integer', 'min:0',
-                Rule::max(GameLogic::BOARDDIM*GameLogic::BOARDDIM-1) ],
+            'startPos' => 'required|integer|min:0|max:' .
+                    (GameLogic::BOARDDIM*GameLogic::BOARDDIM-1),
+            'endPos' => 'required|integer|min:0|max:' .
+                    (GameLogic::BOARDDIM*GameLogic::BOARDDIM-1),
             'countMoves' => 'required|integer|min:0' ]);
         $startPos = $request->input('startPos');
         $endPos = $request->input('endPos');
@@ -270,7 +269,7 @@ class GameController extends Controller
                 return;
             }
             // save move in database
-            $move = new Move([ 'startpos' => $startPos, 'endPos' => $endPos,
+            $move = new Move([ 'startpos' => $startPos, 'endpos' => $endPos,
                     'done_at' => $currentTime, 'done_by_player1' => $doneByPlayer1 ]);
             $lastBeat = $gameLogic->getLastBeat();
             

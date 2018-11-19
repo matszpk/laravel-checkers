@@ -9,7 +9,8 @@ class Game extends Model
     //
     protected $table = 'games';
 
-    protected $fillable = [ 'board', 'player1_move' ];
+    protected $fillable = [ 'board', 'player1_move', 'result',
+        'last_start', 'last_beat', 'player1_move', 'end_at' ];
 
     public function player1()
     {

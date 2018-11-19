@@ -32,11 +32,11 @@ class GamePolicy
     {
         if (!$user->hasVerifiedEmail())
             return False;
-        $player1 = $game->player1->getResults();
-        if ($player1 !== NULL && $game->player1_move && $user->id === $player1->id)
+        $player1_id = $game->player1_id;
+        if ($player1_id !== NULL && $game->player1_move && $user->id == $player1_id)
             return True;
-        $player2 = $game->player2->getResults();
-        if ($player2 !== NULL && !$game->player1_move &&  $user->id === $player2->id)
+        $player2_id = $game->player2_id;
+        if ($player2_id !== NULL && !$game->player1_move && $user->id == $player2_id)
             return True;
         return False;
     }

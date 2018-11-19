@@ -179,6 +179,7 @@ Game = {
         var yi = Math.floor(endPos / this.boardDim);
         var piece = this.pieceElems[startPos];
         this.pieceElems[endPos] = this.pieceElems[startPos];
+        piece.attr('id', 'checkers_board_piece' + yi + xi);
         var beatPos = GameLogic.lastBeatenPiece;
         var beatenPiece = null;
         if (beatPos != null) {
@@ -190,7 +191,12 @@ Game = {
         piece.animate({
             left : (this.cellSize * xi),
             top : ((this.boardDim - 1 - yi) * this.cellSize)
-        }, 500, 'swing', callback);
+        }, 500, 'swing', function() {
+            piece.removeClass();
+            var board = GameLogic.board;
+            piece.addClass([ 'checkers_board_piece', Game.cellClasses[board[endPos]] ])
+            callback();
+        });
         if (beatPos != null)
             beatenPiece.fadeOut(450);
     },
@@ -454,7 +460,7 @@ Game = {
     },
 
     postMakeMove : function() {
-        checkersAxiosPost(GameMakeMoveUrl, {
+        checkersAxiosPost(GameMakeMoveURL, {
             startPos : this.choosenMove[0],
             endPos : this.choosenMove[1],
             countMoves : this.moves.length
@@ -480,13 +486,18 @@ Game = {
     resultNames: [ '', 'player1', 'player2', 'draw' ],
 
     handleState : function() {
+        console.log('handle state');
         this.lock = true;
         this.choosenMove = null;
         this.gameEnd = GameLogic.checkGameEnd();
         if (this.gameEnd == GameLogic.NOTEND) {
-            if (GameLogic.isPlayerMove())
+            if (GameLogic.isPlayerMove()) {
                 // if current player plays
                 this.statusElem.text(Lang.get('game.youDoMove'));
+                this.choosable = this.choosableMoveSet = null;
+                if (GameLogic.isPlayerMove())
+                    this.choosable = this.choosableMoveSet = GameLogic.getChoosable();
+            }
             else
                 // otherwise player doing move
                 this.statusElem.text(Lang.get('game.oponentDoMove'));
@@ -499,6 +510,7 @@ Game = {
                 clearInterval(this.timerHandle);
             this.timerHandle = null;
         }
+        this.doingMove = false;
         this.lock = false;
     }
 }
