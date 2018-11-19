@@ -30,6 +30,7 @@ Game = {
         this.boardElem = $("#checkers_board_main");
         this.movesElem = $("#checkers_movelist");
         this.titleElem = $("#checkers_game_title");
+        this.statusElem = $("#checkers_gamestatus");
         GameLogic.fromData(newBoard, newPlayer1Move, newLastBeat,
                 newPlayer1Plays);
         this.initEvents();
@@ -475,21 +476,25 @@ Game = {
             Game.postMakeMove();
         }, 1000);
     },
+    
+    resultNames: [ '', 'player1', 'player2', 'draw' ],
 
     handleState : function() {
         this.lock = true;
         this.choosenMove = null;
         this.gameEnd = GameLogic.checkGameEnd();
         if (this.gameEnd == GameLogic.NOTEND) {
-            if (GameLogic.isPlayerMove()) {
+            if (GameLogic.isPlayerMove())
                 // if current player plays
-
-            } else {
+                this.statusElem.text(Lang.get('game.youDoMove'));
+            else
                 // otherwise player doing move
-
-            }
+                this.statusElem.text(Lang.get('game.oponentDoMove'));
         } else {
             // if end
+            var msgText = Lang.get('game.result_'+this.resultNames[this.gameEnd]);
+            this.statusElem.text(msgText);
+            displayMessage(msgText);
             if (this.timerHandle != null)
                 clearInterval(this.timerHandle);
             this.timerHandle = null;
