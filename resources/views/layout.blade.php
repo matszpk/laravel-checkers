@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="{{ url('/') }}/css/app.css"/>
         <link rel="shortcut icon" href="{{ url('/') }}/favicon.ico" />
         <script type="text/javascript" src="{{ url('/') }}/js/app.js"></script>
+        <script type="text/javascript" src="{{ url('/') }}/messages.js"></script>
         <script type="text/javascript">
         errorTrans = @json([ 'httpError' => __('error.httpError'),
           'noResponse' => __('error.noResponse'),
