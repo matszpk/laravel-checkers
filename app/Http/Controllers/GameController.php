@@ -235,7 +235,7 @@ class GameController extends Controller
             $game = Game::withCount('moves')->findOrFail($gameId);
             if ($countMoves != $game->moves_count)
             {
-                $error = 'Game in frontend is not this same point as in backed';
+                $error = trans('game.notInSamePoint');
                 return;
             }
             

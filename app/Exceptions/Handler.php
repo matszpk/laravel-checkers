@@ -65,7 +65,7 @@ class Handler extends ExceptionHandler
                 [ 'errorTrans' => Self::ModelTransMap[$exception->getModel()] ], 500);
         }
         
-        if (!config('app.debug'))
+        if (!config('app.debug') && !parent::shouldntReport($exception))
         {
             if ($request->expectsJson())
                 return response()->json([ 'error' => 'Internal error' ], 500);

@@ -37,4 +37,5 @@ return [
     'moveIsNotMandBeat' => 'Ruch nie jest obowiązkowym biciem',
     'wrongEndPos' => 'Zła pozycja końcowa',
     'nofreeFieldInEnd' => 'Nie ma wolnego pola na końcowej pozycji',
+    'notInSamePoint' => 'Gra na frontendzie nie jest na tym samym punkcie co na backendzie',
 ];

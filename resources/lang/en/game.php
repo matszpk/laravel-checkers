@@ -37,4 +37,5 @@ return [
     'moveIsNotMandBeat' => 'Move is not a mandatory beat',
     'wrongEndPos' => 'Wrong end position',
     'nofreeFieldInEnd' => 'No free field in end position',
+    'notInSamePoint' => 'Game in frontend is not this same point as in backend',
 ];
