@@ -11,6 +11,6 @@ class Move extends Model
 
     public function ingame()
     {
-        return $this->hasOne(Game::class, 'ingame_id');
+        return $this->belongsTo(Game::class, 'ingame_id');
     }
 }
