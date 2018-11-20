@@ -299,7 +299,7 @@ Game = {
             this.focusedPos = old;
     },
 
-    chooseUpFocusedPos : function() {
+    chooseDownFocusedPos : function() {
         var old = this.focusedPos;
         if (this.focusedPos == null)
             this.focusedPos = this.boardDim * this.boardDim;
@@ -327,7 +327,7 @@ Game = {
             this.focusedPos = old;
     },
 
-    chooseDownFocusedPos : function() {
+    chooseUpFocusedPos : function() {
         var old = this.focusedPos;
         if (this.focusedPos == null)
             this.focusedPos = -1;
@@ -428,15 +428,20 @@ Game = {
             return false;
         var fpos = this.focusedPos;
         this.updateFocusedPos(null, true);
-        if (this.choosenPos == null) {
-            // if no piece choosen
+        if (GameLogic.board[fpos] != ' ') {
+            if (this.choosenPos!=null && fpos != this.choosenPos)
+                this.pieceElems[this.choosenPos].removeClass("checkers_board_choosen");
+            // if piece choosen first
             this.choosenPos = fpos;
             this.pieceElems[this.choosenPos].addClass("checkers_board_choosen");
             this.focusedPos = null;
-            this.choosable = arrayToSetObject(this.choosableMoveSet[fpos]);
+            //this.choosable = arrayToSetObject(this.choosableMoveSet[fpos]);
+            this.choosable = $.extend(arrayToSetObject(this.choosableMoveSet[fpos]),
+                    this.choosableMoveSet);
+            delete this.choosable[fpos];
             this.lock = false;
         } else {
-            // if piece choosen, then move will be choosen
+            // if move choosen (empty cell)
             this.focusedPos = null;
             this.choosenMove = [ this.choosenPos, fpos ];
             this.choosenPos = null;
