@@ -164,8 +164,8 @@ Game = {
             var eyi = Math.floor(move[1] / this.boardDim);
             var moveElem = $("<div></div>").addClass(
                     "checkers_move_" + (move[2] ? 'white' : 'black'));
-            moveElem.text((i + 1) + ". " + String.fromCharCode(97 + syi) + sxi
-                    + " " + String.fromCharCode(97 + eyi) + exi);
+            moveElem.text((i + 1) + ". " + String.fromCharCode(97 + sxi) + (syi+1)
+                    + " " + String.fromCharCode(97 + exi) + (eyi+1));
             this.movesElem.append(moveElem);
         }
         // scroll to down
