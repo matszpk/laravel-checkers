@@ -23,13 +23,13 @@ class GameLogicTest extends TestCase
         $this->assertEquals(-1, GameLogic::goNext(99, GameLogic::MOVENE));
 
         // north-west
-        $this->assertEquals(10, GameLogic::goNext(1, GameLogic::MOVEXNW));
-        $this->assertEquals(47, GameLogic::goNext(38, GameLogic::MOVEXNW));
-        $this->assertEquals(60, GameLogic::goNext(51, GameLogic::MOVEXNW));
-        $this->assertEquals(96, GameLogic::goNext(87, GameLogic::MOVEXNW));
-        $this->assertEquals(-1, GameLogic::goNext(40, GameLogic::MOVEXNW));
-        $this->assertEquals(-1, GameLogic::goNext(97, GameLogic::MOVEXNW));
-        $this->assertEquals(-1, GameLogic::goNext(90, GameLogic::MOVEXNW));
+        $this->assertEquals(10, GameLogic::goNext(1, GameLogic::MOVENW));
+        $this->assertEquals(47, GameLogic::goNext(38, GameLogic::MOVENW));
+        $this->assertEquals(60, GameLogic::goNext(51, GameLogic::MOVENW));
+        $this->assertEquals(96, GameLogic::goNext(87, GameLogic::MOVENW));
+        $this->assertEquals(-1, GameLogic::goNext(40, GameLogic::MOVENW));
+        $this->assertEquals(-1, GameLogic::goNext(97, GameLogic::MOVENW));
+        $this->assertEquals(-1, GameLogic::goNext(90, GameLogic::MOVENW));
 
         // south-east
         $this->assertEquals(1, GameLogic::goNext(10, GameLogic::MOVESE));
