@@ -19,8 +19,8 @@ return [
     'result' => 'Result',
     'result_' => '-',
     'result_draw' => 'Draw',
-    'result_player1' => 'Whites won',
-    'result_player2' => 'Blacks won',
+    'result_winner1' => 'Whites won',
+    'result_winner2' => 'Blacks won',
     
     'playWhites' => 'Play whites',
     'playBlacks' => 'Play blacks',

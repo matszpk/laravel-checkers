@@ -153,7 +153,7 @@ class GameController extends Controller
     {
         $data = $this->getGameData($gameId);
         $this->authorize('replay', $data['data']);
-        return view('game.replay', array_merge($data, [ 'replay' => True,
+        return view('game.play', array_merge($data, [ 'replay' => True,
                 'gameTrans' => Self::getGameTrans()
         ]));
     }

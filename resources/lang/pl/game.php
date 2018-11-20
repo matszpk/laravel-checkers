@@ -19,8 +19,8 @@ return [
     'result' => 'Wynik',
     'result_' => '-',
     'result_draw' => 'Remis',
-    'result_player1' => 'Białe wygrały',
-    'result_player2' => 'Czarne wygrały',
+    'result_winner1' => 'Białe wygrały',
+    'result_winner2' => 'Czarne wygrały',
 
     'playWhites' => 'Graj białymi',
     'playBlacks' => 'Graj czarnymi',

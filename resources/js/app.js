@@ -488,7 +488,7 @@ Game = {
         }, 1000);
     },
     
-    resultNames: [ '', 'player1', 'player2', 'draw' ],
+    resultNames: [ '', 'winner1', 'winner2', 'draw' ],
 
     handleState : function() {
         console.log('handle state');
