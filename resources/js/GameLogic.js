@@ -124,10 +124,10 @@ GameLogic = {
         }
 
         // remove duplicates
-        for (var i = 0; i < choosablePieces.length; i++)
+        for (var key in choosablePieces)
         {
-            choosablePieces[i].sort();
-            choosablePieces[i] = uniqueArray(choosablePieces[i]);
+            choosablePieces[key].sort();
+            choosablePieces[key] = uniqueArray(choosablePieces[key]);
         }
         return choosablePieces;
     },
