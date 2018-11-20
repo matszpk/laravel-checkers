@@ -14,40 +14,40 @@ class GameLogicTest extends TestCase
     public function testGoNext()
     {
         // north-east
-        $this->assertEquals(11, GameLogic::goNext(0, GameLogic::MOVENE));
-        $this->assertEquals(39, GameLogic::goNext(28, GameLogic::MOVENE));
-        $this->assertEquals(86, GameLogic::goNext(75, GameLogic::MOVENE));
-        $this->assertEquals(74, GameLogic::goNext(63, GameLogic::MOVENE));
-        $this->assertEquals(-1, GameLogic::goNext(49, GameLogic::MOVENE));
-        $this->assertEquals(-1, GameLogic::goNext(93, GameLogic::MOVENE));
-        $this->assertEquals(-1, GameLogic::goNext(99, GameLogic::MOVENE));
+        $this->assertEquals(11, GameLogic::goNext(0, GameLogic::MOVENW));
+        $this->assertEquals(39, GameLogic::goNext(28, GameLogic::MOVENW));
+        $this->assertEquals(86, GameLogic::goNext(75, GameLogic::MOVENW));
+        $this->assertEquals(74, GameLogic::goNext(63, GameLogic::MOVENW));
+        $this->assertEquals(-1, GameLogic::goNext(49, GameLogic::MOVENW));
+        $this->assertEquals(-1, GameLogic::goNext(93, GameLogic::MOVENW));
+        $this->assertEquals(-1, GameLogic::goNext(99, GameLogic::MOVENW));
 
         // north-west
-        $this->assertEquals(10, GameLogic::goNext(1, GameLogic::MOVENW));
-        $this->assertEquals(47, GameLogic::goNext(38, GameLogic::MOVENW));
-        $this->assertEquals(60, GameLogic::goNext(51, GameLogic::MOVENW));
-        $this->assertEquals(96, GameLogic::goNext(87, GameLogic::MOVENW));
-        $this->assertEquals(-1, GameLogic::goNext(40, GameLogic::MOVENW));
-        $this->assertEquals(-1, GameLogic::goNext(97, GameLogic::MOVENW));
-        $this->assertEquals(-1, GameLogic::goNext(90, GameLogic::MOVENW));
+        $this->assertEquals(10, GameLogic::goNext(1, GameLogic::MOVENE));
+        $this->assertEquals(47, GameLogic::goNext(38, GameLogic::MOVENE));
+        $this->assertEquals(60, GameLogic::goNext(51, GameLogic::MOVENE));
+        $this->assertEquals(96, GameLogic::goNext(87, GameLogic::MOVENE));
+        $this->assertEquals(-1, GameLogic::goNext(40, GameLogic::MOVENE));
+        $this->assertEquals(-1, GameLogic::goNext(97, GameLogic::MOVENE));
+        $this->assertEquals(-1, GameLogic::goNext(90, GameLogic::MOVENE));
 
         // south-east
-        $this->assertEquals(1, GameLogic::goNext(10, GameLogic::MOVESE));
-        $this->assertEquals(64, GameLogic::goNext(73, GameLogic::MOVESE));
-        $this->assertEquals(49, GameLogic::goNext(58, GameLogic::MOVESE));
-        $this->assertEquals(9, GameLogic::goNext(18, GameLogic::MOVESE));
-        $this->assertEquals(-1, GameLogic::goNext(6, GameLogic::MOVESE));
-        $this->assertEquals(-1, GameLogic::goNext(59, GameLogic::MOVESE));
-        $this->assertEquals(-1, GameLogic::goNext(9, GameLogic::MOVESE));
+        $this->assertEquals(1, GameLogic::goNext(10, GameLogic::MOVESW));
+        $this->assertEquals(64, GameLogic::goNext(73, GameLogic::MOVESW));
+        $this->assertEquals(49, GameLogic::goNext(58, GameLogic::MOVESW));
+        $this->assertEquals(9, GameLogic::goNext(18, GameLogic::MOVESW));
+        $this->assertEquals(-1, GameLogic::goNext(6, GameLogic::MOVESW));
+        $this->assertEquals(-1, GameLogic::goNext(59, GameLogic::MOVESW));
+        $this->assertEquals(-1, GameLogic::goNext(9, GameLogic::MOVESW));
 
         // south-west
-        $this->assertEquals(0, GameLogic::goNext(11, GameLogic::MOVESW));
-        $this->assertEquals(62, GameLogic::goNext(73, GameLogic::MOVESW));
-        $this->assertEquals(47, GameLogic::goNext(58, GameLogic::MOVESW));
-        $this->assertEquals(35, GameLogic::goNext(46, GameLogic::MOVESW));
-        $this->assertEquals(-1, GameLogic::goNext(40, GameLogic::MOVESW));
-        $this->assertEquals(-1, GameLogic::goNext(7, GameLogic::MOVESW));
-        $this->assertEquals(-1, GameLogic::goNext(0, GameLogic::MOVESW));
+        $this->assertEquals(0, GameLogic::goNext(11, GameLogic::MOVESE));
+        $this->assertEquals(62, GameLogic::goNext(73, GameLogic::MOVESE));
+        $this->assertEquals(47, GameLogic::goNext(58, GameLogic::MOVESE));
+        $this->assertEquals(35, GameLogic::goNext(46, GameLogic::MOVESE));
+        $this->assertEquals(-1, GameLogic::goNext(40, GameLogic::MOVESE));
+        $this->assertEquals(-1, GameLogic::goNext(7, GameLogic::MOVESE));
+        $this->assertEquals(-1, GameLogic::goNext(0, GameLogic::MOVESE));
     }
 
     // test GameLogic::isPlayerPiece
@@ -797,105 +797,105 @@ class GameLogicTest extends TestCase
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $board[56] = 'w';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         // oponent piece in other direction
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $board[54] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         // oponent piece in other direction
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $board[34] = 'B';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $board[56] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([56, 67],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $board[56] = 'B';
         $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([56, 67],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $board[67] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'w';
         $board[78] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $board[56] = 'w';
         $board[78] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[49] = 'w';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
         // if oponent piece in edge
         $board = array_fill(0, 100, ' ');
         $board[48] = 'W';
         $board[59] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, False));
 
         //////////////////////////////////////
         // if king
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $board[56] = 'w';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $board[56] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([56, 67],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $board[67] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([67, 78],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $board[78] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
         $this->assertEquals([78, 89],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
 
         // if your piece precedes oponent piece
         $board = array_fill(0, 100, ' ');
@@ -903,25 +903,25 @@ class GameLogicTest extends TestCase
         $board[56] = 'w';
         $board[78] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
         // if your piece precedes oponent piece
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $board[67] = 'w';
         $board[78] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
         // if oponent piece in edge
         $board = array_fill(0, 100, ' ');
         $board[45] = 'W';
         $board[89] = 'b';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
 
         $board = array_fill(0, 100, ' ');
         $board[49] = 'w';
         $gameLogic = GameLogic::fromData($board, True, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENE, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVENW, True));
 
         /////////////////////////////////////////
         /* blacks */
@@ -929,54 +929,54 @@ class GameLogicTest extends TestCase
         $board = array_fill(0, 100, ' ');
         $board[45] = 'b';
         $gameLogic = GameLogic::fromData($board, False, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'b';
         $board[36] = 'b';
         $gameLogic = GameLogic::fromData($board, False, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, False));
 
         // oponent piece in other direction
         $board = array_fill(0, 100, ' ');
         $board[45] = 'b';
         $board[34] = 'w';
         $gameLogic = GameLogic::fromData($board, False, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, False));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'b';
         $board[36] = 'w';
         $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertEquals([36, 27],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, False));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, False));
 
         //////////////////////////////////////
         // if king
         $board = array_fill(0, 100, ' ');
         $board[45] = 'B';
         $gameLogic = GameLogic::fromData($board, False, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, True));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'B';
         $board[34] = 'b';
         $gameLogic = GameLogic::fromData($board, False, NULL);
-        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+        $this->assertNull($gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, True));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'B';
         $board[34] = 'w';
         $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertEquals([34, 23],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, True));
 
         $board = array_fill(0, 100, ' ');
         $board[45] = 'B';
         $board[23] = 'w';
         $gameLogic = GameLogic::fromData($board, False, NULL);
         $this->assertEquals([23, 12],
-                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESW, True));
+                $gameLogic->findFirstBeatPos(45, GameLogic::MOVESE, True));
     }
 
     // test GameLogic::findBestBeatSeqs
@@ -1150,6 +1150,25 @@ class GameLogicTest extends TestCase
         $gameLogic->findBestBeatsSeqs(35, $outStartArray, $outBeatArray);
         $this->assertEquals([[35, 71]], $outStartArray);
         $this->assertEquals([[62, 82]], $outBeatArray);
+        
+        /* from real game */
+        $gameLogic = GameLogic::fromData([
+           'w', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'w', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'b',
+           ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'W', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           'b', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $outStartArray = [];
+        $outBeatArray = [];
+        $gameLogic->findBestBeatsSeqs(64, $outStartArray, $outBeatArray);
+        $this->assertEquals([[64], [64]], $outStartArray);
+        $this->assertEquals([[86], [46]], $outBeatArray);
     }
 
     // test GameLogic::makeMove
@@ -1431,6 +1450,21 @@ class GameLogicTest extends TestCase
             ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'
         ], True, NULL);
         $gameLogic->makeMove(46, 64);
+        
+        /* from real game */
+        $gameLogic = GameLogic::fromData([
+           'w', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', 'w', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'b',
+           ' ', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'w', ' ', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', 'W', ' ', ' ', ' ', ' ', ' ',
+           ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+           'b', ' ', ' ', ' ', ' ', ' ', 'b', ' ', ' ', ' ',
+           ' ', ' ', ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' '
+        ], True, NULL);
+        $gameLogic->makeMove(64, 97);
     }
 
     public function testMakeMoveWrongEndPos()

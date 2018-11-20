@@ -18,10 +18,10 @@ class GameLogic
     }
 
     // north - y+, south - y-, east - x+, west - x-
-    public const MOVENE = 0;
-    public const MOVESE = 1;
-    public const MOVENW = 2;
-    public const MOVESW = 3;
+    public const MOVENW = 0;
+    public const MOVESW = 1;
+    public const MOVENE = 2;
+    public const MOVESE = 3;
     public const BOARDDIM = 10;
 
     public const PLAYER1WIN = 1;
@@ -71,6 +71,18 @@ class GameLogic
     public function getLastBeat()
     {
         return $this->lastBeat;
+    }
+    
+    public static function getMoveDir(int $startPos, int $endPos)
+    {
+        $sxi = $startPos % Self::BOARDDIM;
+        $syi = intdiv($startPos, Self::BOARDDIM);
+        $exi = $endPos % Self::BOARDDIM;
+        $eyi = intdiv($endPos, Self::BOARDDIM);
+        if ($syi < $eyi)
+            return $sxi < $exi ? Self::MOVENW : Self::MOVENE;
+        else
+            return $sxi < $exi ? Self::MOVESW : Self::MOVESE;
     }
 
     public function makeMove(int $startPos, int $endPos)
@@ -124,14 +136,7 @@ class GameLogic
                     else
                     {
                         // next position
-                        $dir = 0;
-                        // determine direction
-                        if ($startPos < $beatPos)
-                            $dir = ($startPos + Self::BOARDDIM-1 == $beatPos) ?
-                                Self::MOVENW : Self::MOVENE;
-                        else
-                            $dir = ($startPos - (Self::BOARDDIM-1) == $beatPos) ?
-                                Self::MOVESE : Self::MOVESW;
+                        $dir = Self::getMoveDir($startPos, $beatPos);
                         // calculate position after beat
                         $afterPiece = Self::goNext($beatPos, $dir);
                         if ($endPos == $afterPiece)
@@ -246,10 +251,10 @@ class GameLogic
     {
         $playerCanMove = False;
         // for directions king
-        $dirs = [Self::MOVENE, Self::MOVENW, Self::MOVESE, Self::MOVESW];
+        $dirs = [Self::MOVENW, Self::MOVENE, Self::MOVESW, Self::MOVESE];
         if (!$this->isGivenKing($pos, $player1))
-            $dirs = $player1 ? [Self::MOVENE, Self::MOVENW] :
-                [Self::MOVESE, Self::MOVESW];
+            $dirs = $player1 ? [Self::MOVENW, Self::MOVENE] :
+                [Self::MOVESW, Self::MOVESE];
         // check we can any move in these directions
         foreach ($dirs as $dir)
         {
@@ -329,22 +334,22 @@ class GameLogic
         $yi = intdiv($pos,Self::BOARDDIM);
         switch ($dir)
         {
-            case Self::MOVENE:
+            case Self::MOVENW:
                 if ($xi+1 >= Self::BOARDDIM || $yi+1 >= Self::BOARDDIM)
                     return -1;
                 $xi++; $yi++;
                 break;
-            case Self::MOVENW:
+            case Self::MOVENE:
                 if ($xi-1 < 0 || $yi+1 >= Self::BOARDDIM)
                     return -1;
                 $xi--; $yi++;
                 break;
-            case Self::MOVESE:
+            case Self::MOVESW:
                 if ($xi+1  >= Self::BOARDDIM || $yi-1 < 0)
                     return -1;
                 $xi++; $yi--;
                 break;
-            case Self::MOVESW:
+            case Self::MOVESE:
                 if ($xi-1 < 0 || $yi-1 < 0)
                     return -1;
                 $xi--; $yi--;

@@ -23,10 +23,10 @@ uniqueArray = function(arr)
 }
 
 GameLogic = {
-    MOVENE: 0,
-    MOVESE: 1,
-    MOVENW: 2,
-    MOVESW: 3,
+    MOVENW: 0,
+    MOVESW: 1,
+    MOVENE: 2,
+    MOVESE: 3,
     BOARDDIM: 10,
 
     PLAYER1WIN: 1,
@@ -149,14 +149,7 @@ GameLogic = {
         else
         {
             // next position
-            var dir = 0;
-            // determine direction
-            if (startPos < beatPos)
-                dir = (startPos + this.BOARDDIM-1 == beatPos) ?
-                    this.MOVENW : this.MOVENE;
-            else
-                dir = (startPos - (this.BOARDDIM-1) == beatPos) ?
-                    this.MOVESE : this.MOVESW;
+            var dir = this.getMoveDir(startPos, beatPos);
             // calculate position after beat
             afterPiece = this.goNext(beatPos, dir);
             moveEnds.push(afterPiece);
@@ -179,9 +172,9 @@ GameLogic = {
     {
         var moveEnds = [];
         // for directions king
-        var dirs = [this.MOVENE, this.MOVENW, this.MOVESE, this.MOVESW];
+        var dirs = [this.MOVENW, this.MOVENE, this.MOVESW, this.MOVESE];
         if (!this.isKing(pos))
-            dirs = this.player1Move ? [this.MOVENE, this.MOVENW] : [this.MOVESE, this.MOVESW];
+            dirs = this.player1Move ? [this.MOVENW, this.MOVENE] : [this.MOVESW, this.MOVESE];
         // check we can any move in these directions
         for(var i = 0; i < dirs.length; i++)
         {
@@ -203,6 +196,19 @@ GameLogic = {
             }
         }
         return moveEnds;
+    },
+    
+    getMoveDir: function(startPos, endPos)
+    {
+        var sxi = startPos % this.BOARDDIM;
+        var syi = Math.floor(startPos/this.BOARDDIM);
+        var exi = endPos % this.BOARDDIM;
+        var eyi = Math.floor(endPos/this.BOARDDIM);
+        console.log(sxi,syi,exi,eyi);
+        if (syi < eyi)
+            return sxi < exi ? this.MOVENW : this.MOVENE;
+        else
+            return sxi < exi ? this.MOVESW : this.MOVESE;
     },
 
     makeMove: function(startPos, endPos)
@@ -255,14 +261,7 @@ GameLogic = {
                     else
                     {
                         // next position
-                        var dir = 0;
-                        // determine direction
-                        if (startPos < beatPos)
-                            dir = (startPos + this.BOARDDIM-1 == beatPos) ?
-                                this.MOVENW : this.MOVENE;
-                        else
-                            dir = (startPos - (this.BOARDDIM-1) == beatPos) ?
-                                this.MOVESE : this.MOVESW;
+                        var dir = this.getMoveDir(startPos, beatPos);
                         // calculate position after beat
                         afterPiece = this.goNext(beatPos, dir);
                         if (endPos == afterPiece)
@@ -380,9 +379,9 @@ GameLogic = {
     {
         var playerCanMove = false;
         // for directions king
-        var dirs = [this.MOVENE, this.MOVENW, this.MOVESE, this.MOVESW];
+        var dirs = [this.MOVENW, this.MOVENE, this.MOVESW, this.MOVESE];
         if (!this.isGivenKing(pos, player1))
-            dirs = player1 ? [this.MOVENE, this.MOVENW] : [this.MOVESE, this.MOVESW];
+            dirs = player1 ? [this.MOVENW, this.MOVENE] : [this.MOVESW, this.MOVESE];
         // check we can any move in these directions
         for(var i = 0; i < dirs.length; i++)
         {
@@ -463,22 +462,22 @@ GameLogic = {
         var yi = Math.floor(pos/this.BOARDDIM);
         switch (dir)
         {
-            case this.MOVENE:
+            case this.MOVENW:
                 if (xi+1 >= this.BOARDDIM || yi+1 >= this.BOARDDIM)
                     return -1;
                 xi++; yi++;
                 break;
-            case this.MOVENW:
+            case this.MOVENE:
                 if (xi-1 < 0 || yi+1 >= this.BOARDDIM)
                     return -1;
                 xi--; yi++;
                 break;
-            case this.MOVESE:
+            case this.MOVESW:
                 if (xi+1  >= this.BOARDDIM || yi-1 < 0)
                     return -1;
                 xi++; yi--;
                 break;
-            case this.MOVESW:
+            case this.MOVESE:
                 if (xi-1 < 0 || yi-1 < 0)
                     return -1;
                 xi--; yi--;
