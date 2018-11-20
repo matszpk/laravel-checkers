@@ -139,7 +139,7 @@ class GameLogic
                         else if ($this->isKing($startPos))
                         {
                             // check all position in cross line in this direction
-                            $nextp = Self::goNext($afterPiece);
+                            $nextp = Self::goNext($afterPiece, $dir);
                             while ($nextp >= 0 && $this->board[$nextp] == ' ')
                             {
                                 if ($endPos == $nextp)
