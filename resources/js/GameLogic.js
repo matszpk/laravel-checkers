@@ -204,7 +204,6 @@ GameLogic = {
         var syi = Math.floor(startPos/this.BOARDDIM);
         var exi = endPos % this.BOARDDIM;
         var eyi = Math.floor(endPos/this.BOARDDIM);
-        console.log(sxi,syi,exi,eyi);
         if (syi < eyi)
             return sxi < exi ? this.MOVENE : this.MOVENW;
         else

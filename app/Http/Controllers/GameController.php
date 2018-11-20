@@ -170,7 +170,6 @@ class GameController extends Controller
         $user = Auth::user();
         $gameLogic = new GameLogic();
 
-        $game = new Game([]);
         $currentTime = now();
         $game = new Game([]);
         if ($asPlayer1)
@@ -183,6 +182,7 @@ class GameController extends Controller
             $game->player2()->associate($user);
             $game->begin2_at = $currentTime;
         }
+        $game->board = $gameLogic->getBoard();
         $game->player1_move = True;
         $game->save();
         return redirect()->route('game.play', $game->id);

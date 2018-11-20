@@ -468,15 +468,19 @@ Game = {
             this.pieceElems[this.choosenMove[0]]
                     .removeClass("checkers_board_choosen");
             
-            this.movePiece(this.choosenMove[0], this.choosenMove[1],
-                    function() {
-                        // if end of move
-                        Game.doingMove = false;
-                        Game.doneMoves++;
-                        // put to server
-                        Game.postMakeMove();
-                    });
+            this.doMakeMove();
         }
+    },
+    
+    doMakeMove: function() {
+        this.movePiece(this.choosenMove[0], this.choosenMove[1],
+                function() {
+                    // if end of move
+                    Game.doingMove = false;
+                    Game.doneMoves++;
+                    // put to server
+                    Game.postMakeMove();
+                });
     },
 
     postMakeMove : function() {
@@ -516,9 +520,16 @@ Game = {
             if (GameLogic.isPlayerMove()) {
                 // if current player plays
                 this.statusElem.text(Lang.get('game.youDoMove'));
-                this.choosable = this.choosableMoveSet = null;
-                if (GameLogic.isPlayerMove())
-                    this.choosable = this.choosableMoveSet = GameLogic.getChoosable();
+                this.choosable = this.choosableMoveSet = GameLogic.getChoosable();
+                var chkeys = Object.keys(this.choosable);
+                console.log("choosable:"+chkeys.length)
+                if (chkeys.length == 1 && this.choosableMoveSet[chkeys[0]].length == 1) {
+                    // automatically make move
+                    this.choosenMove = [ parseInt(chkeys[0]), 
+                            this.choosableMoveSet[chkeys[0]][0], GameLogic.player1Plays ];
+                    this.choosable = this.choosableMoveSet = null;
+                    this.doMakeMove();
+                }   
             }
             else
                 // otherwise player doing move
