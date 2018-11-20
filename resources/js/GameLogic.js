@@ -23,10 +23,10 @@ uniqueArray = function(arr)
 }
 
 GameLogic = {
-    MOVENW: 0,
-    MOVESW: 1,
-    MOVENE: 2,
-    MOVESE: 3,
+    MOVENE: 0,
+    MOVESE: 1,
+    MOVENW: 2,
+    MOVESW: 3,
     BOARDDIM: 10,
 
     PLAYER1WIN: 1,
@@ -172,9 +172,9 @@ GameLogic = {
     {
         var moveEnds = [];
         // for directions king
-        var dirs = [this.MOVENW, this.MOVENE, this.MOVESW, this.MOVESE];
+        var dirs = [this.MOVENE, this.MOVENW, this.MOVESE, this.MOVESW];
         if (!this.isKing(pos))
-            dirs = this.player1Move ? [this.MOVENW, this.MOVENE] : [this.MOVESW, this.MOVESE];
+            dirs = this.player1Move ? [this.MOVENE, this.MOVENW] : [this.MOVESE, this.MOVESW];
         // check we can any move in these directions
         for(var i = 0; i < dirs.length; i++)
         {
@@ -206,9 +206,9 @@ GameLogic = {
         var eyi = Math.floor(endPos/this.BOARDDIM);
         console.log(sxi,syi,exi,eyi);
         if (syi < eyi)
-            return sxi < exi ? this.MOVENW : this.MOVENE;
+            return sxi < exi ? this.MOVENE : this.MOVENW;
         else
-            return sxi < exi ? this.MOVESW : this.MOVESE;
+            return sxi < exi ? this.MOVESE : this.MOVESW;
     },
 
     makeMove: function(startPos, endPos)
@@ -379,9 +379,9 @@ GameLogic = {
     {
         var playerCanMove = false;
         // for directions king
-        var dirs = [this.MOVENW, this.MOVENE, this.MOVESW, this.MOVESE];
+        var dirs = [this.MOVENE, this.MOVENW, this.MOVESE, this.MOVESW];
         if (!this.isGivenKing(pos, player1))
-            dirs = player1 ? [this.MOVENW, this.MOVENE] : [this.MOVESW, this.MOVESE];
+            dirs = player1 ? [this.MOVENE, this.MOVENW] : [this.MOVESE, this.MOVESW];
         // check we can any move in these directions
         for(var i = 0; i < dirs.length; i++)
         {
@@ -462,22 +462,22 @@ GameLogic = {
         var yi = Math.floor(pos/this.BOARDDIM);
         switch (dir)
         {
-            case this.MOVENW:
+            case this.MOVENE:
                 if (xi+1 >= this.BOARDDIM || yi+1 >= this.BOARDDIM)
                     return -1;
                 xi++; yi++;
                 break;
-            case this.MOVENE:
+            case this.MOVENW:
                 if (xi-1 < 0 || yi+1 >= this.BOARDDIM)
                     return -1;
                 xi--; yi++;
                 break;
-            case this.MOVESW:
+            case this.MOVESE:
                 if (xi+1  >= this.BOARDDIM || yi-1 < 0)
                     return -1;
                 xi++; yi--;
                 break;
-            case this.MOVESE:
+            case this.MOVESW:
                 if (xi-1 < 0 || yi-1 < 0)
                     return -1;
                 xi--; yi--;

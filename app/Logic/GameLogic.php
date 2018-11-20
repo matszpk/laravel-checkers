@@ -18,10 +18,10 @@ class GameLogic
     }
 
     // north - y+, south - y-, east - x+, west - x-
-    public const MOVENW = 0;
-    public const MOVESW = 1;
-    public const MOVENE = 2;
-    public const MOVESE = 3;
+    public const MOVENE = 0;
+    public const MOVESE = 1;
+    public const MOVENW = 2;
+    public const MOVESW = 3;
     public const BOARDDIM = 10;
 
     public const PLAYER1WIN = 1;
@@ -80,9 +80,9 @@ class GameLogic
         $exi = $endPos % Self::BOARDDIM;
         $eyi = intdiv($endPos, Self::BOARDDIM);
         if ($syi < $eyi)
-            return $sxi < $exi ? Self::MOVENW : Self::MOVENE;
+            return $sxi < $exi ? Self::MOVENE : Self::MOVENW;
         else
-            return $sxi < $exi ? Self::MOVESW : Self::MOVESE;
+            return $sxi < $exi ? Self::MOVESE : Self::MOVESW;
     }
 
     public function makeMove(int $startPos, int $endPos)
@@ -251,10 +251,10 @@ class GameLogic
     {
         $playerCanMove = False;
         // for directions king
-        $dirs = [Self::MOVENW, Self::MOVENE, Self::MOVESW, Self::MOVESE];
+        $dirs = [Self::MOVENE, Self::MOVENW, Self::MOVESE, Self::MOVESW];
         if (!$this->isGivenKing($pos, $player1))
-            $dirs = $player1 ? [Self::MOVENW, Self::MOVENE] :
-                [Self::MOVESW, Self::MOVESE];
+            $dirs = $player1 ? [Self::MOVENE, Self::MOVENW] :
+                [Self::MOVESE, Self::MOVESW];
         // check we can any move in these directions
         foreach ($dirs as $dir)
         {
@@ -334,22 +334,22 @@ class GameLogic
         $yi = intdiv($pos,Self::BOARDDIM);
         switch ($dir)
         {
-            case Self::MOVENW:
+            case Self::MOVENE:
                 if ($xi+1 >= Self::BOARDDIM || $yi+1 >= Self::BOARDDIM)
                     return -1;
                 $xi++; $yi++;
                 break;
-            case Self::MOVENE:
+            case Self::MOVENW:
                 if ($xi-1 < 0 || $yi+1 >= Self::BOARDDIM)
                     return -1;
                 $xi--; $yi++;
                 break;
-            case Self::MOVESW:
+            case Self::MOVESE:
                 if ($xi+1  >= Self::BOARDDIM || $yi-1 < 0)
                     return -1;
                 $xi++; $yi--;
                 break;
-            case Self::MOVESE:
+            case Self::MOVESW:
                 if ($xi-1 < 0 || $yi-1 < 0)
                     return -1;
                 $xi--; $yi--;
