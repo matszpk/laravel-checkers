@@ -12,7 +12,7 @@
 
 @section('script')
 $(function() {
-var gameBoard = @json(str_split($data->board));
+var gameBoard = @json($data->board);
 var gamePlayer1Move = @json($data->player1_move!=0);
 @if ($data->last_beat !== NULL)
     var gameLastBeat = [ {{ $data->last_start }}, {{ $data->last_beat }} ];

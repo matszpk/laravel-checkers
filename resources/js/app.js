@@ -91,13 +91,15 @@ Game = {
     },
     
     doingMoves: function() {
-        if (this.doneMoves < this.moves.length)
+        if (this.doneMoves < this.moves.length) {
+            // update move list
+            this.updateDisplayMoves(this.doneMoves, this.doneMoves+1);
             this.movePiece(this.moves[this.doneMoves][0],
                 this.moves[this.doneMoves][1], function() {
                 Game.doneMoves++;
                 Game.doingMoves(); 
             });
-        else
+        } else
             // if finish, then handle state of game
             this.handleState();
     },
@@ -156,7 +158,15 @@ Game = {
 
     displayMoves : function() {
         this.movesElem.empty();
-        for (var i = 0; i < this.moves.length; i++) {
+        this.updateDisplayMoves();
+    },
+    
+    updateDisplayMoves: function(moveCount, newMoveCount) {
+        if (moveCount == null)
+            moveCount = 0;
+        if (newMoveCount == null)
+            newMoveCount = this.moves.length;
+        for (var i = moveCount; i < newMoveCount; i++) {
             var move = this.moves[i];
             var sxi = move[0] % this.boardDim;
             var syi = Math.floor(move[0] / this.boardDim);
@@ -164,12 +174,17 @@ Game = {
             var eyi = Math.floor(move[1] / this.boardDim);
             var moveElem = $("<div></div>").addClass(
                     "checkers_move_" + (move[2] ? 'white' : 'black'));
-            moveElem.text((i + 1) + ". " + String.fromCharCode(97 + sxi) + (syi+1)
+            moveElem.text((i+1) + ". " + String.fromCharCode(97 + sxi) + (syi+1)
                     + " " + String.fromCharCode(97 + exi) + (eyi+1));
             this.movesElem.append(moveElem);
         }
         // scroll to down
         this.movesElem.scrollTop(this.movesElem[0].scrollHeight);
+    },
+    
+    addMove: function(move) {
+        this.moves.push(move);
+        this.updateDisplayMoves(this.moves.length-1);
     },
 
     movePiece : function(startPos, endPos, callback) {
@@ -443,7 +458,7 @@ Game = {
         } else {
             // if move choosen (empty cell)
             this.focusedPos = null;
-            this.choosenMove = [ this.choosenPos, fpos ];
+            this.choosenMove = [ this.choosenPos, fpos, GameLogic.player1Plays ];
             this.choosenPos = null;
             // reset choosable sets
             this.choosable = this.choosableMoveSet = null;
@@ -452,7 +467,7 @@ Game = {
             // unfocus piece
             this.pieceElems[this.choosenMove[0]]
                     .removeClass("checkers_board_choosen");
-
+            
             this.movePiece(this.choosenMove[0], this.choosenMove[1],
                     function() {
                         // if end of move
@@ -470,6 +485,8 @@ Game = {
             endPos : this.choosenMove[1],
             countMoves : this.moves.length
         }, function(response) {
+            // add move
+            Game.addMove(Game.choosenMove);
             // handle state again
             Game.handleState();
         },

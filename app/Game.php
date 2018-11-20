@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Logic\GameLogic;
 use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
@@ -35,5 +36,18 @@ class Game extends Model
         $player2Name = $this->player2!=NULL ? $this->player2->name : '-';
         return trans('game.beginAt') .' '. $this->created_at .' '. trans('game.by') .' '.
                 $player1Name .' '. trans('game.andBy') .' '. $player2Name;
+    }
+    
+    public function getBoardAttribute($value)
+    {
+        $out = str_split($value);
+        for ($i = count($out); $i != GameLogic::BOARDDIM*GameLogic::BOARDDIM; $i++)
+            array_push($out, ' ');
+        return $out;
+    }
+    
+    public function setBoardAttribute($value)
+    {
+        $this->attributes['board'] = implode('', $value);
     }
 }

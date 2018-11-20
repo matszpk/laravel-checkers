@@ -18,7 +18,7 @@ class GameController extends Controller
     {
         $this->middleware(['auth', 'verified']);
     }
-
+    
     public function index(string $userId = NULL)
     {
         $temp = NULL;   // temp object for querying
@@ -173,7 +173,6 @@ class GameController extends Controller
         $game = new Game([]);
         $currentTime = now();
         $game = new Game([]);
-        $game->board = implode('', $gameLogic->getBoard());
         if ($asPlayer1)
         {
             $game->player1()->associate($user);
@@ -247,7 +246,7 @@ class GameController extends Controller
                 $lastBeat = [$game->last_start, $game->last_beat];
             
             // initialize Game logic
-            $gameLogic = GameLogic::fromData(str_split($game->board),
+            $gameLogic = GameLogic::fromData($game->board,
                     $game->player1_move, $lastBeat);
             $doneByPlayer1 = $gameLogic->isPlayer1MakeMove();
             
@@ -274,7 +273,7 @@ class GameController extends Controller
             $lastBeat = $gameLogic->getLastBeat();
             
             // update board
-            $game->board = implode('', $gameLogic->getBoard());
+            $game->board = $gameLogic->getBoard();
             
             // update last beat
             if ($lastBeat !== NULL)
