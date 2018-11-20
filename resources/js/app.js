@@ -23,6 +23,8 @@ Game = {
     moves : [], // array of moves -> [ start, end, done_by_player1 ]
     doneMoves : 0, // number of done moves
     gameEnd : GameLogic.NOTEND,
+    player1: null,
+    player2: null,
     // prevent condition races between calls
     lock : false,
 
@@ -78,6 +80,13 @@ Game = {
             var data = response.data;
             // update game title
             Game.titleElem.text(data.gameName);
+            
+            if (Game.player1=='-' && data.player1!='-')
+                displayMessage(Lang.get('game.youOponentWillBe')+' '+data.player1);
+            else if (Game.player2=='-' && data.player2!='-')
+                displayMessage(Lang.get('game.youOponentWillBe')+' '+data.player2);
+            Game.player1 = data.player1;
+            Game.player2 = data.player2;
 
             if (Game.moves.length == data.moves.length) {
                 Game.lock = false;

@@ -83,11 +83,14 @@ class GameController extends Controller
         $game = Game::with([ 'moves' => function($query) {
             $query->orderBy('done_at', 'asc'); }, 'player1', 'player2' ])
             ->findOrFail($gameId);
-        // authorizatrion
+        // authorization
         $this->authorize('play', $game);
 
+        $player1Name = $game->player1!=NULL ? $game->player1->name : '-';
+        $player2Name = $game->player2!=NULL ? $game->player2->name : '-';
         return [ 'moves' => Self::getMovesAsOutList($game->moves),
-                 'gameName' => $game->getName() ];
+                 'gameName' => $game->getName(),
+                 'player1' => $player1Name, 'player2' => $player2Name ];
     }
 
     private function getGameData(string $gameId)
@@ -95,12 +98,18 @@ class GameController extends Controller
         $data = Game::with(['moves'  => function($query) {
                 $query->orderBy('done_at', 'asc'); },
                 'comments' => function($query) {
-                $query->orderBy('created_at', 'desc'); } ])->findOrFail($gameId);
+                $query->orderBy('created_at', 'desc'); },
+                'player1', 'player2' ])->findOrFail($gameId);
+        
         // get writers for comments
         $writerIds = $data->comments->pluck('writer_id');
         $writers = User::find($writerIds, ['id','name'])->keyBy('id');
+        
+        $player1Name = $data->player1!=NULL ? $data->player1->name : '-';
+        $player2Name = $data->player2!=NULL ? $data->player2->name : '-';
         return [ 'data' => $data, 'writers' => $writers,
-                'moves' => Self::getMovesAsOutList($data->moves) ];
+                'moves' => Self::getMovesAsOutList($data->moves),
+                'player1' => $player1Name, 'player2' => $player2Name ];
     }
     
     // choose game side (white or black)
