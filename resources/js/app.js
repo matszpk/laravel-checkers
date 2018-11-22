@@ -521,7 +521,6 @@ Game = {
     resultNames: [ '', 'winner1', 'winner2', 'draw' ],
 
     handleState : function() {
-        console.log('handle state');
         this.lock = true;
         this.choosenMove = null;
         this.gameEnd = GameLogic.checkGameEnd();
@@ -531,13 +530,14 @@ Game = {
                 this.statusElem.text(Lang.get('game.youDoMove'));
                 this.choosable = this.choosableMoveSet = GameLogic.getChoosable();
                 var chkeys = Object.keys(this.choosable);
-                console.log("choosable:"+chkeys.length)
                 if (chkeys.length == 1 && this.choosableMoveSet[chkeys[0]].length == 1) {
                     // automatically make move
                     this.choosenMove = [ parseInt(chkeys[0]), 
                             this.choosableMoveSet[chkeys[0]][0], GameLogic.player1Plays ];
                     this.choosable = this.choosableMoveSet = null;
-                    this.doMakeMove();
+                    setTimeout(function() {
+                        Game.doMakeMove();
+                    }, 500);
                 }   
             }
             else
