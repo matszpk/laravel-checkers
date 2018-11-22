@@ -122,7 +122,9 @@ var gamePlayer1Move = @json($data->player1_move!=0);
                 @lang('main.doLike')</div>
             @endcan
         </td>
-        <div class='checkers_button'>@lang('main.doComment')</div>
+        <div class='checkers_button'>
+            <a href="{{ route('game.comments', $data->id) }}">@lang('main.comments')</a>
+        </div>
         @endcan
     </div>
     

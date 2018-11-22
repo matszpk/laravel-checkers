@@ -37,6 +37,7 @@ EOT
     'no' => 'No',
 
     'comment' => 'Comment',
+    'comments' => 'Comments',
     'doComment' => 'Do comment',
     'doLike' => 'Like',
     'writtenComments' => 'Written comments by :user',
@@ -51,6 +52,7 @@ EOT
     'gamesToReplayTitle' => 'Games to replay',
     'chooseSideTitle' => 'Choose a side to play',
     'pageErrorTitle' => 'Page error',
+    'gameCommentsTitle' => 'Comments to game',
 
     'likes' => 'Likes',
 ];

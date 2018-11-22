@@ -247,6 +247,17 @@ a {
     font-weight: normal;
     background: blue;
     padding: 3px;
+    a {
+        color: white;
+    };
+    a:active {
+        color: white;
+        text-decoration: none;
+    };
+    a:hover {
+        color: white;
+        text-decoration: none;
+    };
 };
 
 .checkers_comment_dolike {

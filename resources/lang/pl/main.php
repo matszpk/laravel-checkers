@@ -37,6 +37,7 @@ EOT
     'no' => 'Nie',
 
     'comment' => 'Komentarz',
+    'comments' => 'Komentarze',
     'doComment' => 'Komentuj',
     'doLike' => 'Polub',
     'writtenComments' => 'Napisane komentarze przez :user',
@@ -51,6 +52,7 @@ EOT
     'gamesToReplayTitle' => 'Gry do odtworzenia',
     'chooseSideTitle' => 'Wybierz stronę do grania',
     'pageErrorTitle' => 'Błąd strony',
+    'gameCommentsTitle' => 'Komentarze do gry',
 
     'likes' => 'Polubienia',
 ];

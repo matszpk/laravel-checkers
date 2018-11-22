@@ -56,5 +56,8 @@ Route::prefix('/game')->name('game.')->group(function() {
     Route::get('{gameId}/choose', 'GameController@chooseSide')->name('chooseSide');
     
     Route::post('{gameId}/like', 'GameController@likeGame')->name('like');
+    
+    Route::get('{gameId}/comments', 'GameController@getGameComments')->name('comments');
+    Route::post('{gameId}/comments', 'GameController@addComment')->name('addComment');
 });
 

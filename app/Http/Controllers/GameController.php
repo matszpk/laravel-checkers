@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \Exception;
 use App\User;
 use App\Game;
+use App\Comment;
 use App\Logic\GameLogic;
 use App\Logic\GameException;
 use App\Move;
@@ -70,6 +71,31 @@ class GameController extends Controller
             whereNotNull('result')->withCount('comments')->paginate(15) ]);
     }
     
+    // game comments
+    public function getGameComments(string $gameId)
+    {
+        $data = Game::with([ 'comments' => function($query) {
+            $query->orderBy('created_at', 'desc'); }, 'player1', 'player2' ])
+            ->findOrFail($gameId);
+        // get writers for comments
+        $writerIds = $data->comments->pluck('writer_id');
+        $writers = User::find($writerIds, ['id','name'])->keyBy('id');
+        return view('game.comments', [ 'data' => $data, 'writers' => $writers ]);
+    }
+    
+    public function addComment(Request $request, string $gameId)
+    {
+        $data = Game::findOrFail($gameId);
+        $this->authorize('giveOpinion', $data);
+        // validation
+        $this->validate($request, [ 'content' => 'required|string|max:30000' ]);
+
+        $comment = new Comment(['content' => $request->input('content') ]);
+        $comment->writtenBy()->associate($request->user());
+        $data->comments()->save($comment);
+        return back();
+    }
+    
     // get game moves as list accepted in response output
     // in format: [ (start0, end0, player1_0), ... ]
     private static function getMovesAsOutList($moves)
@@ -97,8 +123,6 @@ class GameController extends Controller
     {
         $data = Game::with(['moves'  => function($query) {
                 $query->orderBy('done_at', 'asc'); },
-                'comments' => function($query) {
-                $query->orderBy('created_at', 'desc'); },
                 'player1', 'player2' ])->findOrFail($gameId);
         
         // get writers for comments

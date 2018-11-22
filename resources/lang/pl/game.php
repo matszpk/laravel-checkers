@@ -22,6 +22,8 @@ return [
     'result_winner1' => 'Białe wygrały',
     'result_winner2' => 'Czarne wygrały',
 
+    'commentsToGame' => 'Komentarze do gry :name',
+    
     'playWhites' => 'Graj białymi',
     'playBlacks' => 'Graj czarnymi',
     

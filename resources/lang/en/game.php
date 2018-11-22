@@ -22,6 +22,8 @@ return [
     'result_winner1' => 'Whites won',
     'result_winner2' => 'Blacks won',
     
+    'commentsToGame' => 'Comments to game :game',
+    
     'playWhites' => 'Play whites',
     'playBlacks' => 'Play blacks',
     
