@@ -22,6 +22,8 @@ var gamePlayer1Move = @json($data->player1_move!=0);
     var replay = @json($replay==1);
     @if (!$replay)
         var player1Plays = @json($player1Plays);
+    @else
+        var player1Plays = null;
     @endif
 
     var gameMoves = @json($moves);
@@ -32,7 +34,11 @@ var gamePlayer1Move = @json($data->player1_move!=0);
     Game.player1 = @json($player1);
     Game.player2 = @json($player2);
 
+@if (!$replay)
     Game.init(gameBoard, gamePlayer1Move, gameLastBeat, player1Plays);
+@else
+    Game.initReplay(gameBoard, gamePlayer1Move, gameLastBeat);
+@endif
     Game.initMoves(gameMoves);
     Game.displayBoard();
     Game.displayMoves();
@@ -86,6 +92,19 @@ var gamePlayer1Move = @json($data->player1_move!=0);
     </div>
     <div id='checkers_gamestatus'>
     </div>
+    @if ($replay)
+    <div id='checkers_replay_control'>
+        <div id='checkers_replay_replay' class='checkers_button'>
+            @lang('game.replay')
+        </div>
+        <div id='checkers_replay_continue' class='checkers_button'>
+            @lang('game.continue')
+        </div>
+        <div id='checkers_replay_stop' class='checkers_button'>
+            @lang('game.stop')
+        </div>
+    </div>
+    @endif
 
     @include('components.comments')
 @endsection

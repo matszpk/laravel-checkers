@@ -470,6 +470,17 @@ a {
     background: #eeeeee;
 };
 
+#checkers_replay_control {
+    position: absolute;
+    padding-top: 3px;
+    text-align: center;
+    top: 50px + 30px + 20px + $boardSize;
+    left: 100px;
+    background: cyan;
+    width: $boardSize + 10px + 200px;
+    height: 30px;
+};
+
 .checkers_board_piece {
     position: absolute;
     width: $boardCellSize;

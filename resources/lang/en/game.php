@@ -32,6 +32,13 @@ return [
     'oponentDoMove' => 'Oponent do move',
     'youOponentWillBe' => 'Your oponent will be',
     
+    'replay' => 'Replay',
+    'stop' => 'Stop',
+    'continue' => 'Continue',
+    'replaying' => 'Replaying...',
+    'replayStopped' => 'Replaying stopped',
+    'replayFinished' => 'Replay finished',
+    
     'movePosOutOfRange' => 'Move positions out of range',
     'noPlayerPieceInStart' => 'No player piece in start position',
     'moveIsNotMandBeat' => 'Move is not a mandatory beat',

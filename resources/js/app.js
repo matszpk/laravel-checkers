@@ -27,17 +27,43 @@ Game = {
     player2: null,
     // prevent condition races between calls
     lock : false,
-
+    replayMode: false,
+    replay: false,
+    
     init : function(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays) {
-        this.boardElem = $("#checkers_board_main");
-        this.movesElem = $("#checkers_movelist");
-        this.titleElem = $("#checkers_game_title");
-        this.statusElem = $("#checkers_gamestatus");
+        this.replayMode = false;
+        this.replay = false;
+        this.initElems();
         GameLogic.fromData(newBoard, newPlayer1Move, newLastBeat,
                 newPlayer1Plays);
         this.initEvents();
         this.initTimer();
     },
+    
+    initReplay : function(newBoard, newPlayer1Move, newLastBeat) {
+        this.initElems();
+        this.replayMode = true;
+        this.replay = false;
+        GameLogic.fromData(newBoard, newPlayer1Move, newLastBeat, null);
+        // button handlers
+        $("#checkers_replay_replay").click(function() {
+            Game.doReplay();
+        });
+        $("#checkers_replay_stop").click(function() {
+            Game.doStop();
+        });
+        $("#checkers_replay_continue").click(function() {
+            Game.doContinue();
+        });
+    },
+    
+    initElems: function() {
+        this.boardElem = $("#checkers_board_main");
+        this.movesElem = $("#checkers_movelist");
+        this.titleElem = $("#checkers_game_title");
+        this.statusElem = $("#checkers_gamestatus");
+    },
+    
     initMoves : function(moves) {
         this.moves = moves;
         this.doneMoves = this.moves.length;
@@ -63,6 +89,50 @@ Game = {
             Game.handleTimer();
         }, 1000);
     },
+    
+    /*
+     * REPLAY stuff
+     */
+    
+    doReplay: function() {
+        if (this.replay || this.doingMove) {
+            this.replay = false;
+            setTimeout(function() {
+                Game.doingMove = false;
+                Game.doReplay();
+            }, 1200);
+            return;
+        }
+        this.replay = true;
+        this.doneMoves = 0;
+        GameLogic.startState();
+        this.displayBoard();
+        this.movesElem.empty();
+        this.statusElem.text(Lang.get('game.replaying'));
+        this.doingMoves();
+    },
+    doContinue: function() {
+        if (this.replay)
+            return;
+        if (this.doingMove) {
+            this.replay = false;
+            setTimeout(function() {
+                Game.doingMove = false;
+                Game.doContinue();
+            }, 1200);
+            return;
+        }
+        this.replay = true;
+        this.statusElem.text(Lang.get('game.replaying'));
+        this.doingMoves();
+    },
+    doStop: function() {
+        this.statusElem.text(Lang.get('game.replayStopped'));
+        this.replay = false;
+    },
+    /*
+     * end of REPLAY stuff
+     */
 
     pieceElems : [],
     choosableMoveSet : null, // initial choosable start position with further
@@ -102,12 +172,16 @@ Game = {
     doingMoves: function() {
         if (this.doneMoves < this.moves.length) {
             // update move list
-            this.updateDisplayMoves(this.doneMoves, this.doneMoves+1);
-            this.movePiece(this.moves[this.doneMoves][0],
-                this.moves[this.doneMoves][1], function() {
-                Game.doneMoves++;
-                Game.doingMoves(); 
-            });
+            setTimeout(function() {
+                Game.updateDisplayMoves(Game.doneMoves, Game.doneMoves+1);
+                Game.movePiece(Game.moves[Game.doneMoves][0],
+                    Game.moves[Game.doneMoves][1], function() {
+                    Game.doneMoves++;
+                    if (Game.replayMode && !Game.replay)
+                        return; // do nothing, just stop
+                    Game.doingMoves();
+                });
+            }, 500);
         } else
             // if finish, then handle state of game
             this.handleState();
@@ -153,13 +227,15 @@ Game = {
                 left : (this.cellSize * xi) + 'px',
                 top : ((this.boardDim - 1 - yi) * this.cellSize) + 'px'
             });
-            pieceElem.mouseenter(function(e) {
-                return Game.handleCellEnter(e);
-            }).mouseleave(function(e) {
-                return Game.handleCellLeave(e);
-            }).click(function(e) {
-                return Game.handlePieceClick(e);
-            });
+            if (!this.replayMode) {
+                pieceElem.mouseenter(function(e) {
+                    return Game.handleCellEnter(e);
+                }).mouseleave(function(e) {
+                    return Game.handleCellLeave(e);
+                }).click(function(e) {
+                    return Game.handlePieceClick(e);
+                });
+            }
             this.boardElem.append(pieceElem);
             this.pieceElems[pos] = pieceElem;
         }
@@ -525,32 +601,42 @@ Game = {
         this.choosenMove = null;
         this.gameEnd = GameLogic.checkGameEnd();
         if (this.gameEnd == GameLogic.NOTEND) {
-            if (GameLogic.isPlayerMove()) {
-                // if current player plays
-                this.statusElem.text(Lang.get('game.youDoMove'));
-                this.choosable = this.choosableMoveSet = GameLogic.getChoosable();
-                var chkeys = Object.keys(this.choosable);
-                if (chkeys.length == 1 && this.choosableMoveSet[chkeys[0]].length == 1) {
-                    // automatically make move
-                    this.choosenMove = [ parseInt(chkeys[0]), 
-                            this.choosableMoveSet[chkeys[0]][0], GameLogic.player1Plays ];
-                    this.choosable = this.choosableMoveSet = null;
-                    setTimeout(function() {
-                        Game.doMakeMove();
-                    }, 500);
-                }   
+            if (!this.replayMode) {
+                if (GameLogic.isPlayerMove()) {
+                    // if current player plays
+                    this.statusElem.text(Lang.get('game.youDoMove'));
+                    this.choosable = this.choosableMoveSet = GameLogic.getChoosable();
+                    var chkeys = Object.keys(this.choosable);
+                    if (chkeys.length == 1 && this.choosableMoveSet[chkeys[0]].length == 1) {
+                        // automatically make move
+                        this.choosenMove = [ parseInt(chkeys[0]),
+                                this.choosableMoveSet[chkeys[0]][0], GameLogic.player1Plays ];
+                        this.choosable = this.choosableMoveSet = null;
+                        setTimeout(function() {
+                            Game.doMakeMove();
+                        }, 500);
+                    }
+                }
+                else
+                    // otherwise player doing move
+                    this.statusElem.text(Lang.get('game.oponentDoMove'));
+            } else {
+                this.statusElem.text(Lang.get('game.replayFinished'));
+                this.replay = false;
             }
-            else
-                // otherwise player doing move
-                this.statusElem.text(Lang.get('game.oponentDoMove'));
         } else {
             // if end
             var msgText = Lang.get('game.result_'+this.resultNames[this.gameEnd]);
-            this.statusElem.text(msgText);
+            var statusText = msgText;
+            if (this.replayMode)
+                statusText += '. ' + Lang.get('game.replayFinished');
+            this.statusElem.text(statusText);
             displayMessage(msgText);
             if (this.timerHandle != null)
                 clearInterval(this.timerHandle);
             this.timerHandle = null;
+            if (this.replayMode)
+                this.replay = false;
         }
         this.doingMove = false;
         this.lock = false;
