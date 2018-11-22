@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use \Exception;
 use App\User;
 use App\Game;
-use App\Comment;
 use App\Logic\GameLogic;
 use App\Logic\GameException;
 use App\Move;
@@ -15,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
+    use CommentableController, LikelableController;
+    
+    public const MainModel = Game::class;
+    
     public function __construct()
     {
         $this->middleware(['auth', 'verified']);
@@ -83,19 +86,6 @@ class GameController extends Controller
         return view('game.comments', [ 'data' => $data, 'writers' => $writers ]);
     }
     
-    public function addComment(Request $request, string $gameId)
-    {
-        $data = Game::findOrFail($gameId);
-        $this->authorize('giveOpinion', $data);
-        // validation
-        $this->validate($request, [ 'content' => 'required|string|max:30000' ]);
-
-        $comment = new Comment(['content' => $request->input('content') ]);
-        $comment->writtenBy()->associate($request->user());
-        $data->comments()->save($comment);
-        return back();
-    }
-    
     // get game moves as list accepted in response output
     // in format: [ (start0, end0, player1_0), ... ]
     private static function getMovesAsOutList($moves)
@@ -154,20 +144,6 @@ class GameController extends Controller
             'result_draw' => __('game.result_draw'),
             'result_player1' => __('game.result_player1'),
             'result_player2' => __('game.result_player2') ];
-    }
-    
-    public function likeGame(string $gameId)
-    {
-        $out = NULL;
-        DB::transaction(function () use ($gameId, &$out) {
-            $data = Game::findOrFail($gameId);
-            $this->authorize('giveOpinion', $data);
-
-            $data->likes += 1;
-            $data->save();
-            $out = [ 'likes' => $data->likes ];
-        });
-        return $out;
     }
     
     // play game

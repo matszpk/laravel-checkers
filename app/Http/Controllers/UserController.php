@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Comment;
 use App\Game;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -11,10 +10,14 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    use CommentableController, LikelableController;
+    
     public function __construct()
     {
         $this->middleware('auth');
     }
+    
+    public const MainModel = User::class;
 
     // get users table
     public function index()
@@ -59,33 +62,6 @@ class UserController extends Controller
         $data = User::findOrFail($userId);
         $this->authorize('update', $data);
         return view('user.edit', [ 'data' => $data ]);
-    }
-
-    public function addComment(Request $request, string $userId)
-    {
-        $data = User::findOrFail($userId);
-        $this->authorize('giveOpinion', $data);
-        // validation
-        $this->validate($request, [ 'content' => 'required|string|max:30000' ]);
-
-        $comment = new Comment(['content' => $request->input('content') ]);
-        $comment->writtenBy()->associate($request->user());
-        $data->comments()->save($comment);
-        return back();
-    }
-
-    public function likeUser(string $userId)
-    {
-        $out = NULL;
-        DB::transaction(function () use ($userId, &$out) {
-            $data = User::findOrFail($userId);
-            $this->authorize('giveOpinion', $data);
-
-            $data->likes += 1;
-            $data->save();
-            $out = [ 'likes' => $data->likes ];
-        });
-        return $out;
     }
 
     public function updateUser(Request $request, string $userId)

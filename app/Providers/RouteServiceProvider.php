@@ -30,6 +30,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::pattern('gameId', '[0-9]+');
         Route::pattern('commentId', '[0-9]+');
         Route::pattern('userId', '[0-9]+');
+        Route::pattern('commentableId', '[0-9]+');
+        Route::pattern('likelableId', '[0-9]+');
     }
 
     /**

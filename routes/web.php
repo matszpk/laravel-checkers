@@ -22,18 +22,18 @@ Route::get('/users', 'UserController@index')->name('user.list');
 
 Route::prefix('/user')->name('user.')->group(function() {
     Route::get('{userId}', 'UserController@getUser')->name('user');
-    Route::post('{userId}', 'UserController@addComment')->name('addComment');
+    Route::post('{commentableId}', 'UserController@addComment')->name('addComment');
     
     Route::get('{userId}/edit', 'UserController@editUser')->name('edit');
     Route::post('{userId}/edit', 'UserController@updateUser')->name('update');
     
-    Route::post('{userId}/like', 'UserController@likeUser')->name('like');
+    Route::post('{likelableId}/like', 'UserController@likeObject')->name('like');
     
     Route::get('{userId}/wcomments', 'UserController@writtenComments')
             ->name('wcomments');
 });
 
-Route::post('/comment/{commentId}/like', 'CommentController@likeComment')
+Route::post('/comment/{likelableId}/like', 'CommentController@likeObject')
         ->name('comment.like');
 
 Route::prefix('/games')->name('game.')->group(function() {
@@ -55,9 +55,9 @@ Route::prefix('/game')->name('game.')->group(function() {
     
     Route::get('{gameId}/choose', 'GameController@chooseSide')->name('chooseSide');
     
-    Route::post('{gameId}/like', 'GameController@likeGame')->name('like');
+    Route::post('{likelableId}/like', 'GameController@likeObject')->name('like');
     
     Route::get('{gameId}/comments', 'GameController@getGameComments')->name('comments');
-    Route::post('{gameId}/comments', 'GameController@addComment')->name('addComment');
+    Route::post('{commentableId}/comments', 'GameController@addComment')->name('addComment');
 });
 
