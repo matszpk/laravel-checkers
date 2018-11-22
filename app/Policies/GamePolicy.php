@@ -58,4 +58,9 @@ class GamePolicy
     {
         return $user->hasVerifiedEmail();
     }
+    
+    public function giveOpinion(?User $user, Game $toOpinion)
+    {
+        return $user->hasVerifiedEmail();
+    }
 }

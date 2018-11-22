@@ -54,5 +54,7 @@ Route::prefix('/game')->name('game.')->group(function() {
     Route::get('{gameId}/state', 'GameController@getGameState')->name('state');
     
     Route::get('{gameId}/choose', 'GameController@chooseSide')->name('chooseSide');
+    
+    Route::post('{gameId}/like', 'GameController@likeGame')->name('like');
 });
 

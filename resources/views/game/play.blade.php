@@ -43,6 +43,16 @@ var gamePlayer1Move = @json($data->player1_move!=0);
     Game.displayBoard();
     Game.displayMoves();
     Game.handleState();
+
+// do give like code
+@can('giveOpinion', $data)
+    $('#checkers_like_button').click(function() {
+        checkersAxiosPost("{{ route('game.like', $data->id) }}",null,
+            function(response) {
+                $('#checkers_gamelikes').text(response.data.likes);
+            });
+    });
+@endcan
 });
 @endsection
 
@@ -92,8 +102,8 @@ var gamePlayer1Move = @json($data->player1_move!=0);
     </div>
     <div id='checkers_gamestatus'>
     </div>
-    @if ($replay)
     <div id='checkers_replay_control'>
+        @if ($replay)
         <div id='checkers_replay_replay' class='checkers_button'>
             @lang('game.replay')
         </div>
@@ -103,8 +113,17 @@ var gamePlayer1Move = @json($data->player1_move!=0);
         <div id='checkers_replay_stop' class='checkers_button'>
             @lang('game.stop')
         </div>
+        @endif
+        @can('giveOpinion',$data)
+        <td>@lang('user.likes'):</td>
+        <span id='checkers_gamelikes'>{{ $data->likes }}</span>
+            @can('giveOpinion', $data)
+            <div class='checkers_button' id='checkers_like_button'>
+                @lang('main.doLike')</div>
+            @endcan
+        </td>
+        <div class='checkers_button'>@lang('main.doComment')</div>
+        @endcan
     </div>
-    @endif
-
-    @include('components.comments')
+    
 @endsection

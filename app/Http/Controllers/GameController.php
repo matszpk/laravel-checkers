@@ -132,6 +132,20 @@ class GameController extends Controller
             'result_player2' => __('game.result_player2') ];
     }
     
+    public function likeGame(string $gameId)
+    {
+        $out = NULL;
+        DB::transaction(function () use ($gameId, &$out) {
+            $data = Game::findOrFail($gameId);
+            $this->authorize('giveOpinion', $data);
+
+            $data->likes += 1;
+            $data->save();
+            $out = [ 'likes' => $data->likes ];
+        });
+        return $out;
+    }
+    
     // play game
     public function playGame(Request $request, string $gameId)
     {
