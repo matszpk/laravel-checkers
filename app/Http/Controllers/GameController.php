@@ -60,7 +60,6 @@ class GameController extends Controller
                 $query->whereNull('player1_id')->
                 orWhereNull('player2_id');
             })->whereNull('result')->withCount('comments')->paginate(15) ]);
-
     }
 
     public function listGamesToReplay()
