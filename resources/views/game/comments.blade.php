@@ -9,7 +9,7 @@
 @endsection
 
 @section('main')
-    <div class='checkers_centered'>@lang('game.commentsToGame',
+    <div class='checkers_subtitle'>@lang('game.commentsToGame',
         [ 'name' => $data->getName() ])</div>
     
     @include('components.comments') 

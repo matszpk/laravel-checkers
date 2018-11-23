@@ -9,7 +9,7 @@
 @endsection
 
 @section('main')
-<div class='checkers_centered'>
+<div class='checkers_subtitle'>
 @lang('main.writtenComments', [ 'user' => $data->getName() ])</div>
 <div id='checkers_comments'>
     @foreach ($data->writtenComments->all() as $comment)
