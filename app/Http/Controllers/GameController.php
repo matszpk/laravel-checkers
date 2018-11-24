@@ -76,13 +76,10 @@ class GameController extends Controller
     // game comments
     public function getGameComments(string $gameId)
     {
-        $data = Game::with([ 'comments' => function($query) {
-            $query->orderBy('created_at', 'desc'); }, 'player1', 'player2' ])
-            ->findOrFail($gameId);
-        // get writers for comments
-        $writerIds = $data->comments->pluck('writer_id');
-        $writers = User::find($writerIds, ['id','name'])->keyBy('id');
-        return view('game.comments', [ 'data' => $data, 'writers' => $writers ]);
+        $game = Game::with([ 'player1', 'player2' ])->findOrFail($gameId);
+        $data = $this->getComments($game);
+        $data['data'] = $game;
+        return view('game.comments', $data);
     }
     
     // get game moves as list accepted in response output

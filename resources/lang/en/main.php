@@ -38,6 +38,7 @@ EOT
 
     'comment' => 'Comment',
     'comments' => 'Comments',
+    'commentsRange' => 'Comments from :start to :end',
     'doComment' => 'Do comment',
     'doLike' => 'Like',
     'writtenComments' => 'Written comments by :user',

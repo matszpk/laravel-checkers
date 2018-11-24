@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Game;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -29,31 +30,30 @@ class UserController extends Controller
     // get user - view single user
     public function getUser(string $userId)
     {
-        $data = User::with(['comments' => function($query) {
-                $query->orderBy('created_at', 'desc'); } ])->findOrFail($userId);
-        // get writers for comments
-        $writerIds = $data->comments->pluck('writer_id');
-        $writers = User::find($writerIds, ['id','name'])->keyBy('id');
-        return view('user.user', [ 'data' => $data, 'writers' => $writers ]);
+        $user = User::findOrFail($userId);
+        $data = $this->getComments($user);
+        $data['data'] = $user;
+        return view('user.user', $data);
     }
 
     // get written comments for user
     public function writtenComments(string $userId)
     {
-        $data = User::with(['writtenComments' => function($query) {
-                    $query->orderBy('created_at', 'desc'); } ])->findOrFail($userId);
+        $data = User::findOrFail($userId);
+        $comments = $data->writtenComments()->orderBy('created_at', 'desc')
+                ->paginate(15);
         // get commentable
-        $userIds = $data->writtenComments->filter(
+        $userIds = $comments->filter(
                 function($v) { return $v->commentable_type == 'App\User'; })
                 ->pluck('commentable_id');
-        $gameIds = $data->writtenComments->filter(
+        $gameIds = $comments->filter(
                 function($v) { return $v->commentable_type == 'App\Game'; })
                 ->pluck('commentable_id');
         $cgames = Game::with(['player1', 'player2'])->
                 find($gameIds, ['id','created_at', 'player1_id', 'player2_id'])->keyBy('id');
         $cusers = User::find($userIds, ['id','name'])->keyBy('id');
         return view('user.wcomments', [ 'data' => $data, 'cusers' => $cusers,
-                'cgames' => $cgames ]);
+                'cgames' => $cgames, 'comments' => $comments ]);
     }
 
     // update user form

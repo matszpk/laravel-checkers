@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\User;
 use Illuminate\Http\Request;
 
 trait CommentableController
@@ -18,5 +19,14 @@ trait CommentableController
         $comment->writtenBy()->associate($request->user());
         $data->comments()->save($comment);
         return back();
+    }
+    
+    public function getComments($data, $pageLength = 15)
+    {
+        $comments = $data->comments()->orderBy('created_at', 'desc')->paginate($pageLength);
+        // get writers for comments
+        $writerIds = $comments->pluck('writer_id');
+        $writers = User::find($writerIds, ['id','name'])->keyBy('id');
+        return [ 'writers' => $writers, 'comments' => $comments ];
     }
 };
