@@ -19,6 +19,7 @@ Game = {
     choosenMove : null,
     choosenByKeyboard : false,
     doingMove : false,
+    doingMovePiece: false,
     timerHandle : null,
     moves : [], // array of moves -> [ start, end, done_by_player1 ]
     doneMoves : 0, // number of done moves
@@ -95,10 +96,10 @@ Game = {
      */
     
     doReplay: function() {
-        if (this.replay || this.doingMove) {
+        if (this.replay || this.doingMovePiece) {
             this.replay = false;
             setTimeout(function() {
-                Game.doingMove = false;
+                Game.doingMovePiece = false;
                 Game.doReplay();
             }, 1200);
             return;
@@ -114,10 +115,10 @@ Game = {
     doContinue: function() {
         if (this.replay)
             return;
-        if (this.doingMove) {
+        if (this.doingMovePiece) {
             this.replay = false;
             setTimeout(function() {
-                Game.doingMove = false;
+                Game.doingMovePiece = false;
                 Game.doContinue();
             }, 1200);
             return;
@@ -274,6 +275,7 @@ Game = {
 
     movePiece : function(startPos, endPos, callback) {
         this.doingMove = true;
+        this.doingMovePiece = true;
         GameLogic.makeMove(startPos, endPos);
         var xi = endPos % this.boardDim;
         var yi = Math.floor(endPos / this.boardDim);
@@ -295,6 +297,7 @@ Game = {
             piece.removeClass();
             var board = GameLogic.board;
             piece.addClass([ 'checkers_board_piece', Game.cellClasses[board[endPos]] ])
+            Game.doingMovePiece = false;
             callback();
         });
         if (beatPos != null)
