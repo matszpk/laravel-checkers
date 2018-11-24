@@ -21,6 +21,8 @@ EOT
     'contGame' => 'Kontynuuj grę',
     'joinToGame' => 'Dołącz do gry',
     'yourGames' => 'Twoje gry',
+    'replayGames' => 'Gry do odtworzenia',
+    'allGames' => 'Wszystkie gry',
     'yourComments' => 'Twoje komentarze',
     'yourAccount' => 'Twoje konto',
     'users' => 'Użytkownicy',

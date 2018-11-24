@@ -21,6 +21,8 @@ EOT
     'contGame' => 'Continue game',
     'joinToGame' => 'Join to game',
     'yourGames' => 'Your games',
+    'replayGames' => 'Games to replay',
+    'allGames' => 'All games',
     'yourComments' => 'Your comments',
     'yourAccount' => 'Your account',
     'users' => 'Users',

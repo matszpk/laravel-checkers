@@ -34,7 +34,13 @@
                 <a href="{{ route('game.listToJoin') }}">@lang('main.joinToGame')</a>
             </div>
             <div class='checkers_mainbutton'>
+                <a href="{{ route('game.listToReplay') }}">@lang('main.replayGames')</a>
+            </div>
+            <div class='checkers_mainbutton'>
                 <a href="{{ route('game.list', $userid) }}">@lang('main.yourGames')</a>
+            </div>
+            <div class='checkers_mainbutton'>
+                <a href="{{ route('game.list') }}">@lang('main.allGames')</a>
             </div>
             <div class='checkers_mainbutton'>
                 <a href="{{ route('user.wcomments', $userid) }}">
