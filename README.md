@@ -38,7 +38,7 @@ php artisan key:generate    # generate Laravel keys for application
 ```
 
 Create a database and its user for application like.
-First, you should set correct URL where is this service works (URL) (in `env` file):
+First, you should set correct URL where is this service works (URL) (in `.env` file):
 ```
 APP_URL=http://localhost
 ```
