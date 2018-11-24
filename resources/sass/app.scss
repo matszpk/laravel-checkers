@@ -9,6 +9,10 @@ $boardSize: $boardBorderSize*2 + $boardCellSize*$boardDim;
 $topTitleHeight: 110px;
 $footerHeight: 25px;
 
+a {
+    outline: 0;
+};
+
 body {
     font-family: Helvetica, sans-serif;
 };
@@ -149,6 +153,7 @@ a {
     a:active {
         color: white;
         text-decoration: none;
+        border: 0;
     };
     a:hover {
         color: white;
@@ -261,11 +266,20 @@ a {
     a:active {
         color: white;
         text-decoration: none;
+        border: 0;
     };
     a:hover {
         color: white;
         text-decoration: none;
     };
+};
+
+.checkers_button:hover, .checkers_mainbutton:hover {
+    background: #2222ff
+};
+
+.checkers_button:active, .checkers_mainbutton:active {
+    background: #4444ff;
 };
 
 .checkers_comment_dolike {
