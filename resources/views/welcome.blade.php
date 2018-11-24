@@ -47,6 +47,7 @@
                     @lang('main.yourComments')</a>
             </div>
         @endif
+        <br/>
         <div class='checkers_mainbutton'>
             <a href="{{ route('user.list') }}">@lang('main.users')</a>
         </div>
