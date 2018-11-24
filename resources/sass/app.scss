@@ -13,6 +13,16 @@ a {
     outline: 0;
 };
 
+button {
+    font-weight: bold;
+    background: blue;
+    font-size: 16px;
+    padding: 5px;
+    border: 0;
+    outline: 0;
+    color: white;
+};
+
 body {
     font-family: Helvetica, sans-serif;
 };
@@ -114,7 +124,7 @@ a {
 };
 
 #checkers_logout {
-    background-color: red;
+    background-color: #ff0000;
     font-weight: bold;
     font-size: 15px;
     position: absolute;
@@ -126,11 +136,21 @@ a {
     a:active {
         color: white;
         text-decoration: none;
+        background: #ff4444;
     };
     a:hover {
         color: white;
         text-decoration: none;
+        background: #ff2222;
     };
+};
+
+#checkers_logout:active {
+    background: #ff4444;
+};
+
+#checkers_logout:hover {
+    background: #ff2222;
 };
 
 .checkers_mainpage {
@@ -140,7 +160,7 @@ a {
     font-weight: bold;
 };
 
-.checkers_mainbutton {
+.checkers_mainbutton, button {
     padding: 5px 5px 5px 5px;
     background-color: blue;
     font-weight: bold;
@@ -274,12 +294,14 @@ a {
     };
 };
 
-.checkers_button:hover, .checkers_mainbutton:hover {
-    background: #2222ff
+.checkers_button:hover, .checkers_mainbutton:hover, button:hover {
+    background: #2222ff;
+    outline: 0;
 };
 
-.checkers_button:active, .checkers_mainbutton:active {
+.checkers_button:active, .checkers_mainbutton:active, button:active {
     background: #4444ff;
+    outline: 0;
 };
 
 .checkers_comment_dolike {
@@ -287,6 +309,13 @@ a {
     color: white;
     background: blue;
     cursor: pointer;
+};
+
+.checkers_comment_dolike:hover {
+    background: #2222ff;
+};
+.checkers_comment_dolike:active {
+    background: #4444ff;
 };
 
 #checkers_game_title {
