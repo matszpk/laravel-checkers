@@ -6,7 +6,7 @@
 
 @section('main')
 <div class='checkers_maintable'>
-    @if ($pag->count() != 0)
+    @if (!$pag->isEmpty())
     @lang('user.usersRange', ['start' => $pag->firstItem(), 'end' => $pag->lastItem()])
     @endif
     <table>
