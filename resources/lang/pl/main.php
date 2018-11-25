@@ -28,6 +28,7 @@ EOT
     'users' => 'Użytkownicy',
     'verifyEmail' => 'Zweryfikuj email',
     'resetPassword' => 'Resetuj hasło',
+    'contact' => 'Kontakt',
 
     'usersTitle' => 'Użytkownicy',
     'userProfileTitle' => 'Profil użytkownika',

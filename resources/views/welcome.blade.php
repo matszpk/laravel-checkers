@@ -65,5 +65,7 @@
             <a href="{{ route('password.request') }}">@lang('main.resetPassword')</a>
         </div>
     @endauth
+    <div id='checkers_welcome_footer'>Laravel checkers by Mateusz Szpakowski<br/>
+    @lang('main.contact'): matszpk@interia.pl</div>
     </div>
 @endsection

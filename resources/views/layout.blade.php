@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="{{ url('/') }}/css/app.css"/>
         <link rel="shortcut icon" href="{{ url('/') }}/favicon.ico" />
         <script type="text/javascript" src="{{ url('/') }}/js/app.js"></script>
-        <script type="text/javascript" src="{{ url('/') }}/messages.js?n=49494034"></script>
+        <script type="text/javascript" src="{{ url('/') }}/messages.js"></script>
         <script type="text/javascript">
             @yield('script')
         </script>

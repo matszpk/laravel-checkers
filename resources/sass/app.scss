@@ -113,6 +113,14 @@ a {
     text-align: center;
 };
 
+#checkers_welcome_footer {
+    position: absolute;
+    font-weight: bold;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+};
+
 #checkers_footer {
     height: $footerHeight;
     background-color: SaddleBrown;
