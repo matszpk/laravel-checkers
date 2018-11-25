@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 
 class DefaultUsers extends Seeder
@@ -23,7 +24,7 @@ class DefaultUsers extends Seeder
             'name' => 'admin',
             'email' => env('ADMIN_EMAIL'),
             'email_verified_at' => now(),   // now
-            'password' => bcrypt($strongPassword),
+            'password' => Hash::make($strongPassword),
             'role' => 'ADMIN'
         ]);
     }
