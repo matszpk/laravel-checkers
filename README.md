@@ -2,10 +2,14 @@
 
 The Checkers game web service based on Laravel PHP web framework.
 
+Check this application on my hosting:
+[https://checkers.nativeboinc.org](https://checkers.nativeboinc.org).
+
 ### Requirements
 
 If you want install this project you should following packages and software:
 
+* PHP 7.x
 * PHP 7.x
 * PHP Composer 1.7.x
 * NPM (NodeJs Package Manager) (tested on v6)
