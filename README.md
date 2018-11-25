@@ -10,7 +10,6 @@ Check this application on my hosting:
 If you want install this project you should following packages and software:
 
 * PHP 7.x
-* PHP 7.x
 * PHP Composer 1.7.x
 * NPM (NodeJs Package Manager) (tested on v6)
 * the SQL database (MySQL, PostgreSQL or any other compatible with Laravel)
