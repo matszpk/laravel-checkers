@@ -98,16 +98,12 @@ Currently, an application accepts Google Recaptcha v2. These key can be retrieve
 After setting up database access you should populate tables on database:
 
 ```
-php artisan migrate
-php artisan db:seed
+php artisan migrate   # make database tables (apply all migrations)
+php artisan db:seed   # put all needed data to database
 ```
 
-NOTICE: If you want to set strong password for administrator, you should edit
-`database/seeds/DefaultUser.php` file in line:
-
-```
-    'password' => bcrypt('yourStrongPassword'),
-```
+NOTICE: the second command print important 'admin' random password:
+you should remember it or store it in some safe place.
 
 This should be done before calling `php artisan db:seed` command.
 

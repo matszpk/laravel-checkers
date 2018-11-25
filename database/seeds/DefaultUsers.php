@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use App\User;
 
 class DefaultUsers extends Seeder
@@ -13,12 +12,18 @@ class DefaultUsers extends Seeder
      */
     public function run()
     {
+        $strongPassword = str_random(12);
+        echo "---------------------------------------------\n";
+        echo "We use strong password for admin\n";
+        echo "---------------------------------------------\n";
+        echo "\n";
+        echo "ADMIN PASSWORD: " . $strongPassword . "\n";
         //
         User::create([
             'name' => 'admin',
             'email' => env('ADMIN_EMAIL'),
             'email_verified_at' => now(),   // now
-            'password' => bcrypt('admin'),
+            'password' => bcrypt($strongPassword),
             'role' => 'ADMIN'
         ]);
     }
