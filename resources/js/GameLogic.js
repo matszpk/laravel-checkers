@@ -66,6 +66,10 @@ GameLogic = {
         console.log(s + "Player1:" + this.player1Move+"\n");
     },
 
+    /* get choosable moves in form:
+     * { startPos: [ endPos1, endPos2, ... ],
+     *   startPos2: [ endPos1, endPos2, ... ], ... }
+     * startPos - start position of the move, endPos - end position of the move */
     getChoosable: function()
     {
         var choosablePieces = { };
@@ -116,9 +120,9 @@ GameLogic = {
         return choosablePieces;
     },
 
-    // input:
+    // get possible moves if mandatory beat is present. Input:
     // mandBeatStart - start position in beat sequence
-    // mandBeatStart - beaten piece position in beat sequence
+    // mandBeat - beaten piece position in beat sequence
     getPossibleMovesAtBeat: function(mandBeatStart, mandBeat)
     {
         var startPos = mandBeatStart[0];
@@ -151,14 +155,15 @@ GameLogic = {
         return moveEnds;
     },
 
-    // but not beats
+    // possible moves if no mandatory beat
     getPossibleSameMoves: function(pos)
     {
         var moveEnds = [];
         // for directions king
         var dirs = [this.MOVENE, this.MOVENW, this.MOVESE, this.MOVESW];
         if (!this.isKing(pos))
-            dirs = this.player1Move ? [this.MOVENE, this.MOVENW] : [this.MOVESE, this.MOVESW];
+            dirs = this.player1Move ? [this.MOVENE, this.MOVENW] :
+                [this.MOVESE, this.MOVESW];
         // check we can any move in these directions
         for(var i = 0; i < dirs.length; i++)
         {
