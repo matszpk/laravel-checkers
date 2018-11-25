@@ -44,6 +44,7 @@ APP_URL=http://localhost
 ```
 
 In `.env` file the option `APP_DEBUG` controls whether application will be in debug mode (set to true) or not (set to false).
+The `ADMIN_EMAIL` in `.env` file is administrator email.
 
 
 Set up database in `.env` file (folowing scratch of this file):
