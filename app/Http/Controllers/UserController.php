@@ -63,6 +63,11 @@ class UserController extends Controller
         return view('user.edit', [ 'data' => $data ]);
     }
 
+    /* update user data
+     *  if name changed then name will be updated
+     *  if password supplied, then password will changed
+     *  if email changed then email will be changed (if can be)
+     */
     public function updateUser(Request $request, string $userId)
     {
         DB::transaction(function () use ($userId, $request) {

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 trait LikelableController
 {
+    // increment likes for objects (comment, user or game)
     public function likeObject(string $likelableId)
     {
         $out = NULL;

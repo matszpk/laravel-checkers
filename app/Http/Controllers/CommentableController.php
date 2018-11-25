@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 trait CommentableController
 {
+    // add comment to commentable object (game or user)
     public function addComment(Request $request, string $commentableId)
     {
         $data = (Self::MainModel)::findOrFail($commentableId);
@@ -21,6 +22,8 @@ trait CommentableController
         return back();
     }
     
+    /* get comments data set (writers - writers which wrotes comments,
+     * comments - same comments) */
     public function getComments($data, $pageLength = 15)
     {
         $comments = $data->comments()->orderBy('created_at', 'desc')->paginate($pageLength);

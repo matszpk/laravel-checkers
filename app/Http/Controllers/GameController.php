@@ -23,6 +23,7 @@ class GameController extends Controller
         $this->middleware(['auth', 'verified']);
     }
     
+    // list games for user or all games in system
     public function index(string $userId = NULL)
     {
         $temp = NULL;   // temp object for querying
@@ -62,6 +63,7 @@ class GameController extends Controller
             })->whereNull('result')->withCount('comments')->paginate(15) ]);
     }
 
+    // list all games to replay (finished)
     public function listGamesToReplay()
     {
         return view('game.games', [ 'viewPurpose' => 'toReplay',
@@ -73,7 +75,7 @@ class GameController extends Controller
             whereNotNull('result')->withCount('comments')->paginate(15) ]);
     }
     
-    // game comments
+    // get game comments
     public function getGameComments(string $gameId)
     {
         $game = Game::with([ 'player1', 'player2' ])->findOrFail($gameId);
@@ -90,6 +92,7 @@ class GameController extends Controller
             return [ $m->startpos, $m->endpos, $m->done_by_player1 ]; });
     }
 
+    // get game state: moves, gameName, and its players (player1 and player2) names
     public function getGameState(string $gameId)
     {
         $game = Game::with([ 'moves' => function($query) {
@@ -105,6 +108,7 @@ class GameController extends Controller
                  'player1' => $player1Name, 'player2' => $player2Name ];
     }
 
+    // get game data - used in playGame and replayGame
     private function getGameData(string $gameId)
     {
         $data = Game::with(['moves'  => function($query) {
@@ -131,17 +135,6 @@ class GameController extends Controller
             'gameName' => $data->getName() ]);
     }
     
-    private static function getGameTrans()
-    {
-        return [
-            'youDoMove' => __('game.youDoMove'),
-            'oponentDoMove' => __('game.oponentDoMove'),
-            'youOponentWillBe' => __('game.youOponentWillBe'),
-            'result_draw' => __('game.result_draw'),
-            'result_player1' => __('game.result_player1'),
-            'result_player2' => __('game.result_player2') ];
-    }
-    
     // play game
     public function playGame(Request $request, string $gameId)
     {
@@ -163,8 +156,7 @@ class GameController extends Controller
             $player1Plays = ($game->player1_id == $user->id);
         
         return view('game.play', array_merge($data, [ 'replay' => False,
-                'player1Plays' => $player1Plays,
-                'gameTrans' => Self::getGameTrans() ]));
+                'player1Plays' => $player1Plays ]));
     }
 
     // replay game
@@ -172,11 +164,10 @@ class GameController extends Controller
     {
         $data = $this->getGameData($gameId);
         $this->authorize('replay', $data['data']);
-        return view('game.play', array_merge($data, [ 'replay' => True,
-                'gameTrans' => Self::getGameTrans()
-        ]));
+        return view('game.play', array_merge($data, [ 'replay' => True ]));
     }
 
+    // new game view
     public function newGame()
     {
         return view('game.newgame');
@@ -234,6 +225,10 @@ class GameController extends Controller
 
     private const GameResultNames = [NULL, 'winner1', 'winner2', 'draw'];
 
+    /* main request handle for making move
+     * in input:
+     *   startPos - start position, endPos - end position of move,
+     *   countMoves - number already done moves (for verification game point) */
     public function makeMove(Request $request, string $gameId)
     {
         $error = NULL;

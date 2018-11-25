@@ -30,7 +30,6 @@ var gamePlayer1Move = @json($data->player1_move!=0);
 
     GameStateURL = @json(route('game.state', $data->id));
     GameMakeMoveURL = @json(route('game.move', $data->id));
-    GameTrans = @json($gameTrans);
     Game.player1 = @json($player1);
     Game.player2 = @json($player2);
 
