@@ -14,7 +14,9 @@
 
 @section('main')
 <div class='checkers_maintable'>
+    @if ($pag->count() != 0)
     @lang('game.gamesRange', ['start' => $pag->firstItem(), 'end' => $pag->lastItem()])
+    @endif
     <table>
         <thead>
             <tr>
