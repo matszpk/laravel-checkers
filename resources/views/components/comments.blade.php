@@ -8,10 +8,12 @@
 @endcan
 
 <div id='checkers_comments'>
+    @if ($comments->count() != 0)
     <div class='checkers_centered'>
         @lang('main.commentsRange', ['start' => $comments->firstItem(),
                 'end' => $comments->lastItem()])
     </div>
+    @endif
     @foreach ($comments->all() as $comment)
         <div class='comment_info'>
             <a href="{{ route('user.user', $comment->writer_id) }}">

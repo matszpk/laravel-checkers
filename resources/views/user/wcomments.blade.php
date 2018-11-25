@@ -12,10 +12,12 @@
 <div class='checkers_subtitle'>
 @lang('main.writtenComments', [ 'user' => $data->getName() ])</div>
 <div id='checkers_comments'>
+    @if ($comments->count() != 0)
     <div class='checkers_centered'>
         @lang('main.commentsRange', ['start' => $comments->firstItem(),
                 'end' => $comments->lastItem()])
     </div>
+    @endif
     @foreach ($comments->all() as $comment)
         <div class='comment_info'>@lang('main.writtenTo')
             @if ($comment->commentable_type == 'App\User')
