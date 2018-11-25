@@ -4,24 +4,6 @@
 
 require('./utils');
 
-setArraySingle = function(arr, v)
-{
-    arr.splice(0, arr.length, v);
-};
-
-uniqueArray = function(arr)
-{
-    var out = [];
-    var prev = null;
-    for (var i = 0; i < arr.length; i++)
-        if (prev !== arr[i])
-        {
-            out.push(arr[i]);
-            prev = arr[i];
-        }
-    return out;
-}
-
 GameLogic = {
     MOVENE: 0,
     MOVESE: 1,
@@ -40,6 +22,7 @@ GameLogic = {
     player1Plays: false,
     lastBeatenPiece: null,
 
+    // create game state from data
     fromData: function(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays)
     {
         this.board = newBoard;
@@ -48,6 +31,7 @@ GameLogic = {
         this.player1Plays = newPlayer1Plays!=null ? newPlayer1Plays : true; 
     },
 
+    // start state of game
     startState: function()
     {
         this.player1Move = true;
@@ -198,6 +182,7 @@ GameLogic = {
         return moveEnds;
     },
     
+    // get move direction from start position and end position
     getMoveDir: function(startPos, endPos)
     {
         var sxi = startPos % this.BOARDDIM;
@@ -210,6 +195,8 @@ GameLogic = {
             return sxi < exi ? this.MOVESE : this.MOVESW;
     },
 
+    // do make move with move verification
+    // startPos - start position, endPos - end position
     makeMove: function(startPos, endPos)
     {
         // check startPos and endPos
@@ -364,6 +351,7 @@ GameLogic = {
         }
     },
 
+    // handle promotion after move
     handlePromotion: function(pos)
     {
         var y = Math.floor(pos/this.BOARDDIM);
@@ -486,6 +474,7 @@ GameLogic = {
         return xi + yi*this.BOARDDIM;
     },
 
+    // return true if oponent piece in position
     isOponentPiece: function(pos)
     {
         var opMen = this.player1Move ? 'b' : 'w';
@@ -493,6 +482,7 @@ GameLogic = {
         return this.board[pos] == opMen || this.board[pos] == opKing;
     },
 
+    // return true if player piece position
     isPlayerPiece: function(pos)
     {
         var opMen = this.player1Move ? 'w' : 'b';
@@ -500,6 +490,8 @@ GameLogic = {
         return this.board[pos] == opMen || this.board[pos] == opKing;
     },
 
+    // return true if player position
+    // (player1 if true, then for player1, otherwise for player2)
     isGivenPlayerPiece: function (pos, player1)
     {
         var opMen = player1 ? 'w' : 'b';
@@ -517,6 +509,9 @@ GameLogic = {
         return this.board[pos] == (player1 ? 'W' : 'B');
     },
 
+    /* find first beat position. return NULL if not found
+     * position - player piece position, dir - direction where piece should move
+     * king - if piece is king */
     findFirstBeatPos: function(pos, dir, king)
     {
         var nextp = pos;

@@ -63,16 +63,19 @@ class GameLogic
         return $this->board;
     }
 
+    // get return if player1 can make move
     public function isPlayer1MakeMove()
     {
         return $this->player1Move;
     }
 
+    // get last beat if done in last move
     public function getLastBeat()
     {
         return $this->lastBeat;
     }
     
+    // get move direction from start position and end position
     public static function getMoveDir(int $startPos, int $endPos)
     {
         $sxi = $startPos % Self::BOARDDIM;
@@ -85,6 +88,8 @@ class GameLogic
             return $sxi < $exi ? Self::MOVESE : Self::MOVESW;
     }
 
+    // do make move with move verification
+    // startPos - start position, endPos - end position
     public function makeMove(int $startPos, int $endPos)
     {
         // check startPos and endPos
@@ -237,6 +242,7 @@ class GameLogic
         }
     }
 
+    // handle promotion after move
     public function handlePromotion($pos)
     {
         $y = intdiv($pos, Self::BOARDDIM);
@@ -359,6 +365,7 @@ class GameLogic
         return $xi + $yi*Self::BOARDDIM;
     }
 
+    // return true if oponent piece in position
     public function isOponentPiece(int $pos): bool
     {
         $opMen = $this->player1Move ? 'b' : 'w';
@@ -366,6 +373,7 @@ class GameLogic
         return $this->board[$pos] == $opMen || $this->board[$pos] == $opKing;
     }
 
+    // return true if player piece position 
     public function isPlayerPiece(int $pos): bool
     {
         $opMen = $this->player1Move ? 'w' : 'b';
@@ -373,6 +381,8 @@ class GameLogic
         return $this->board[$pos] == $opMen || $this->board[$pos] == $opKing;
     }
 
+    // return true if player position
+    // (player1 if true, then for player1, otherwise for player2)
     public function isGivenPlayerPiece(int $pos, bool $player1): bool
     {
         $opMen = $player1 ? 'w' : 'b';
@@ -390,6 +400,9 @@ class GameLogic
         return $this->board[$pos] == ($player1 ? 'W' : 'B');
     }
 
+    /* find first beat position. return NULL if not found
+     * position - player piece position, dir - direction where piece should move
+     * king - if piece is king */
     public function findFirstBeatPos(int $pos, int $dir, bool $king = False)
     {
         $nextp = $pos;

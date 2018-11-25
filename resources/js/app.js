@@ -31,6 +31,7 @@ Game = {
     replayMode: false,
     replay: false,
     
+    // initialize Game object to play
     init : function(newBoard, newPlayer1Move, newLastBeat, newPlayer1Plays) {
         this.replayMode = false;
         this.replay = false;
@@ -41,6 +42,7 @@ Game = {
         this.initTimer();
     },
     
+    // initialize Game object to replay
     initReplay : function(newBoard, newPlayer1Move, newLastBeat) {
         this.initElems();
         this.replayMode = true;
@@ -58,6 +60,7 @@ Game = {
         });
     },
     
+    // initialize HTML elements of game
     initElems: function() {
         this.boardElem = $("#checkers_board_main");
         this.movesElem = $("#checkers_movelist");
@@ -65,6 +68,7 @@ Game = {
         this.statusElem = $("#checkers_gamestatus");
     },
     
+    // initialize moves
     initMoves : function(moves) {
         this.moves = moves;
         this.doneMoves = this.moves.length;
@@ -85,6 +89,7 @@ Game = {
         });
     },
 
+    // initialize timer while playing (for updating state)
     initTimer : function() {
         this.timerHandle = setInterval(function() {
             Game.handleTimer();
@@ -95,6 +100,7 @@ Game = {
      * REPLAY stuff
      */
     
+    // handle Replay button (replay)
     doReplay: function() {
         if (this.replay || this.doingMovePiece) {
             this.replay = false;
@@ -112,6 +118,8 @@ Game = {
         this.statusElem.text(Lang.get('game.replaying'));
         this.doingMoves();
     },
+    
+    // handle Continue button (continue replay)
     doContinue: function() {
         if (this.replay)
             return;
@@ -127,6 +135,8 @@ Game = {
         this.statusElem.text(Lang.get('game.replaying'));
         this.doingMoves();
     },
+    
+    // handle Stop button (stop replay)
     doStop: function() {
         this.statusElem.text(Lang.get('game.replayStopped'));
         this.replay = false;
@@ -170,6 +180,8 @@ Game = {
         });
     },
     
+    // doing moves
+    // used while updating state to making done moves by oponent moves
     doingMoves: function() {
         if (this.doneMoves < this.moves.length) {
             // update move list
@@ -188,6 +200,7 @@ Game = {
             this.handleState();
     },
 
+    // reset move selection (piece or same move end position)
     resetSelection : function() {
         this.choosable = this.choosableMoveSet = null;
         this.focusedPos = this.choosenPos = this.choosenMove = null;
@@ -205,11 +218,13 @@ Game = {
         'B' : 'checkers_board_king_black'
     },
 
+    // clear board
     clearBoard : function() {
         $(".checkers_board_piece", this.boardElem).remove();
         this.pieceElems = {};
     },
 
+    // display game board
     displayBoard : function() {
         var board = GameLogic.board;
         this.choosable = this.choosableMoveSet = null;
@@ -242,11 +257,14 @@ Game = {
         }
     },
 
+    // display moves
     displayMoves : function() {
         this.movesElem.empty();
         this.updateDisplayMoves();
     },
     
+    // update moves in list
+    // moveCount - current move count, newMoveCount - new move count after update
     updateDisplayMoves: function(moveCount, newMoveCount) {
         if (moveCount == null)
             moveCount = 0;
@@ -268,11 +286,13 @@ Game = {
         this.movesElem.scrollTop(this.movesElem[0].scrollHeight);
     },
     
+    // add new move
     addMove: function(move) {
         this.moves.push(move);
         this.updateDisplayMoves(this.moves.length-1);
     },
 
+    // move piece in the game board
     movePiece : function(startPos, endPos, callback) {
         this.doingMove = true;
         this.doingMovePiece = true;
@@ -304,10 +324,12 @@ Game = {
             beatenPiece.fadeOut(450);
     },
 
+    // if choosable position
     isChoosablePos : function(pos) {
         return this.choosable != null && (pos in this.choosable);
     },
 
+    // true if can handle event
     canHandleEvent : function() {
         if (this.lock || this.doingMove || !GameLogic.isPlayerMove()
                 || this.gameEnd != GameLogic.NOTEND)
@@ -344,6 +366,7 @@ Game = {
             this.lock = false;
     },
 
+    // move choose position to nearest left choosable position 
     chooseLeftFocusedPos : function() {
         var old = this.focusedPos;
         if (this.focusedPos == null)
@@ -374,6 +397,7 @@ Game = {
             this.focusedPos = old;
     },
 
+    // move choose position to nearest right choosable position
     chooseRightFocusedPos : function() {
         var old = this.focusedPos;
         if (this.focusedPos == null)
@@ -402,6 +426,7 @@ Game = {
             this.focusedPos = old;
     },
 
+    // move choose position to nearest down choosable position
     chooseDownFocusedPos : function() {
         var old = this.focusedPos;
         if (this.focusedPos == null)
@@ -430,6 +455,7 @@ Game = {
             this.focusedPos = old;
     },
 
+    // move choose position to nearest up choosable position
     chooseUpFocusedPos : function() {
         var old = this.focusedPos;
         if (this.focusedPos == null)
@@ -458,6 +484,7 @@ Game = {
             this.focusedPos = old;
     },
 
+    // update focused position
     updateFocusedPos : function(piecePos, byKeyboard) {
         if (this.choosenByKeyboard && !byKeyboard && piecePos == null)
             // prevent obsolete unselect cell when choosen by keyboard
@@ -471,6 +498,7 @@ Game = {
         this.choosenByKeyboard = byKeyboard;
     },
 
+    // get board cell from position
     getBoardCell : function(pos) {
         var xi = pos % this.boardDim;
         var yi = Math.floor(pos / this.boardDim);
@@ -478,11 +506,13 @@ Game = {
         return $("#" + id, this.boardCell);
     },
 
+    // get position from DOM element (piece of board cell HTML element)
     getPosFromDOMElem : function(elem) {
         var id = $(elem).attr('id');
         return parseInt(id.substring(id.length - 2));
     },
 
+    // handle mouse entering on the cell
     handleCellEnter : function(event) {
         if (!this.canHandleEvent())
             return;
@@ -493,6 +523,7 @@ Game = {
         this.lock = false;
     },
 
+    // handle mouse leaving from the cell
     handleCellLeave : function(event) {
         if (!this.canHandleEvent())
             return;
@@ -502,6 +533,7 @@ Game = {
         this.lock = false;
     },
 
+    // handle clicking on the cell
     handleCellClick : function(event) {
         if (!this.canHandleEvent())
             return;
@@ -513,6 +545,7 @@ Game = {
             this.lock = false;
     },
 
+    // handle clicking on the piece
     handlePieceClick : function(event) {
         if (!this.canHandleEvent())
             return;
@@ -560,6 +593,7 @@ Game = {
         }
     },
     
+    // make move after choosing move by player
     doMakeMove: function() {
         this.movePiece(this.choosenMove[0], this.choosenMove[1],
                 function() {
@@ -571,6 +605,7 @@ Game = {
                 });
     },
 
+    // send move to server for verification
     postMakeMove : function() {
         checkersAxiosPost(GameMakeMoveURL, {
             startPos : this.choosenMove[0],
@@ -590,6 +625,7 @@ Game = {
         });
     },
 
+    // install timeout to retry sending move to server
     installNoConnTimeout : function() {
         // try again after second
         setTimeout(function() {
@@ -599,6 +635,7 @@ Game = {
     
     resultNames: [ '', 'winner1', 'winner2', 'draw' ],
 
+    // handle Game state
     handleState : function() {
         this.lock = true;
         this.choosenMove = null;
