@@ -93,7 +93,7 @@ class GameController extends Controller
     public function getGameState(string $gameId)
     {
         $game = Game::with([ 'moves' => function($query) {
-            $query->orderBy('done_at', 'asc'); }, 'player1', 'player2' ])
+            $query->orderBy('id', 'asc'); }, 'player1', 'player2' ])
             ->findOrFail($gameId);
         // authorization
         $this->authorize('play', $game);
@@ -108,7 +108,7 @@ class GameController extends Controller
     private function getGameData(string $gameId)
     {
         $data = Game::with(['moves'  => function($query) {
-                $query->orderBy('done_at', 'asc'); },
+                $query->orderBy('id', 'asc'); },
                 'player1', 'player2' ])->findOrFail($gameId);
         
         // get writers for comments

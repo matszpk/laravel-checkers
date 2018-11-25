@@ -85,6 +85,16 @@ the `MAIL_ENCRYPTION` is type of an encryption (like `tls`).
 If you have troubles to set up a database or mail box access just loop up on Laravel
 documentation.
 
+Now you should get Google Recaptcha v2 site key and secret key and put them into `.env` file:
+
+```
+NOCAPTCHA_SECRET=secret-key
+NOCAPTCHA_SITEKEY=site-key
+```
+
+Currently, an application accepts Google Recaptcha v2. These key can be retrieved from
+[https://www.google.com/recaptcha/admin](https://www.google.com/recaptcha/admin). If you will be in this site, just choose Recaptcha v2 and 'checkbox' option.
+
 After setting up database access you should populate tables on database:
 
 ```
