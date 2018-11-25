@@ -39,6 +39,8 @@
                 <td colspan='2'><button>@lang('auth.doRegister')</button></td>
             </tr>
         </table>
+        
+        {!! NoCaptcha::display() !!}
     </form>
 
     @include('components.validation-errors')

@@ -11,6 +11,7 @@
         <script type="text/javascript">
             @yield('script')
         </script>
+        {!! NoCaptcha::renderJs() !!}
     </head>
     <body>
         <div id='checkers_main'>
