@@ -66,6 +66,9 @@
         </div>
     @endauth
     <div id='checkers_welcome_footer'>Laravel Checkers by Mateusz Szpakowski<br/>
-    @lang('main.contact'): matszpk@interia.pl</div>
+    @lang('main.contact'): <a href="mailto:matszpk@interia.pl">matszpk@interia.pl</a><br/>
+    @lang('main.sourceCodes'):
+    <a href="https://github.com/matszpk/laravel-checkers">
+            https://github.com/matszpk/laravel-checkers</a></div>
     </div>
 @endsection
