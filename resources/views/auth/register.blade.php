@@ -4,6 +4,10 @@
     @lang('auth.registerTitle')
 @endsection
 
+@section('extra-scripts')
+    {!! NoCaptcha::renderJs() !!}
+@endsection
+
 @section('main')
     <form method='POST' action="{{ route('register') }}"
             class='checkers_form' name='registerForm'>
